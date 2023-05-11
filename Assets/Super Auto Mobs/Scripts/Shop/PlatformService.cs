@@ -197,11 +197,20 @@ namespace Super_Auto_Mobs
                         {
                             var numberSelectedPlatform =
                                 _commandPetPlatforms.FindIndex(platform => platform == shopPlatform);
+                            
+                            var numberCurrentSelectedPlatform =
+                                _commandPetPlatforms.FindIndex(platform => platform == _shopPlatformSelected);
 
-                            //if (!TryMoveMobsLeft(shopPlatform, numberSelectedPlatform))
-                            //{
-                                TryMoveMobsRight(shopPlatform, numberSelectedPlatform);
-                            //}
+                            if (numberSelectedPlatform > numberCurrentSelectedPlatform)
+                            {
+                                if (!TryMoveMobsRight(numberSelectedPlatform, numberCurrentSelectedPlatform))
+                                    TryMoveMobsLeft(numberSelectedPlatform, numberCurrentSelectedPlatform);
+                            }
+                            else
+                            {
+                                if (!TryMoveMobsLeft(numberSelectedPlatform, numberCurrentSelectedPlatform))
+                                    TryMoveMobsRight(numberSelectedPlatform, numberCurrentSelectedPlatform);
+                            }
                         }
                     }
                     
@@ -318,126 +327,72 @@ namespace Super_Auto_Mobs
             }
         }
 
-        private bool TryMoveMobsRight(ShopPlatform shopPlatform, int numberSelectedPlatform)
+        private bool TryMoveMobsRight(int numberSelectedPlatform, int numberCurrentSelectedPlatform)
         {
-            for (int i = numberSelectedPlatform; i < _commandPetPlatforms.Count - 1; i++)
+            if (numberCurrentSelectedPlatform == -1)
             {
-                print(1);
-
-                if (_commandPetPlatforms[i].IsEntity)
+                for (var i = numberSelectedPlatform + 1; i < _commandPetPlatforms.Count; i++)
                 {
-                    print(2);
-                    var isCanMoved = false;
-
-                    for (int j = _commandPetPlatforms.Count - 1; j >= numberSelectedPlatform; j--)
+                    if (!_commandPetPlatforms[i].IsEntity)
                     {
-                        if (!_commandPetPlatforms[j].IsEntity)
-                        {
-                            isCanMoved = true;
-                            break;
-                        }
-                    }
-
-                    if (!isCanMoved)
+                        numberCurrentSelectedPlatform = i;
                         break;
-
-                    for (int j = _commandPetPlatforms.Count - 2; j >= numberSelectedPlatform; j--)
-                    {
-                        print(3);
-                        var leftPlatform = _commandPetPlatforms[j];
-                        var rightPlatform = _commandPetPlatforms[j + 1];
-
-                        if (!(leftPlatform.IsEntity && !rightPlatform.IsEntity))
-                        {
-                            continue;
-                        }
-
-                        print(4);
-                        (leftPlatform.Entity, rightPlatform.Entity) = (rightPlatform.Entity, leftPlatform.Entity);
-
-                        if (leftPlatform.IsEntity)
-                            leftPlatform.ResetPosition();
-
-                        if (rightPlatform.IsEntity)
-                            rightPlatform.ResetPosition();
-
-                        if (!shopPlatform.IsEntity)
-                        {
-                            break;
-                        }
-
-                        print(5);
                     }
-
-                    return true;
-                    break;
                 }
+                
+                if (numberCurrentSelectedPlatform == -1)
+                    return false;
             }
-
-            return false;
-        }
-        
-        private bool TryMoveMobsLeft(ShopPlatform shopPlatform, int numberSelectedPlatform)
-        {
-            print(0);
             
-            for (int i = _commandPetPlatforms.Count - 1; i >= numberSelectedPlatform; i--)
+            if (numberCurrentSelectedPlatform <= numberSelectedPlatform)
+                return false;
+
+            for (var i = numberCurrentSelectedPlatform; i > numberSelectedPlatform; i--)
             {
-                print(1);
-
+                (_commandPetPlatforms[i].Mob, _commandPetPlatforms[i-1].Mob) = (_commandPetPlatforms[i-1].Mob, _commandPetPlatforms[i].Mob);
+                
                 if (_commandPetPlatforms[i].IsEntity)
-                {
-                    print(2);
-                    var isCanMoved = false;
-
-                    for (int j = numberSelectedPlatform - 1; j > 0; j--)
-                    {
-                        if (!_commandPetPlatforms[j].IsEntity)
-                        {
-                            isCanMoved = true;
-                            break;
-                        }
-                    }
-
-                    print("isCanMoved: " + isCanMoved);
-                    
-                    if (!isCanMoved)
-                        break;
-
-                    for (int j = numberSelectedPlatform; j > 1; j--)
-                    {
-                        print(3);
-                        var leftPlatform = _commandPetPlatforms[j-1];
-                        var rightPlatform = _commandPetPlatforms[j];
-
-                        if (!(!leftPlatform.IsEntity && rightPlatform.IsEntity))
-                        {
-                            continue;
-                        }
-
-                        print(4);
-                        (leftPlatform.Entity, rightPlatform.Entity) = (rightPlatform.Entity, leftPlatform.Entity);
-
-                        if (leftPlatform.IsEntity)
-                            leftPlatform.ResetPosition();
-
-                        if (rightPlatform.IsEntity)
-                            rightPlatform.ResetPosition();
-
-                        if (!shopPlatform.IsEntity)
-                        {
-                            break;
-                        }
-
-                        print(5);
-                    }
-
-                    return true;
-                    break;
-                }
+                    _commandPetPlatforms[i].ResetPosition();
             }
 
-            return false;
+            if (_shopPlatformSelected is ShopCommandMobPlatform)
+                _shopPlatformSelected = _commandPetPlatforms[numberSelectedPlatform];
+            
+            return true;
+        }
+
+        private bool TryMoveMobsLeft(int numberSelectedPlatform, int numberCurrentSelectedPlatform)
+        {
+            if (numberCurrentSelectedPlatform == -1)
+            {
+                for (var i = numberSelectedPlatform; i >= 0; i--)
+                {
+                    if (!_commandPetPlatforms[i].IsEntity)
+                    {
+                        numberCurrentSelectedPlatform = i;
+                        break;
+                    }
+                }
+
+                if (numberCurrentSelectedPlatform == -1)
+                    return false;
+            }
+            
+            if (numberCurrentSelectedPlatform >= numberSelectedPlatform)
+                return false;
+
+            for (var i = numberCurrentSelectedPlatform; i < numberSelectedPlatform; i++)
+            {
+                (_commandPetPlatforms[i].Mob, _commandPetPlatforms[i+1].Mob) = (_commandPetPlatforms[i+1].Mob, _commandPetPlatforms[i].Mob);
+                
+                if (_commandPetPlatforms[i].IsEntity)
+                    _commandPetPlatforms[i].ResetPosition();
+            }
+
+            if (_shopPlatformSelected is ShopCommandMobPlatform)
+                _shopPlatformSelected = _commandPetPlatforms[numberSelectedPlatform];
+            
+            return true;
         }
 
         private bool IsCoincidencePlatform(ShopCommandMobPlatform shopPlatform)

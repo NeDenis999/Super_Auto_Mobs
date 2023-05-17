@@ -11,10 +11,14 @@ namespace Super_Auto_Mobs
         private int _attack;
 
         private MobData _mobData;
+        private int _currentHearts;
+
+        public bool IsActive => _currentHearts > 0;
 
         public void Init(MobData mobData)
         {
             _mobData = mobData;
+            _currentHearts = _hearts + mobData.Hearts;
         }
     }
 }

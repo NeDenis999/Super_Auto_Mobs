@@ -8,15 +8,17 @@ namespace Super_Auto_Mobs
         public event Action OnEntityUpdated;
 
         protected Entity _entity;
+        protected Transform _spawnPoint;
         
         private SpriteRenderer _arrow;
         private GameObject _selectionFrame;
-        private Transform _spawnPoint;
         private bool _isSelected;
         private bool _isArrow;
-        private bool _isMove;
+        protected bool _isMove;
 
         public bool IsEntity => _entity != null;
+        public Transform SpawnPoint => _spawnPoint;
+        public bool IsMove => _isMove;
 
         public Entity Entity 
         { 
@@ -25,6 +27,9 @@ namespace Super_Auto_Mobs
             {
                 _entity = value;
                 OnEntityUpdated?.Invoke();
+                
+                if (_entity)
+                    _entity.transform.SetParent(_spawnPoint);
             }
         }
 
@@ -114,8 +119,11 @@ namespace Super_Auto_Mobs
 
         }
 
-        public virtual void MoveEntity(Vector2 target)
+        public virtual void TryMoveEntity(Vector2 target)
         {
+            if (!_entity)
+                return;
+
             if (!_isMove)
             {
                 _isMove = true;

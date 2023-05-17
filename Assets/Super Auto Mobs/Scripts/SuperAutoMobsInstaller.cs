@@ -11,10 +11,18 @@ namespace Super_Auto_Mobs.Scripts
         [SerializeField]
         private AssetProviderService _assetProviderService;
         
+        [SerializeField]
+        private SessionProgressService _sessionProgressService;
+        
+        [SerializeField]
+        private LoaderLevelService _loaderLevelService;
+        
         public override void InstallBindings()
         {
             BindFromInstance(_languageService);
             BindFromInstance(_assetProviderService);
+            BindFromInstance(_sessionProgressService);
+            BindFromInstance(_loaderLevelService);
         }
 
         private void BindFromInstance<T>(T instance)

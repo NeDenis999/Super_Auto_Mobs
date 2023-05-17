@@ -1,0 +1,22 @@
+Dialogs 2
+Loading Screen 1
+Battle:
+	Animation 2
+	Logics 2
+	Perks 4
+
+Shop
+	Move 3
+	Logic 1
+
+ShopSkins 2
+
+Ads 1
+
+Analytics 1
+
+PVP 2
+
+Story 2
+
+23 - 19 = 4

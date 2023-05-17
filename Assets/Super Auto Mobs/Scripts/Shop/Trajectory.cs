@@ -26,6 +26,9 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private Vector2 _offset;
 
+        [SerializeField]
+        private List<Sprite> _dotsView;
+
         private Vector2 _startPoint;
         private List<SpriteRenderer> _trajectoryDots; // Список точек траектории
         private bool _select;
@@ -38,6 +41,8 @@ namespace Super_Auto_Mobs
                 SpriteRenderer dot = Instantiate(_trajectoryDot, transform.position, Quaternion.identity, gameObject.transform).GetComponent<SpriteRenderer>();
                 _trajectoryDots.Add(dot);
             }
+
+            UpdateDotView();
         }
 
         void Update()
@@ -87,15 +92,40 @@ namespace Super_Auto_Mobs
         public void Move(Vector2 target)
         {
             var velocity = (target - _startPoint) * _offsetMultiply * _offsetMultiply + _offset;
+            var trajectory = GetTrajectory(_startPoint, target);
+            float timeStep = _dotSpacing / velocity.magnitude;
             
-            float timeStep = _dotSpacing / velocity.magnitude; // Шаг времени
+            for (int i = 0; i < _dotsNumber; i++)
+            {
+                _trajectoryDots[i].transform.position = trajectory[i];
+            }
+        }
+
+        public Vector2[] GetTrajectory(Vector2 startPoint, Vector2 target)
+        {
+            var points = new Vector2[_dotsNumber];
+            var velocity = (target - startPoint) * _offsetMultiply * _offsetMultiply + _offset;
+            
+            float timeStep = _dotSpacing / velocity.magnitude;
+            
             for (int i = 0; i < _dotsNumber; i++)
             {
                 float t = i * timeStep;
-                Vector2 point = _startPoint + velocity * t + 0.5f * Physics2D.gravity * t * t; // Расчет точки траектории
-                _trajectoryDots[i].transform.position = point;
-                float scale = Mathf.Lerp(_dotMaxScale, _dotMinScale, t * 2);
-                _trajectoryDots[i].transform.localScale = new Vector2(scale, scale);
+                Vector2 point = startPoint + velocity * t + 0.5f * Physics2D.gravity * t * t;
+                points[i] = point;
+            }
+
+            return points;
+        }
+
+        private void UpdateDotView()
+        {
+            for (int i = 0; i < _dotsNumber; i++)
+            {
+                if (i < _dotsView.Count)
+                    _trajectoryDots[i].sprite = _dotsView[i];
+                else
+                    _trajectoryDots[i].sprite = _dotsView[^1];
             }
         }
     }

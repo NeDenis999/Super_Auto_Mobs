@@ -12,6 +12,8 @@ namespace Super_Auto_Mobs
         private Material _defaultMaterial, _outlitMaterial;
         private SpriteRenderer _spriteRenderer;
         private AssetProviderService _assetProviderService;
+        
+        private LTSeq _sequence;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
@@ -27,12 +29,14 @@ namespace Super_Auto_Mobs
 
             _defaultMaterial = _assetProviderService.DefaultMaterial;
             _outlitMaterial = _assetProviderService.OutlitMaterial;
+
+            _sequence = LeanTween.sequence();
         }
         
         public void Select()
         {
             _spriteRenderer.material = _outlitMaterial;
-            _spriteRenderer.sortingOrder = 5;
+            _spriteRenderer.sortingLayerName = "UI";
             
             OnSelected?.Invoke();
         }
@@ -40,9 +44,34 @@ namespace Super_Auto_Mobs
         public void Unselect()
         {
             _spriteRenderer.material = _defaultMaterial;
-            _spriteRenderer.sortingOrder = 4;
-            
+            _spriteRenderer.sortingLayerName = "Default";
+
             OnUnselected?.Invoke();
+        }
+
+        public void UpScaleSmoothly()
+        {
+            //LeanTween.cancel(gameObject);
+            /*_sequence.append(*/
+                LeanTween.scale(gameObject, Vector3.one * 1.1f, 0.2f)
+                    .setEaseOutBack()
+                    .setOnComplete(() => LeanTween.scale(gameObject, Vector3.one * 1.02f, 0.2f).setEaseOutBack());
+        }
+
+        public void DownScaleSmoothly()
+        {
+            //LeanTween.cancel(gameObject);
+            /*_sequence.append(*/
+                LeanTween.scale(gameObject, Vector3.one, 0.2f)
+                    .setEaseOutBack();
+        }
+
+        public void MoveSmoothly(float target)
+        {
+            LeanTween.cancel(gameObject);
+            /*_sequence.append(*/
+                LeanTween.moveX(gameObject, target, 0.5f)
+                    .setEaseOutBack();
         }
     }
 }

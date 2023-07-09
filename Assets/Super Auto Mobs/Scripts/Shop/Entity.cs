@@ -9,30 +9,37 @@ namespace Super_Auto_Mobs
         public event Action OnSelected;
         public event Action OnUnselected;
         
+        [SerializeField]
+        private Title _name = new() {English = "Name", Russian = "Имя"};
+
+        [SerializeField]
+        private Title _info = new() { English = "Info", Russian = "Описание" };
+        
         private Material _defaultMaterial, _outlitMaterial;
         private SpriteRenderer _spriteRenderer;
-        private AssetProviderService _assetProviderService;
+        protected AssetProviderService _assetProviderService;
         
         private LTSeq _sequence;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
+        public Title Info => _info;
+        public Title Name => _name;
 
         [Inject]
         private void Construct(AssetProviderService assetProviderService)
         {
             _assetProviderService = assetProviderService;
-        }
-        
-        private void Awake()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
 
             _defaultMaterial = _assetProviderService.DefaultMaterial;
             _outlitMaterial = _assetProviderService.OutlitMaterial;
+        }
 
+        private void Awake()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _sequence = LeanTween.sequence();
         }
-        
+
         public void Select()
         {
             _spriteRenderer.material = _outlitMaterial;

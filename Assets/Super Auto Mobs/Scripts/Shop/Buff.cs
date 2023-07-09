@@ -10,7 +10,7 @@ namespace Super_Auto_Mobs
         
         private const float SpeedAnimationMove = 8;
 
-        public IEnumerator ToMoveTrajectory(Vector2[] trajectory)
+        public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob)
         {
             LTSeq sequence = LeanTween.sequence();
             var previousDistance = 1f;
@@ -28,6 +28,17 @@ namespace Super_Auto_Mobs
                         transform.position, target, Time.deltaTime * SpeedAnimationMove * previousDistance);
                     return (Vector2)transform.position == target;
                 });
+            }
+            
+            if (Hearts != 0)
+                mob.ChangeHearts(Hearts);
+            
+            if (Attack != 0)
+                mob.ChangeAttack(Attack);
+            
+            if (mob.Perk.TriggeringSituation == TriggeringSituation.Eat)
+            {
+                mob.Perk.Activate();
             }
             
             Destroy(gameObject);

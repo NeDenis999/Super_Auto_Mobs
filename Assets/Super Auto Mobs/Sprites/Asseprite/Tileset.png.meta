@@ -293,7 +293,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -301,6 +301,69 @@ TextureImporter:
       bones: []
       spriteID: f7da34eb1a24db048ac669da2a0ff23a
       internalID: -558452936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22968244026c0e24ca6f09541256c261
+      internalID: 1982331719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1860ac968f05ecf4882ff637028384bb
+      internalID: -1912028539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset_11
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f68db1f795a801409b20928d9061097
+      internalID: 1963651242
       vertices: []
       indices: 
       edges: []
@@ -318,6 +381,8 @@ TextureImporter:
     nameFileIdTable:
       Tileset_0: -1274217472
       Tileset_1: -53734452
+      Tileset_10: -1912028539
+      Tileset_11: 1963651242
       Tileset_2: 953527483
       Tileset_3: -1031210472
       Tileset_4: -895875256
@@ -325,6 +390,7 @@ TextureImporter:
       Tileset_6: -226559551
       Tileset_7: -1241842895
       Tileset_8: -558452936
+      Tileset_9: 1982331719
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,22 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Unity.Collections;
+using UnityEngine;
 using Zenject;
 
 namespace Super_Auto_Mobs
 {
-    public class Shop : MonoBehaviour
+    public abstract class Shop : MonoBehaviour
     {
-        private ShopPlatformService _shopPlatformService;
-
-        [Inject]
-        private void Construct(ShopPlatformService shopPlatformService)
-        {
-            _shopPlatformService = shopPlatformService;
-        }
+        public abstract event Action OnSelectCommandPlatform;
+        public abstract event Action OnUnselectCommandPlatform;
+        public abstract event Action<PlatformServiceState> OnUpdateState;
         
-        private void Update()
-        {
-            _shopPlatformService.PlatformServiceUpdate();
-            _shopPlatformService.PlatformsPositionUpdate();
-        }
+        public abstract List<ShopCommandMobPlatform> CommandPlatforms { get; }
+        public abstract ShopPlatform ShopPlatformSelected { get; }
+        public bool IsInteractive = true;
+
+        public abstract void Open();
+        public abstract void Close();
+        public abstract void DestroySelectEntity();
     }
 }

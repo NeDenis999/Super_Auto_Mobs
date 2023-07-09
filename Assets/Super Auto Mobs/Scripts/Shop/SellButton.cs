@@ -1,26 +1,28 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
 namespace Super_Auto_Mobs
 {
-    public class SellButton : MonoBehaviour
+    public class SellButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         private const float SizeY = 148;
         
         private Button _button;
-        private ShopPlatformService shopPlatformService;
-        private ShopService _shopService;
+        private Shop shopService;
+        private ShopTradeService shopTradeService;
 
         private float _defaultPositionY;
         private RectTransform _rectTransform;
+        private bool _isEnter;
 
         [Inject]
-        private void Construct(ShopPlatformService shopPlatformService, ShopService shopService)
+        private void Construct(Shop shopService, ShopTradeService shopTradeService)
         {
-            this.shopPlatformService = shopPlatformService;
-            _shopService = shopService;
+            this.shopService = shopService;
+            this.shopTradeService = shopTradeService;
         }
 
         private void Awake()
@@ -34,29 +36,44 @@ namespace Super_Auto_Mobs
         {
             _rectTransform.anchoredPosition = _rectTransform.anchoredPosition.SetY(-SizeY);
         }
-
+        
+        private void TrySell(PlatformServiceState platformServiceState)
+        {
+            if (_isEnter && platformServiceState == PlatformServiceState.NoChoosePlatform && shopService.ShopPlatformSelected)
+            {
+                Sell();
+                _isEnter = false;
+            }
+        }
+        
         private void OnEnable()
         {
-            shopPlatformService.OnSelectCommandPlatform += Show;
-            shopPlatformService.OnUnselectCommandPlatform += Hide;
+            shopService.OnSelectCommandPlatform += Show;
+            shopService.OnUnselectCommandPlatform += Hide;
+            shopService.OnUpdateState += TrySell;
             _button.onClick.AddListener(Sell);
         }
 
         private void OnDisable()
         {
-            shopPlatformService.OnSelectCommandPlatform -= Show;
-            shopPlatformService.OnUnselectCommandPlatform -= Hide;
+            shopService.OnSelectCommandPlatform -= Show;
+            shopService.OnUnselectCommandPlatform -= Hide;
+            shopService.OnUpdateState -= TrySell;
             _button.onClick.RemoveListener(Sell);
         }
 
         private void Show()
         {
-            LeanTween.moveY(gameObject, _defaultPositionY, 0.5f);
+            LeanTween.value(gameObject, -SizeY, _defaultPositionY, 0.25f)
+                .setOnUpdate(y =>
+                {
+                    _rectTransform.anchoredPosition = _rectTransform.anchoredPosition.SetY(y);
+                });
         }
 
         private void Hide()
         {
-            LeanTween.value(gameObject, _defaultPositionY, -SizeY, 0.5f)
+            LeanTween.value(gameObject, _defaultPositionY, -SizeY, 0.25f)
                 .setOnUpdate(y =>
                 {
                     _rectTransform.anchoredPosition = _rectTransform.anchoredPosition.SetY(y);
@@ -65,8 +82,28 @@ namespace Super_Auto_Mobs
 
         private void Sell()
         {
-            shopPlatformService.DestroySelectEntity();
-            _shopService.Sell();
+            print("Sell");
+            var perk = ((Mob)(shopService.ShopPlatformSelected.Entity)).Perk;
+            
+            if (perk.TriggeringSituation == TriggeringSituation.Sell)
+            {
+                perk.Activate();
+            }
+            
+            shopService.DestroySelectEntity();
+            shopTradeService.Sell();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            print("OnPointerEnter");
+            _isEnter = true;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            print("OnPointerExit");
+            _isEnter = false;
         }
     }
 }

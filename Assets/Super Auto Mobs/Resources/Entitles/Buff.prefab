@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1352898445, guid: aeb0286a951dbbe408d8a62df64ab875, type: 3}
+  m_Sprite: {fileID: 20067657, guid: aeb0286a951dbbe408d8a62df64ab875, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,5 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1baeb64bee9948dc9166c1226497ac49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Buff
+  _info: Info
   Hearts: 1
   Attack: 1

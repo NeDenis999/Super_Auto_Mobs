@@ -52,6 +52,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2054117667890213229, guid: 6760595b512059f45a153d6053f73296, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -246266224, guid: b370d301414c02746bdc2d679b41eec9, type: 3}
+    - target: {fileID: 2054117667890213229, guid: 6760595b512059f45a153d6053f73296, type: 3}
       propertyPath: m_SortingOrder
       value: 4
       objectReference: {fileID: 0}
@@ -91,7 +95,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8887415613816220871
+--- !u!114 &8684607231551423348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,10 +104,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5140774421023556881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45348bc3c4a54132941f2ede045d43a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 654b4de10d844696a21098bb4b2bd444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _outlitMaterial: {fileID: 2100000, guid: eae51fa70827f134c99c444905b388db, type: 2}
-  _hearts: 1
-  _attack: 1
+  _nameAnimation: ChickenIdle
+  _startTime: 1
+--- !u!114 &-2976918887964360315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5140774421023556881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81153262707432ca8bb67def84cd90e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _triggeringSituation: 0
+  _countCoins: 3

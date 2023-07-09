@@ -10,10 +10,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - LoadScreen
   - Water
   - UI
-  - 
+  - Grid
   - 
   - 
   - 
@@ -51,4 +51,7 @@ TagManager:
     locked: 0
   - name: Shop
     uniqueID: 3974515105
+    locked: 0
+  - name: LoadScreen
+    uniqueID: 1524060637
     locked: 0

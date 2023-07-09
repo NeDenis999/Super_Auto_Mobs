@@ -45,11 +45,6 @@ namespace Super_Auto_Mobs
             UpdateDotView();
         }
 
-        void Update()
-        {
-
-        }
-
         public void Show(Vector2 startPoint)
         {
             _startPoint = startPoint.AddY(0.3f);
@@ -91,10 +86,8 @@ namespace Super_Auto_Mobs
 
         public void Move(Vector2 target)
         {
-            var velocity = (target - _startPoint) * _offsetMultiply * _offsetMultiply + _offset;
             var trajectory = GetTrajectory(_startPoint, target);
-            float timeStep = _dotSpacing / velocity.magnitude;
-            
+
             for (int i = 0; i < _dotsNumber; i++)
             {
                 _trajectoryDots[i].transform.position = trajectory[i];

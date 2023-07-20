@@ -503,40 +503,42 @@ MonoBehaviour:
   OutlitMaterial: {fileID: 2100000, guid: eae51fa70827f134c99c444905b388db, type: 2}
   OutlitRedMaterial: {fileID: 2100000, guid: b5ab3e65d5f0b5f428e41300da328281, type: 2}
   DamageMaterial: {fileID: 2100000, guid: 0f7f5f30a259b104b93c3aebea40c08d, type: 2}
-  ChickenMob: {fileID: 2960586746455075887, guid: 369ab0630122dd64e89b21d98bbd9525, type: 3}
-  OcelotMob: {fileID: 4306467166241571580, guid: a8fd2217c344e4d4da553c8d58ef763b, type: 3}
-  DogMob: {fileID: 2663884142585131392, guid: 9c4dc121a883cf34aa8ccf580f8272c8, type: 3}
-  VillageMob: {fileID: 4731046203190008293, guid: 89154cd8dc6f6e04ca3ef687656d7026, type: 3}
-  SnowGolemMob: {fileID: 1248677509365393679, guid: 173ad8a4e5d296b4a8f1e87741c85faa, type: 3}
-  ZombieMob: {fileID: 581188244496337445, guid: 8c8d629371bf0f54d8bc7a092ac921d7, type: 3}
-  SkeletonMob: {fileID: 5276456636128017975, guid: 6ec43135237a53545a30739924876271, type: 3}
-  ChoocobMob: {fileID: 6407119470763987542, guid: 2e9f122406de8ab43a4796ce2ce907b1, type: 3}
-  BeeMob: {fileID: 961344064141579983, guid: 2ae49fa974dc91142b7cb520a96f535a, type: 3}
-  EndermanMob: {fileID: 8929271648038731595, guid: 7229c199f47a69d41843ff5076bb2f24, type: 3}
-  CowMob: {fileID: 3287671814606099313, guid: fc1bf2eeb8c2e6846a3ab333005d8df0, type: 3}
-  VillagerBigMob: {fileID: 3131564497341261494, guid: 9761ef38b43b79f46a0da9844efe5cce, type: 3}
-  CowMilkMob: {fileID: 3189758091527907796, guid: 806706a75df5a654c910d0dbf826c682, type: 3}
-  CreeperMob: {fileID: 5331561227406408890, guid: 0f57ebe839ef1ae46bb3c81d512ccf0a, type: 3}
-  WhitcherMob: {fileID: 812017270434362422, guid: a2c252718df88234e8de039ce2ed89a1, type: 3}
-  SquidMob: {fileID: 3181525833205273769, guid: b31b8f9d96c12c743b90f3d3bd4578fd, type: 3}
-  TestMob: {fileID: 4038030975220535622, guid: 9b3f92c34368bed418a70e58227c72de, type: 3}
+  ShopCommandMobPlatform: {fileID: 2796828870499938006, guid: 891ae24ec1b34b44aa26c195f4007de7, type: 3}
+  Spark: {fileID: 1463268426735549342, guid: 78049c47cbe230c428e1f2e26d105619, type: 3}
+  ChickenMob: {fileID: 11400000, guid: 89d981c37ec5e8344aba9018ee2b61aa, type: 2}
+  OcelotMob: {fileID: 11400000, guid: f5aeba4d8d56d5543bd15ade3fc0e976, type: 2}
+  DogMob: {fileID: 11400000, guid: fe1021bcd5e69524baa5febd79c513d6, type: 2}
+  VillageMob: {fileID: 11400000, guid: 8b0e670bd3ddb8b4fae9138d1e2aede0, type: 2}
+  SnowGolemMob: {fileID: 11400000, guid: bc14882b6a1563c41bdfff8b4c43ee9c, type: 2}
+  ZombieMob: {fileID: 11400000, guid: ab227a495937b2a4f88cb5d38ef74997, type: 2}
+  SkeletonMob: {fileID: 11400000, guid: 567c3acf56cad6144b60c29ae5f528d3, type: 2}
+  ChoocobMob: {fileID: 11400000, guid: 38917a34dfc5aab4e91fc65e8d34a736, type: 2}
+  BeeMob: {fileID: 11400000, guid: 756aeddb3570aad4ca0bd17f685816bb, type: 2}
+  EndermanMob: {fileID: 11400000, guid: 87b818005e3468c4a929068510f18b25, type: 2}
+  CowMob: {fileID: 11400000, guid: 3e8dfaa8e9ec4344688997b91c569663, type: 2}
+  VillagerBigMob: {fileID: 11400000, guid: 9d629fe8a5e871842ba847620a39ed4f, type: 2}
+  CowMilkMob: {fileID: 11400000, guid: 786c1960d48ec6a449a371b4a8fee6ca, type: 2}
+  CreeperMob: {fileID: 11400000, guid: 98d39729979df264ea20d3a016124e57, type: 2}
+  WhitcherMob: {fileID: 11400000, guid: 9bac11c3cdaa11f48a1cc289df24af40, type: 2}
+  SquidMob: {fileID: 11400000, guid: e1c5c6d896cabd54aa72caa54ff4ec80, type: 2}
+  TestMob: {fileID: 11400000, guid: eacacbe6807b996408a6456f30dd310f, type: 2}
   SquidBoss: {fileID: 6085230563619608914, guid: 4284d0a97048eea4596e52118e231151, type: 3}
   AllMobs:
-  - {fileID: 2960586746455075887, guid: 369ab0630122dd64e89b21d98bbd9525, type: 3}
-  - {fileID: 4306467166241571580, guid: a8fd2217c344e4d4da553c8d58ef763b, type: 3}
-  - {fileID: 2663884142585131392, guid: 9c4dc121a883cf34aa8ccf580f8272c8, type: 3}
-  - {fileID: 4731046203190008293, guid: 89154cd8dc6f6e04ca3ef687656d7026, type: 3}
-  - {fileID: 1248677509365393679, guid: 173ad8a4e5d296b4a8f1e87741c85faa, type: 3}
-  - {fileID: 581188244496337445, guid: 8c8d629371bf0f54d8bc7a092ac921d7, type: 3}
-  - {fileID: 5276456636128017975, guid: 6ec43135237a53545a30739924876271, type: 3}
-  - {fileID: 6407119470763987542, guid: 2e9f122406de8ab43a4796ce2ce907b1, type: 3}
-  - {fileID: 961344064141579983, guid: 2ae49fa974dc91142b7cb520a96f535a, type: 3}
-  - {fileID: 8929271648038731595, guid: 7229c199f47a69d41843ff5076bb2f24, type: 3}
-  - {fileID: 3287671814606099313, guid: fc1bf2eeb8c2e6846a3ab333005d8df0, type: 3}
-  - {fileID: 3189758091527907796, guid: 806706a75df5a654c910d0dbf826c682, type: 3}
-  - {fileID: 5331561227406408890, guid: 0f57ebe839ef1ae46bb3c81d512ccf0a, type: 3}
-  - {fileID: 812017270434362422, guid: a2c252718df88234e8de039ce2ed89a1, type: 3}
-  - {fileID: 3181525833205273769, guid: b31b8f9d96c12c743b90f3d3bd4578fd, type: 3}
+  - {fileID: 11400000, guid: 756aeddb3570aad4ca0bd17f685816bb, type: 2}
+  - {fileID: 11400000, guid: f5aeba4d8d56d5543bd15ade3fc0e976, type: 2}
+  - {fileID: 11400000, guid: 89d981c37ec5e8344aba9018ee2b61aa, type: 2}
+  - {fileID: 11400000, guid: 38917a34dfc5aab4e91fc65e8d34a736, type: 2}
+  - {fileID: 11400000, guid: 98d39729979df264ea20d3a016124e57, type: 2}
+  - {fileID: 11400000, guid: fe1021bcd5e69524baa5febd79c513d6, type: 2}
+  - {fileID: 11400000, guid: 87b818005e3468c4a929068510f18b25, type: 2}
+  - {fileID: 11400000, guid: 786c1960d48ec6a449a371b4a8fee6ca, type: 2}
+  - {fileID: 11400000, guid: 3e8dfaa8e9ec4344688997b91c569663, type: 2}
+  - {fileID: 11400000, guid: 567c3acf56cad6144b60c29ae5f528d3, type: 2}
+  - {fileID: 11400000, guid: bc14882b6a1563c41bdfff8b4c43ee9c, type: 2}
+  - {fileID: 11400000, guid: e1c5c6d896cabd54aa72caa54ff4ec80, type: 2}
+  - {fileID: 11400000, guid: 8b0e670bd3ddb8b4fae9138d1e2aede0, type: 2}
+  - {fileID: 11400000, guid: 9bac11c3cdaa11f48a1cc289df24af40, type: 2}
+  - {fileID: 11400000, guid: ab227a495937b2a4f88cb5d38ef74997, type: 2}
   Buffs:
   - {fileID: 7659873083886022860, guid: 928f0c0f2c8f690488dc8f903068830d, type: 3}
 --- !u!1 &8919159729248377034

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -16,10 +17,12 @@ namespace Super_Auto_Mobs
             _sessionProgressService = sessionProgressService;
         }
         
-        public override void Activate()
+        public override IEnumerator Activate()
         {
             print("AddCoinsPerk Activate");
             AddCoins();
+            
+            yield break;
         }
 
         private void AddCoins()

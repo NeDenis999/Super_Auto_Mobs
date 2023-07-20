@@ -39,8 +39,9 @@ namespace Super_Auto_Mobs
         {
             foreach (var platform in _shopMobPlatforms)
             {
-                _mobFactoryService.CreateMobInPlatform(_assetProviderService.AllMobs[Random.Range(0,
-                    _assetProviderService.AllMobs.Count)], platform);
+                var randomMobInfo = _assetProviderService.AllMobs[Random.Range(0,
+                    _assetProviderService.AllMobs.Count)];
+                _mobFactoryService.CreateMobInPlatform(randomMobInfo.Prefab, platform, randomMobInfo.mobDefaultData);
             }
         }
         

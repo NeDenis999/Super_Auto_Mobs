@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638c45e0ea824efba79d37219560c6f1, type: 3}
+  m_Name: Cat
+  m_EditorClassIdentifier: 
+  mobDefaultData:
+    Name:
+      English: Cat
+      Russian: "\u041A\u043E\u0442"
+    Info:
+      English: "Swoon \u2192 Give one random friend +3 Attack Icon and +3 Health
+        Icon"
+      Russian: "\u041E\u0431\u043C\u043E\u0440\u043E\u043A \u2192 \u0414\u0430\u0439\u0442\u0435
+        \u043E\u0434\u043D\u043E\u043C\u0443 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u043E\u043C\u0443
+        \u0434\u0440\u0443\u0433\u0443 + 3 \u0417\u043D\u0430\u0447\u043E\u043A \u0430\u0442\u0430\u043A\u0438
+        \u0438 +3 \u0417\u043D\u0430\u0447\u043E\u043A \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
+    Hearts: 2
+    Attack: 2
+    MobEnum: 0
+  Prefab: {fileID: 4306467166241571580, guid: a8fd2217c344e4d4da553c8d58ef763b, type: 3}

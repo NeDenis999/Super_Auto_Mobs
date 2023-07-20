@@ -2,22 +2,22 @@
 {
     public enum MobEnum
     {
-        Chicken = 1,
-        Ocelot = 2,
-        Dog = 3,
-        Village,
-        SnowGolem,
+        Cat,
+        Dog,
+        Villager,
         Zombie,
+        SnowGollum,
         Skeleton,
-        Choocob,
-        Bee,
+        Chicken,
+        Chocobo,
         Enderman,
-        Cow,
-        VillagerBig,
-        CowMilk,
+        MushroomCow,
+        MilkaCow,
         Creeper,
-        Whitcher,
+        Bee,
         Squid,
+        Witch,
+        VillagerBig,
         Test
     }
 }

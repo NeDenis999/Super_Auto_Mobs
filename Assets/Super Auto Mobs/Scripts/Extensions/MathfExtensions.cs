@@ -24,5 +24,10 @@ namespace Super_Auto_Mobs
             
             return points;
         }
+
+        public static int GetPercent(int count)
+        {
+            return (int)Mathf.Floor((count / 100f));
+        }
     }
 }

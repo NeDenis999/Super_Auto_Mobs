@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Super_Auto_Mobs
 {
@@ -8,6 +10,6 @@ namespace Super_Auto_Mobs
         private TriggeringSituation _triggeringSituation;
 
         public TriggeringSituation TriggeringSituation => _triggeringSituation;
-        public abstract void Activate();
+        public abstract IEnumerator Activate();
     }
 }

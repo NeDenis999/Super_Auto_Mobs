@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Zenject;
 
 namespace Super_Auto_Mobs
 {
@@ -8,17 +7,14 @@ namespace Super_Auto_Mobs
     {
         public event Action<int, int> OnChangeHearts;
         public event Action<int, int> OnChangeAttack;
+        public event Action<Mob> OnFaint;
         
-        [SerializeField]
         private int _hearts = 1;
-
-        [SerializeField]
         private int _attack = 1;
-
         private Perk _perk;
-        private MobData _mobData;
-        private int _currentHearts;
-        private int _currentAttack;
+        private MobDefaultData mobDefaultData;
+        private int _currentHearts => _hearts + mobDefaultData.Hearts;
+        private int _currentAttack => _attack + mobDefaultData.Attack;
         private bool _isEnemy;
 
         public bool IsActive => _currentHearts > 0;
@@ -27,11 +23,13 @@ namespace Super_Auto_Mobs
         public Perk Perk => _perk;
         public bool IsEnemy => _isEnemy;
 
-        public void Init(MobData mobData)
+        public void Init(MobDefaultData mobDefaultData, MobData mobData)
         {
-            _mobData = mobData;
-            _currentHearts = _hearts + mobData.Hearts;
-            _currentAttack = _attack + mobData.Attack;
+            this.mobDefaultData = mobDefaultData;
+            _hearts = mobDefaultData.Hearts;
+            _attack = mobDefaultData.Attack;
+            _name = mobDefaultData.Name;
+            _info = mobDefaultData.Info;
             
             _perk = GetComponent<Perk>();
 
@@ -39,39 +37,52 @@ namespace Super_Auto_Mobs
                 _perk = gameObject.AddComponent<AddCoinsPerk>();
         }
         
-        public void Init(MobData mobData, bool isEnemy)
+        public void Init(MobDefaultData mobDefaultData, MobData mobData, bool isEnemy)
         {
-            Init(mobData);
+            Init(mobDefaultData, mobData);
             _isEnemy = isEnemy;
         }
 
         public void TakeDamage(int damage)
         {
-            _currentHearts -= damage;
-            
+            _hearts -= damage;
+            OnChangeHearts?.Invoke(mobDefaultData.Hearts, -damage);
+            _spriteRenderer.material = _assetProviderService.DamageMaterial;
+            Invoke(nameof(EndAnimation), 1f);
+
             if (_currentHearts > 0 && _perk.TriggeringSituation == TriggeringSituation.TakeDamage)
             {
-                _perk.Activate();
+                StartCoroutine(_perk.Activate());
             }
 
-            if (_currentHearts <= 0 && _perk.TriggeringSituation == TriggeringSituation.Faint)
+            if (_currentHearts <= 0)
             {
-                _perk.Activate();
+                if (_perk.TriggeringSituation == TriggeringSituation.Faint)
+                {
+                    StartCoroutine(_perk.Activate());
+                }
+                
+                OnFaint?.Invoke(this);
             }
         }
 
         public void ChangeHearts(int value)
         {
-            _mobData.Hearts += value;
-            _currentHearts += value;
-            OnChangeHearts?.Invoke(_mobData.Hearts, value);
+            mobDefaultData.Hearts += value;
+            _hearts += value;
+            OnChangeHearts?.Invoke(_currentHearts, value);
         }
         
         public void ChangeAttack(int value)
         {
-            _mobData.Attack += value;
-            _currentAttack += value;
-            OnChangeAttack?.Invoke(_mobData.Attack, value);
+            mobDefaultData.Attack += value;
+            _attack += value;
+            OnChangeAttack?.Invoke(_currentAttack, value);
+        }
+
+        private void EndAnimation()
+        {
+            _spriteRenderer.material = _assetProviderService.DefaultMaterial;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,12 @@ namespace Super_Auto_Mobs
     public class RandomDamagePerk : Perk
     {
         [SerializeField]
+        private bool _isPercent;
+
+        [SerializeField]
+        private bool _isAll;
+        
+        [SerializeField]
         private int _mobsCount = 1;
 
         [SerializeField]
@@ -14,38 +21,49 @@ namespace Super_Auto_Mobs
 
         private BattleService _battleService;
         private Game _game;
+        private SparkService _sparkService;
+        private Mob _mob;
 
         [Inject]
-        private void Construct(BattleService battleService, Game game)
+        private void Construct(BattleService battleService, Game game, SparkService sparkService)
         {
             _battleService = battleService;
             _game = game;
+            _sparkService = sparkService;
         }
         
-        public override void Activate()
+        public override IEnumerator Activate()
         {
             if (_game.CurrentGameState != GameState.Battle)
                 Debug.LogError("Перк может быть вызван лишь во время боя");
             
-            var mob = GetComponent<Mob>();
+            _mob = GetComponent<Mob>();
 
-            if (mob.IsEnemy)
+            if (_mob.IsEnemy)
             {
-                TakeDamage(_battleService.MyCommandMobs);
+                yield return TakeDamage(_battleService.MyCommandMobs);
             }
             else
             {
-                TakeDamage(_battleService.EnemyCommandMobs);
+                yield return TakeDamage(_battleService.EnemyCommandMobs);
             }
         }
 
-        private void TakeDamage(List<Mob> command)
+        private IEnumerator TakeDamage(List<Mob> command)
         {
-            var enemies = RandomExtensions.GetRandomList(command, _mobsCount);
+            var enemies = _isAll ? command : RandomExtensions.GetRandomList(command, _mobsCount);
+            var damage = _isPercent ? _mob.CurrentAttack * _damage / 100 : _damage;
             
             foreach (var enemy in enemies)
             {
-                enemy.TakeDamage(_damage);
+                _sparkService.StartAnimation(transform.position, enemy.transform.position, Color.red);
+            }
+
+            yield return new WaitForSeconds(1);
+            
+            foreach (var enemy in enemies)
+            {
+                enemy.TakeDamage(damage);
             }
         }
     }

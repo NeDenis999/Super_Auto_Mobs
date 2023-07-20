@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638c45e0ea824efba79d37219560c6f1, type: 3}
+  m_Name: Villager
+  m_EditorClassIdentifier: 
+  mobDefaultData:
+    Name:
+      English: Villager
+      Russian: "\u0416\u0438\u0442\u0435\u043B\u044C"
+    Info:
+      English: "Fainting \u2192 Summon one 1/1 golem"
+      Russian: "\u041E\u0431\u043C\u043E\u0440\u043E\u043A \u2192 \u0412\u044B\u0437\u043E\u0432\u0438\u0442\u0435
+        \u043E\u0434\u043D\u043E\u0433\u043E 1/1 \u0433\u043E\u043B\u0435\u043C\u0430"
+    Hearts: 2
+    Attack: 1
+    MobEnum: 2
+  Prefab: {fileID: 4731046203190008293, guid: 89154cd8dc6f6e04ca3ef687656d7026, type: 3}

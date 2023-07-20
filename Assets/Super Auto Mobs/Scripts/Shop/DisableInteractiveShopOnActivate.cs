@@ -5,10 +5,10 @@ namespace Super_Auto_Mobs
 {
     public class DisableInteractiveShopOnActivate : MonoBehaviour
     {
-        private Shop shopService;
+        private ShopService shopService;
 
         [Inject]
-        private void Construct(Shop shopService)
+        private void Construct(ShopService shopService)
         {
             this.shopService = shopService;
         }

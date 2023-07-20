@@ -7,12 +7,12 @@ namespace Super_Auto_Mobs
     {
         public static List<T> GetRandomList<T>(List<T> list, int count)
         {
-            var startList = list;
+            var startList = new List<T>(list);
             var newList = new List<T>();
 
             while (newList.Count < count)
             {
-                if (list.Count > 0)
+                if (startList.Count > 0)
                 {
                     int numberElement = Random.Range(0, startList.Count);
                     var element = startList[numberElement];

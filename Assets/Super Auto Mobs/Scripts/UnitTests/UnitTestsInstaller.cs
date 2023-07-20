@@ -10,7 +10,7 @@ namespace Super_Auto_Mobs
         private Game _game;
         
         [SerializeField]
-        private Shop _shopService;
+        private ShopService _shopService;
 
         /*[SerializeField]
         private ShopTradeService _shopTradeService;
@@ -20,7 +20,15 @@ namespace Super_Auto_Mobs
 */
         [SerializeField]
         private BattleService _battleService;
-        
+
+        [SerializeField]
+        private SparkService sparkService;
+
+        [SerializeField]
+        private MainMenuService _mainMenuService;
+
+        [SerializeField]
+        private TitlesService _titlesService;
         /*[SerializeField]
         private DialogService _dialogService;
 
@@ -37,6 +45,9 @@ namespace Super_Auto_Mobs
            // BindFromInstance(_shopTradeService);
             //BindFromInstance(_sessionProgressServiceService);
             BindFromInstance(_battleService);
+            BindFromInstance(sparkService);
+            BindFromInstance(_mainMenuService);
+            BindFromInstance(_titlesService);
             //BindFromInstance(_dialogService);
             //BindFromInstance(_shopUpdaterService);
             //BindFromInstance(_mobFactoryService);

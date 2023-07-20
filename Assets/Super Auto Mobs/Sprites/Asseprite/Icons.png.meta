@@ -557,7 +557,7 @@ TextureImporter:
         width: 3
         height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 1, y: 1, z: 1, w: 1}
       outline: []
       physicsShape: []
@@ -565,6 +565,48 @@ TextureImporter:
       bones: []
       spriteID: 1f95c63ad086b9a4cbbbc04c6bbba340
       internalID: 899938666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_21
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 156
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 605db78d6bd7f2b4fa38242eab40b04c
+      internalID: 394553841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_22
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 156
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d74cde514c4189647901525f3c4dcf9d
+      internalID: -1373402283
       vertices: []
       indices: 
       edges: []
@@ -594,6 +636,8 @@ TextureImporter:
       Icons_19: 1770325583
       Icons_2: 407385354
       Icons_20: 899938666
+      Icons_21: 394553841
+      Icons_22: -1373402283
       Icons_3: 1133015268
       Icons_4: -792610650
       Icons_5: 1775729211

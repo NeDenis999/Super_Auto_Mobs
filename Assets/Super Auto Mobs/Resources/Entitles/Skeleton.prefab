@@ -88,4 +88,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _triggeringSituation: 4
   _mobsCount: 1
-  _damage: 1
+  _damage: 3

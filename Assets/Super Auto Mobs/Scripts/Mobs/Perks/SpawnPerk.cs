@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -6,19 +7,21 @@ namespace Super_Auto_Mobs
     public class SpawnPerk : Perk
     {
         [SerializeField]
-        private MobData _spawnMobData;
+        private MobEnum _mobType;
         
         private BattleService _battleService;
         private Game _game;
-
+        private AssetProviderService _assetProviderService;
+        
         [Inject]
-        private void Construct(BattleService battleBaseService, Game game)
+        private void Construct(BattleService battleBaseService, Game game, AssetProviderService assetProviderService)
         {
-            this._battleService = battleBaseService;
+            _battleService = battleBaseService;
+            _assetProviderService = assetProviderService;
             _game = game;
         }
-        
-        public override void Activate()
+
+        public override IEnumerator Activate()
         {
             print("SpawnPerk Activate");
             
@@ -26,7 +29,19 @@ namespace Super_Auto_Mobs
                 Debug.LogError("Перк может быть вызван лишь во время боя");
             
             var mob = GetComponent<Mob>();
-            _battleService.SpawnMob(_spawnMobData, mob.IsEnemy);
+
+            var mobInfo = _assetProviderService.GetMobInfo(_mobType);
+            
+            var mobData = new MobData()
+            {
+                Attack = mobInfo.mobDefaultData.Attack,
+                Hearts = mobInfo.mobDefaultData.Hearts,
+                MobEnum = _mobType
+            };
+            
+            _battleService.SpawnMob(mobData, mob.IsEnemy);
+            
+            yield break;
         }
     }
 }

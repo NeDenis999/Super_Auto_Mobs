@@ -9,16 +9,12 @@ namespace Super_Auto_Mobs
         public event Action OnSelected;
         public event Action OnUnselected;
         
-        [SerializeField]
-        private Title _name = new() {English = "Name", Russian = "Имя"};
-
-        [SerializeField]
-        private Title _info = new() { English = "Info", Russian = "Описание" };
-        
-        private Material _defaultMaterial, _outlitMaterial;
-        private SpriteRenderer _spriteRenderer;
+        protected Title _name = new() {English = "Name", Russian = "Имя"};
+        protected Title _info = new() { English = "Info", Russian = "Описание" };
+        protected SpriteRenderer _spriteRenderer;
         protected AssetProviderService _assetProviderService;
         
+        private Material _defaultMaterial, _outlitMaterial;
         private LTSeq _sequence;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;

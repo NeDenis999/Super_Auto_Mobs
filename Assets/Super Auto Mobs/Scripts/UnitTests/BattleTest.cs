@@ -31,25 +31,48 @@ namespace Super_Auto_Mobs
             gameObject.SetActive(false);
         }
 
-        public override void SpawnMob(MobData mobData, bool isEnemy)
+        public override Mob SpawnMob(MobData mobData, bool isEnemy)
         {
             var list = isEnemy ? _enemyCommandMobs : _myCommandMobs;
 
-            var mob = Instantiate(_assetProviderService.MobPrefab(mobData.MobEnum), transform);
+            var mobInfo = _assetProviderService.GetMobInfo(mobData.MobEnum);
+            var mob = Instantiate(mobInfo.Prefab, transform);
             _diContainer.Inject(mob);
-            _diContainer.Inject(mob.GetComponent<Perk>());
-            mob.Init(mobData, isEnemy);
+            
+            var perk = mob.GetComponent<Perk>();
+
+            if (perk)
+                _diContainer.Inject(perk);
+                    
+            mob.Init(mobInfo.mobDefaultData, mobData, isEnemy);
             list.Add(mob);
+            return mob;
         }
 
         public override IEnumerator AwaitIntro()
         {
-            throw new System.NotImplementedException();
+            yield break;
         }
 
         public override IEnumerator AwaitProcessBattle()
         {
-            throw new System.NotImplementedException();
+            foreach (var myCommandMob in _myCommandMobs)
+            {
+                if (myCommandMob.Perk.TriggeringSituation == TriggeringSituation.StartBattle)
+                {
+                    StartCoroutine(myCommandMob.Perk.Activate());
+                }
+            }
+            
+            foreach (var enemyCommandMob in _enemyCommandMobs)
+            {
+                if (enemyCommandMob.Perk.TriggeringSituation == TriggeringSituation.StartBattle)
+                {
+                    StartCoroutine(enemyCommandMob.Perk.Activate());
+                }
+            }
+            
+            yield break;
         }
 
         public override IEnumerator Attack(bool isEnemy)
@@ -59,7 +82,7 @@ namespace Super_Auto_Mobs
 
             if (activeMob.Perk.TriggeringSituation == TriggeringSituation.Attack)
             {
-                activeMob.Perk.Activate();
+                yield return activeMob.Perk.Activate();
             }
             
             oppositeActiveMob.TakeDamage(activeMob.CurrentAttack);
@@ -74,6 +97,27 @@ namespace Super_Auto_Mobs
                     return mob;
 
             return null;
+        }
+        
+        public override void RemovePets()
+        {
+            foreach (var mob in _myCommandMobs)
+            {
+                Destroy(mob.gameObject);
+            }
+
+            foreach (var mob in _enemyCommandMobs)
+            {
+                Destroy(mob.gameObject);
+            }
+
+            _myCommandMobs.RemoveAll(IsMobRemove);
+            _enemyCommandMobs.RemoveAll(IsMobRemove);
+        }
+        
+        private static bool IsMobRemove(Mob mob)
+        {
+            return true;
         }
     }
 }

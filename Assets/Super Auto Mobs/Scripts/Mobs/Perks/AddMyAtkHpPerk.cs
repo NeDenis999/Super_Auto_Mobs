@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using Zenject;
 
 namespace Super_Auto_Mobs
 {
@@ -12,13 +11,15 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private int _health = 1;
 
-        public override void Activate()
+        public override IEnumerator Activate()
         {
             print("AddMyAtkHpPerk Activate");
             var mob = GetComponent<Mob>();
 
             mob.ChangeAttack(_atack);
             mob.ChangeHearts(_health);
+            
+            yield break;
         }
     }
 }

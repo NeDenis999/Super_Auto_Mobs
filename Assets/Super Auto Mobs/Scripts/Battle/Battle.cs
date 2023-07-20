@@ -93,6 +93,7 @@ namespace Super_Auto_Mobs
         private Camera _camera;
         private SessionProgressService _sessionProgressService;
         private DiContainer _diContainer;
+        private bool _endTurn;
         
         private List<Mob> _myCommandMobs = new();
         private List<Mob> _enemyCommandMobs = new();
@@ -115,6 +116,9 @@ namespace Super_Auto_Mobs
         
         public override void Close()
         {
+            if (!_battle.activeSelf)
+                return;
+            
             RemovePets();
             _battle.SetActive(false);
         }
@@ -131,25 +135,33 @@ namespace Super_Auto_Mobs
         {
             foreach (var mobData in _sessionProgressService.MyCommandMobsData)
             {
-                SpawnMob(mobData, false);
+                var mob = SpawnMob(mobData, false);
+                mob.OnFaint += Faint;
             }
             
             foreach (var mobData in _sessionProgressService.EnemyCommandMobsData)
             {
-                SpawnMob(mobData, true);
+                var mob = SpawnMob(mobData, true);
+                mob.OnFaint += Faint;
             }
         }
 
-        public override void SpawnMob(MobData mobData, bool isEnemy)
+        public override Mob SpawnMob(MobData mobData, bool isEnemy)
         {
             var spawnTransform = isEnemy ? _enemyCommandSpawnTransform : _myCommandSpawnTransform;
             var list = isEnemy ? _enemyCommandMobs : _myCommandMobs;
 
-            var mob = Instantiate(_assetProviderService.MobPrefab(mobData.MobEnum), spawnTransform);
+            var mobInfo = _assetProviderService.GetMobInfo(mobData.MobEnum);
+            var mob = Instantiate(mobInfo.Prefab, spawnTransform);
             _diContainer.Inject(mob);
-            _diContainer.Inject(mob.GetComponent<Perk>());
-            mob.Init(mobData, isEnemy);
+            var perk = mob.GetComponent<Perk>();
+            
+            if (perk)
+                _diContainer.Inject(perk);
+            
+            mob.Init(mobInfo.mobDefaultData, mobData, isEnemy);
             list.Add(mob);
+            return mob;
         }
         
         public override IEnumerator AwaitIntro()
@@ -159,9 +171,6 @@ namespace Super_Auto_Mobs
                 SkipIntro();
                 yield break;
             }
-
-            print("AwaitIntro");
-            //_animeSpeedEffect.SetActive(true);
             
             var startMyPosition = _camera.ScreenToWorldPoint(new Vector3(0, 0, 0)).x - Indent;
             var startEnemyPosition = _camera.ScreenToWorldPoint(new Vector3(UnityEngine.Screen.width, 0, 0)).x + Indent;
@@ -219,7 +228,6 @@ namespace Super_Auto_Mobs
         
         public override IEnumerator AwaitProcessBattle()
         {
-            print("AwaitProcessBattle");
             _camera = Camera.main;
             SpawnMobs();
             yield return null;
@@ -237,7 +245,7 @@ namespace Super_Auto_Mobs
             {
                 if (mob.Perk.TriggeringSituation == TriggeringSituation.StartBattle)
                 {
-                    mob.Perk.Activate();
+                    yield return mob.Perk.Activate();
                     yield return new WaitForSeconds(1);
                 }
             }
@@ -246,7 +254,7 @@ namespace Super_Auto_Mobs
             {
                 if (mob.Perk.TriggeringSituation == TriggeringSituation.StartBattle)
                 {
-                    mob.Perk.Activate();
+                    yield return mob.Perk.Activate();
                     yield return new WaitForSeconds(1);
                 }
             }
@@ -255,74 +263,8 @@ namespace Super_Auto_Mobs
             {
                 StartCoroutine(Attack(false));
                 yield return StartCoroutine(Attack(true));
-
-                /*
-                var myActiveMob = MyActiveMob();
-                var enemyActiveMob = EnemyActiveMob();
-                
-                StartCoroutine(AwaitPreparingAttackAnimation(myActiveMob));
-                yield return AwaitPreparingAttackAnimation(enemyActiveMob);
-                
-                StartCoroutine(AwaitApproachAnimation(myActiveMob, 0.3f));
-                yield return AwaitApproachAnimation(enemyActiveMob, 0.3f);
-
-                StartCoroutine(AwaitUsePerk());
-                yield return AwaitUsePerk();
-                
-                StartCoroutine(AwaitTakeDamageAnimation(myActiveMob.CurrentAttack, _myDamageText));
-                StartCoroutine(AwaitTakeDamageAnimation(enemyActiveMob.CurrentAttack, _enemyDamageText));
-
-                myActiveMob.TakeDamage(enemyActiveMob.CurrentAttack);
-                enemyActiveMob.TakeDamage(myActiveMob.CurrentAttack);
-                
-                myActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DamageMaterial;
-                enemyActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DamageMaterial;
-
-                if (myActiveMob.Perk.TriggeringSituation == TriggeringSituation.Attack)
-                {
-                    myActiveMob.Perk.Activate();
-                    yield return new WaitForSeconds(_attackPerkDelay);
-                }
-                
-                if (enemyActiveMob.Perk.TriggeringSituation == TriggeringSituation.Attack)
-                {
-                    enemyActiveMob.Perk.Activate();
-                    yield return new WaitForSeconds(_attackPerkDelay);
-                }
-                
-                if (myActiveMob.Perk.TriggeringSituation == TriggeringSituation.TakeDamage)
-                {
-                    myActiveMob.Perk.Activate();
-                    yield return new WaitForSeconds(_takeDamagePerkDelay);
-                }
-                
-                if (enemyActiveMob.Perk.TriggeringSituation == TriggeringSituation.TakeDamage)
-                {
-                    enemyActiveMob.Perk.Activate();
-                    yield return new WaitForSeconds(_takeDamagePerkDelay);
-                }
-                
-                yield return new WaitForSeconds(_damageDelay);
-                myActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DefaultMaterial;
-                enemyActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DefaultMaterial;
-                
-                if (myActiveMob.IsActive)
-                    StartCoroutine(AwaitLandingAnimation(myActiveMob));
-                else
-                    StartCoroutine(AwaitEmergencyLanding(myActiveMob, _camera.ScreenToWorldPoint(
-                        new Vector3(0, 0, 0)).x - Indent * 2));
-                
-                if (enemyActiveMob.IsActive)
-                    StartCoroutine(AwaitLandingAnimation(enemyActiveMob));
-                else
-                    StartCoroutine(AwaitEmergencyLanding(enemyActiveMob, _camera.ScreenToWorldPoint(
-                        new Vector3(UnityEngine.Screen.width, 0, 0)).x + Indent * 2));
-                
-                yield return new WaitForSeconds(_betweenAttacksDelay);
-
-                StartCoroutine(AwaitUpdatePositionPetsAnimation(MyCommandMobsActive()));
-                yield return AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive());
-                */
+                StartCoroutine(AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive()));
+                yield return AwaitUpdatePositionPetsAnimation(MyCommandMobsActive());
             }
 
             StartCoroutine(AwaitEndBattle());
@@ -336,53 +278,47 @@ namespace Super_Auto_Mobs
 
             yield return AwaitPreparingAttackAnimation(activeMob);
             yield return AwaitApproachAnimation(activeMob, 0.3f);
-            yield return AwaitUsePerk();
-                
-            StartCoroutine(AwaitTakeDamageAnimation(activeMob.CurrentAttack, damageText));
-
+            
             oppositeActiveMob.TakeDamage(activeMob.CurrentAttack);
-            oppositeActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DamageMaterial;
-
+            
             if (activeMob.Perk.TriggeringSituation == TriggeringSituation.Attack)
             { 
-                activeMob.Perk.Activate();
+                yield return activeMob.Perk.Activate();
                 yield return new WaitForSeconds(_attackPerkDelay);
             }
 
             if (oppositeActiveMob.Perk.TriggeringSituation == TriggeringSituation.TakeDamage) 
             {
-                oppositeActiveMob.Perk.Activate();
+                yield return oppositeActiveMob.Perk.Activate();
                 yield return new WaitForSeconds(_takeDamagePerkDelay);
             }
 
-            yield return new WaitForSeconds(_damageDelay);
-            oppositeActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.DefaultMaterial;
-
-            if (activeMob.IsActive)
-                StartCoroutine(AwaitLandingAnimation(activeMob));
-            else
-                StartCoroutine(AwaitEmergencyLanding(activeMob, _camera.ScreenToWorldPoint(
-                        new Vector3(0, 0, 0)).x + Indent * 2 * (isEnemy ? 1 : -1)));
-
             yield return new WaitForSeconds(_betweenAttacksDelay);
-            yield return AwaitUpdatePositionPetsAnimation(isEnemy ? EnemyCommandMobsActive() : MyCommandMobsActive());
+            
+            if (activeMob.IsActive)
+            {
+                yield return new WaitForSeconds(_damageDelay);
+                StartCoroutine(AwaitLandingAnimation(activeMob));
+            }
+            
+            _endTurn = true;
+            yield return null;
+            _endTurn = false;
         }
 
         private IEnumerator AwaitEndBattle()
         {
-            //GameEnd
             var gameResult = EndBattleEnum.Faint;
             
             if (MyActiveMob())
             {
-                //Win
                 gameResult = EndBattleEnum.Won;
 
                 foreach (var mob in MyCommandMobsActive())
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Win)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
@@ -391,21 +327,20 @@ namespace Super_Auto_Mobs
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Lose)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
             }
             else if (EnemyActiveMob())
             {
-                //Lose
                 gameResult = EndBattleEnum.Lose;
                 
                 foreach (var mob in EnemyCommandMobsActive())
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Win)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
@@ -414,21 +349,20 @@ namespace Super_Auto_Mobs
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Lose)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
             }
             else
             {
-                //Faint
                 gameResult = EndBattleEnum.Faint;
                 
                 foreach (var mob in MyCommandMobsActive())
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Faint)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
@@ -437,7 +371,7 @@ namespace Super_Auto_Mobs
                 {
                     if (mob.Perk.TriggeringSituation == TriggeringSituation.Faint)
                     {
-                        mob.Perk.Activate();
+                        yield return mob.Perk.Activate();
                         yield return new WaitForSeconds(_endGamePerkDelay);
                     }
                 }
@@ -448,8 +382,6 @@ namespace Super_Auto_Mobs
 
         private IEnumerator AwaitApproachAnimation(Mob myActiveMob, float indent)
         {
-            //LeanTween.moveLocalX(myActiveMob.gameObject, indent, 0.2f).setEaseOutCubic();;
-            //LeanTween.moveLocalY(myActiveMob.gameObject, JumpHeight, 0.2f).setEaseOutCubic();;
             LeanTween.moveLocal(myActiveMob.gameObject, new Vector3(indent, JumpHeight), _approachDelay).setEaseOutCubic();;
             yield return new WaitForSeconds(_approachDelay);
         }
@@ -462,6 +394,8 @@ namespace Super_Auto_Mobs
 
         private IEnumerator AwaitEmergencyLanding(Mob mob, float endPathPositionX)
         {
+            yield return new WaitUntil(() => _endTurn);
+
             var pathPoints = MathfExtensions.CreateSineWave(mob.transform.position, 
                 mob.transform.position.SetX(endPathPositionX), 50, 1, 0.5f);
             
@@ -515,7 +449,6 @@ namespace Super_Auto_Mobs
         
         private IEnumerator AwaitUsePerk()
         {
-            print("UsePerk");
             yield break;
         }
         
@@ -553,15 +486,17 @@ namespace Super_Auto_Mobs
             return enemyCommandMobs.Count == 0 ? null : enemyCommandMobs[0];
         }
 
-        private void RemovePets()
+        public override void RemovePets()
         {
             foreach (var mob in _myCommandMobs)
             {
+                mob.OnFaint -= Faint;
                 Destroy(mob.gameObject);
             }
 
             foreach (var mob in _enemyCommandMobs)
             {
+                mob.OnFaint -= Faint;
                 Destroy(mob.gameObject);
             }
 
@@ -572,6 +507,16 @@ namespace Super_Auto_Mobs
         private static bool IsMobRemove(Mob mob)
         {
             return true;
+        }
+
+        private void Faint(Mob mob)
+        {
+            if (!mob.IsEnemy)
+                StartCoroutine(AwaitEmergencyLanding(mob, _camera.ScreenToWorldPoint(
+                new Vector3(0, 0, 0)).x + Indent * 2 * -1));
+            else
+                StartCoroutine(AwaitEmergencyLanding(mob, _camera.ScreenToWorldPoint(
+                    new Vector3(UnityEngine.Screen.width, 0, 0)).x + Indent * 2));
         }
     }
 }

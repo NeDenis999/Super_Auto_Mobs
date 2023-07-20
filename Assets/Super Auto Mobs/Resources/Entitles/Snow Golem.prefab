@@ -79,5 +79,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggeringSituation: 4
-  _atack: 1
+  _atack: 3
   _health: 0

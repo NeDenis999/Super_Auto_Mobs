@@ -11,7 +11,7 @@ namespace Super_Auto_Mobs
         private const float SizeY = 148;
         
         private Button _button;
-        private Shop shopService;
+        private ShopService shopService;
         private ShopTradeService shopTradeService;
 
         private float _defaultPositionY;
@@ -19,7 +19,7 @@ namespace Super_Auto_Mobs
         private bool _isEnter;
 
         [Inject]
-        private void Construct(Shop shopService, ShopTradeService shopTradeService)
+        private void Construct(ShopService shopService, ShopTradeService shopTradeService)
         {
             this.shopService = shopService;
             this.shopTradeService = shopTradeService;
@@ -87,7 +87,7 @@ namespace Super_Auto_Mobs
             
             if (perk.TriggeringSituation == TriggeringSituation.Sell)
             {
-                perk.Activate();
+                StartCoroutine(perk.Activate());
             }
             
             shopService.DestroySelectEntity();

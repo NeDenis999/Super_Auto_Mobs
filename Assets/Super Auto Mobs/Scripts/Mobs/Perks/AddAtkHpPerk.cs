@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -7,6 +8,9 @@ namespace Super_Auto_Mobs
 {
     public class AddAtkHpPerk : Perk
     {
+        [SerializeField]
+        private bool _isPercent;
+        
         [SerializeField]
         private int _atack = 1;
         
@@ -18,66 +22,89 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private PerkTypeEnum _perkType;
-        
+
         private BattleService _battleService;
         private Game _game;
-        private Shop _shopService;
+        private ShopService _shopService;
+        private SparkService _sparkService;
+        private Mob _mob;
+        private int _currentAttack => _isPercent ? MathfExtensions.GetPercent(_mob.CurrentAttack * _atack) : _atack;
 
         [Inject]
-        private void Construct(BattleService battleService, Game game, Shop shopService)
+        private void Construct(BattleService battleService, Game game, ShopService shopService, SparkService sparkService)
         {
             _battleService = battleService;
             _game = game;
             _shopService = shopService;
+            _sparkService = sparkService;
         }
         
-        public override void Activate()
+        public override IEnumerator Activate()
         {
             print("AddAtkHpPerk Activate");
 
             if (_game.CurrentGameState == GameState.Shop)
             {
                 var platform = GetComponentInParent<ShopCommandMobPlatform>();
+                _mob = platform.Mob;
                 
-                AddAtkHp(_shopService.CommandPlatforms, platform);
+                yield return AddAtkHp(_shopService.CommandPlatforms, platform);
             }
             else if (_game.CurrentGameState is GameState.Battle or GameState.BattleTransition)
             {
-                var mob = GetComponent<Mob>();
+                _mob = GetComponent<Mob>();
 
-                if (!mob.IsEnemy)
+                if (!_mob.IsEnemy)
                 {
-                    AddAtkHp(_battleService.MyCommandMobs, mob);
+                    yield return AddAtkHp(_battleService.MyCommandMobs, _mob);
                 }
                 else
                 {
-                    AddAtkHp(_battleService.EnemyCommandMobs, mob);
+                    yield return AddAtkHp(_battleService.EnemyCommandMobs, _mob);
                 }
             }
         }
 
-        public void AddAtkHp(List<Mob> command, Mob myMob)
+        public IEnumerator AddAtkHp(List<Mob> command, Mob myMob)
         {
             if (command.Count <= 1)
-                return;
+                yield break;
             
             var mobs = GetList(command.GetAllExcept(myMob), myMob);
 
             foreach (var mob in mobs)
             {
-                mob.ChangeAttack(_atack);
+                _sparkService.StartAnimation(transform.position, mob.transform.position);
+            }
+
+            yield return new WaitForSeconds(1);
+
+            foreach (var mob in mobs)
+            {
+                mob.ChangeAttack(_currentAttack);
                 mob.ChangeHearts(_health);
             }
         }
         
-        public void AddAtkHp(List<ShopCommandMobPlatform> command, ShopCommandMobPlatform myPlatform)
+        public IEnumerator AddAtkHp(List<ShopCommandMobPlatform> command, ShopCommandMobPlatform myPlatform)
         {
-            var platforms = GetList(command, myPlatform);
+            if (command.Count <= 1)
+                yield break;
+            
+            var platforms = GetList(command.GetAllExcept(myPlatform), myPlatform);
 
             foreach (var platform in platforms)
             {
                 var mob = platform.Mob;
-                mob.ChangeAttack(_atack);
+                _sparkService.StartAnimation(transform.position, mob.transform.position);
+            }
+            
+            yield return new WaitForSeconds(1);
+            
+            foreach (var platform in platforms)
+            {
+                var mob = platform.Mob;
+                mob.ChangeAttack(_currentAttack);
                 mob.ChangeHearts(_health);
             }
         }
@@ -96,7 +123,10 @@ namespace Super_Auto_Mobs
                 case PerkTypeEnum.Back:
                     return list.GetElementsBeforeIndex(list.IndexOf(element));
                 case PerkTypeEnum.All:
-                    return list.GetAllExcept(element);
+                    if (list.Count > 1)
+                        return list.GetAllExcept(element);
+                    else
+                        return list;
             }
 
             throw new ArgumentOutOfRangeException();

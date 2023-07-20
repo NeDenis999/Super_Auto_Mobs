@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638c45e0ea824efba79d37219560c6f1, type: 3}
+  m_Name: Skeleton
+  m_EditorClassIdentifier: 
+  mobDefaultData:
+    Name:
+      English: Skeleton
+      Russian: "\u0421\u043A\u0435\u043B\u0435\u0442"
+    Info:
+      English: "The beginning of the battle \u2192  Deal 3 Damage Icon damage to
+        one random enemy"
+      Russian: "\u041D\u0430\u0447\u0430\u043B\u043E \u0431\u0438\u0442\u0432\u044B
+        \u2192 \u041D\u0430\u043D\u0435\u0441\u0438\u0442\u0435 3 \u0417\u043D\u0430\u0447\u043E\u043A
+        \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u0438\u044F\u0443\u0440\u043E\u043D
+        \u043E\u0434\u043D\u043E\u043C\u0443 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u043E\u043C\u0443
+        \u0432\u0440\u0430\u0433\u0443"
+    Hearts: 2
+    Attack: 2
+    MobEnum: 5
+  Prefab: {fileID: 5276456636128017975, guid: 6ec43135237a53545a30739924876271, type: 3}

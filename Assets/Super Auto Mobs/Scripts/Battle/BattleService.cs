@@ -14,8 +14,8 @@ namespace Super_Auto_Mobs
 
         public abstract void Close();
 
-        public abstract void SpawnMob(MobData mobData, bool isEnemy);
-
+        public abstract Mob SpawnMob(MobData mobData, bool isEnemy = false);
+        public abstract void RemovePets();
         public abstract IEnumerator AwaitIntro();
         public abstract IEnumerator AwaitProcessBattle();
         public abstract IEnumerator Attack(bool isEnemy);

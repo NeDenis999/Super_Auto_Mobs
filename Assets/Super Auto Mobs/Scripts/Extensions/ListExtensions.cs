@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Super_Auto_Mobs
 {
@@ -12,6 +13,8 @@ namespace Super_Auto_Mobs
             {
                 if (!currentElement.Equals(element))
                     newList.Add(currentElement);
+                
+                Debug.Log(currentElement.Equals(element));
             }
 
             return newList;

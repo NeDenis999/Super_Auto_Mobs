@@ -38,7 +38,7 @@ namespace Super_Auto_Mobs
             
             if (mob.Perk.TriggeringSituation == TriggeringSituation.Eat)
             {
-                mob.Perk.Activate();
+                StartCoroutine(mob.Perk.Activate());
             }
             
             Destroy(gameObject);

@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1205596629785622215, guid: 6760595b512059f45a153d6053f73296, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2054117667890213228, guid: 6760595b512059f45a153d6053f73296, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -58,6 +62,14 @@ PrefabInstance:
     - target: {fileID: 2054117667890213230, guid: 6760595b512059f45a153d6053f73296, type: 3}
       propertyPath: m_Name
       value: Squid
+      objectReference: {fileID: 0}
+    - target: {fileID: 3282735610538077965, guid: 6760595b512059f45a153d6053f73296, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 115.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446123698938575601, guid: 6760595b512059f45a153d6053f73296, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6760595b512059f45a153d6053f73296, type: 3}

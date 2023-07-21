@@ -2,6 +2,8 @@
 {
     public enum CountData
     {
-        Emeralds
+        Emeralds,
+        Hearts,
+        Wins
     }
 }

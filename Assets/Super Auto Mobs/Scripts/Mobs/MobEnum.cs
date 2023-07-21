@@ -8,7 +8,7 @@
         Zombie,
         SnowGollum,
         Skeleton,
-        Chicken,
+        Duck,
         Chocobo,
         Enderman,
         MushroomCow,
@@ -18,6 +18,8 @@
         Squid,
         Witch,
         VillagerBig,
-        Test
+        Test,
+        Chicken,
+        Palesos
     }
 }

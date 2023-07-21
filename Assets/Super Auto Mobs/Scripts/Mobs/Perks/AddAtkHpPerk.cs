@@ -65,7 +65,7 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public IEnumerator AddAtkHp(List<Mob> command, Mob myMob)
+        private IEnumerator AddAtkHp(List<Mob> command, Mob myMob)
         {
             if (command.Count <= 1)
                 yield break;
@@ -74,7 +74,7 @@ namespace Super_Auto_Mobs
 
             foreach (var mob in mobs)
             {
-                _sparkService.StartAnimation(transform.position, mob.transform.position);
+                _sparkService.StartAnimation(_mob.EffectPoint.position, mob.EffectPoint.position);
             }
 
             yield return new WaitForSeconds(1);
@@ -86,7 +86,7 @@ namespace Super_Auto_Mobs
             }
         }
         
-        public IEnumerator AddAtkHp(List<ShopCommandMobPlatform> command, ShopCommandMobPlatform myPlatform)
+        private IEnumerator AddAtkHp(List<ShopCommandMobPlatform> command, ShopCommandMobPlatform myPlatform)
         {
             if (command.Count <= 1)
                 yield break;
@@ -96,7 +96,7 @@ namespace Super_Auto_Mobs
             foreach (var platform in platforms)
             {
                 var mob = platform.Mob;
-                _sparkService.StartAnimation(transform.position, mob.transform.position);
+                _sparkService.StartAnimation(_mob.EffectPoint.position, mob.EffectPoint.position);
             }
             
             yield return new WaitForSeconds(1);
@@ -109,7 +109,7 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public List<T> GetList<T>(List<T> list, T element)
+        private List<T> GetList<T>(List<T> list, T element)
         {
             if (list.Count == 0)
                 return null;

@@ -8,6 +8,6 @@ namespace Super_Auto_Mobs
     {
         public SideEnum Side;
         public CharacterEnum Character;
-        public List<string> Replaces;
+        public List<Title> Replaces;
     }
 }

@@ -9,6 +9,9 @@ namespace Super_Auto_Mobs
         public event Action<int, int> OnChangeAttack;
         public event Action<Mob> OnFaint;
         
+        [SerializeField]
+        private Transform _effectPoint;
+        
         private int _hearts = 1;
         private int _attack = 1;
         private Perk _perk;
@@ -22,6 +25,7 @@ namespace Super_Auto_Mobs
         public int CurrentAttack => _currentAttack;
         public Perk Perk => _perk;
         public bool IsEnemy => _isEnemy;
+        public Transform EffectPoint => _effectPoint;
 
         public void Init(MobDefaultData mobDefaultData, MobData mobData)
         {
@@ -46,7 +50,7 @@ namespace Super_Auto_Mobs
         public void TakeDamage(int damage)
         {
             _hearts -= damage;
-            OnChangeHearts?.Invoke(mobDefaultData.Hearts, -damage);
+            OnChangeHearts?.Invoke(_currentHearts, -damage);
             _spriteRenderer.material = _assetProviderService.DamageMaterial;
             Invoke(nameof(EndAnimation), 1f);
 
@@ -68,14 +72,12 @@ namespace Super_Auto_Mobs
 
         public void ChangeHearts(int value)
         {
-            mobDefaultData.Hearts += value;
             _hearts += value;
             OnChangeHearts?.Invoke(_currentHearts, value);
         }
         
         public void ChangeAttack(int value)
         {
-            mobDefaultData.Attack += value;
             _attack += value;
             OnChangeAttack?.Invoke(_currentAttack, value);
         }

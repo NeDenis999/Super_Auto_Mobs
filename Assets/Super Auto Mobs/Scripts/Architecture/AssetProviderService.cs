@@ -11,7 +11,7 @@ namespace Super_Auto_Mobs
         public Spark Spark;
         
         [Header("Mobs")]
-        public MobInfo ChickenMob;
+        public MobInfo DuckMob;
         public MobInfo OcelotMob;
         public MobInfo DogMob;
         public MobInfo VillageMob;
@@ -28,6 +28,8 @@ namespace Super_Auto_Mobs
         public MobInfo WhitcherMob;
         public MobInfo SquidMob;
         public MobInfo TestMob;
+        public MobInfo ChickenMob;
+        public MobInfo PalesosMob;
 
         [Header("Bosses")]
         public Mob SquidBoss;
@@ -39,8 +41,8 @@ namespace Super_Auto_Mobs
         {
             switch (mobEnum)
             {
-                case MobEnum.Chicken:
-                    return ChickenMob;
+                case MobEnum.Duck:
+                    return DuckMob;
                 case MobEnum.Cat:
                     return OcelotMob;
                 case MobEnum.Dog:
@@ -73,6 +75,10 @@ namespace Super_Auto_Mobs
                     return SquidMob;
                 case MobEnum.Test:
                     return TestMob;
+                case MobEnum.Chicken:
+                    return ChickenMob;
+                case MobEnum.Palesos:
+                    return PalesosMob;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

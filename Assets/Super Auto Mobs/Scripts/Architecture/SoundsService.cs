@@ -20,11 +20,14 @@ namespace Super_Auto_Mobs
         private AudioClip _mainTheme;
         
         [SerializeField]
+        private AudioClip _speedRun;
+        
+        [SerializeField]
         private AudioClip _battleTheme;
 
         private void Start()
         {
-            PlayMusic(_mainTheme);
+            //PlayMusic(_speedRun);
         }
 
         private void PlayMusic(AudioClip music)
@@ -37,6 +40,16 @@ namespace Super_Auto_Mobs
         {
             _audioSourceSound.clip = sound;
             _audioSourceSound.Play();
+        }
+
+        public void StopMusic()
+        {
+            _audioSourceMusic.Stop();
+        }
+
+        public void PlayDreamSpeedrun()
+        {
+            PlayMusic(_speedRun);
         }
     }
 }

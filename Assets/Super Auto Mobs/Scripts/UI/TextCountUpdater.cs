@@ -32,6 +32,12 @@ namespace Super_Auto_Mobs
                 case CountData.Emeralds:
                     _sessionProgressService.OnUpdateEmeralds += TextUpdate;
                     break;
+                case CountData.Hearts:
+                    _sessionProgressService.OnUpdateHearts += TextUpdate;
+                    break;
+                case CountData.Wins:
+                    _sessionProgressService.OnUpdateWins += TextUpdate;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -44,6 +50,12 @@ namespace Super_Auto_Mobs
                 case CountData.Emeralds:
                     _sessionProgressService.OnUpdateEmeralds -= TextUpdate;
                     break;
+                case CountData.Hearts:
+                    _sessionProgressService.OnUpdateHearts -= TextUpdate;
+                    break;
+                case CountData.Wins:
+                    _sessionProgressService.OnUpdateWins -= TextUpdate;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -52,6 +64,11 @@ namespace Super_Auto_Mobs
         private void TextUpdate(int value)
         {
             _text.text = value.ToString();
+        }
+        
+        private void TextUpdate(int value, int maxValue)
+        {
+            _text.text = $"{value}/{maxValue}";
         }
     }
 }

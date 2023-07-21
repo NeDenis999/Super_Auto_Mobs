@@ -50,6 +50,7 @@ MonoBehaviour:
   _audioSourceSound: {fileID: 3925699329940697042}
   _buySound: {fileID: 8300000, guid: 16c9f1b4971627340841eeebe246dac0, type: 3}
   _mainTheme: {fileID: 8300000, guid: e4b6034e4ef1d4a47b3b830a898d5df8, type: 3}
+  _speedRun: {fileID: 8300000, guid: a737d3219eb54ab489d2b8baf77b89fe, type: 3}
   _battleTheme: {fileID: 8300000, guid: c034004562b2f6a4f9ea24511a3842d2, type: 3}
 --- !u!82 &6984833179992705348
 AudioSource:
@@ -505,7 +506,7 @@ MonoBehaviour:
   DamageMaterial: {fileID: 2100000, guid: 0f7f5f30a259b104b93c3aebea40c08d, type: 2}
   ShopCommandMobPlatform: {fileID: 2796828870499938006, guid: 891ae24ec1b34b44aa26c195f4007de7, type: 3}
   Spark: {fileID: 1463268426735549342, guid: 78049c47cbe230c428e1f2e26d105619, type: 3}
-  ChickenMob: {fileID: 11400000, guid: 89d981c37ec5e8344aba9018ee2b61aa, type: 2}
+  DuckMob: {fileID: 11400000, guid: 89d981c37ec5e8344aba9018ee2b61aa, type: 2}
   OcelotMob: {fileID: 11400000, guid: f5aeba4d8d56d5543bd15ade3fc0e976, type: 2}
   DogMob: {fileID: 11400000, guid: fe1021bcd5e69524baa5febd79c513d6, type: 2}
   VillageMob: {fileID: 11400000, guid: 8b0e670bd3ddb8b4fae9138d1e2aede0, type: 2}
@@ -522,6 +523,8 @@ MonoBehaviour:
   WhitcherMob: {fileID: 11400000, guid: 9bac11c3cdaa11f48a1cc289df24af40, type: 2}
   SquidMob: {fileID: 11400000, guid: e1c5c6d896cabd54aa72caa54ff4ec80, type: 2}
   TestMob: {fileID: 11400000, guid: eacacbe6807b996408a6456f30dd310f, type: 2}
+  ChickenMob: {fileID: 11400000, guid: 4898558682ad42541a0482b09ecc4e8b, type: 2}
+  PalesosMob: {fileID: 11400000, guid: 8d215b24ad53c4440a4277ca81a09337, type: 2}
   SquidBoss: {fileID: 6085230563619608914, guid: 4284d0a97048eea4596e52118e231151, type: 3}
   AllMobs:
   - {fileID: 11400000, guid: 756aeddb3570aad4ca0bd17f685816bb, type: 2}

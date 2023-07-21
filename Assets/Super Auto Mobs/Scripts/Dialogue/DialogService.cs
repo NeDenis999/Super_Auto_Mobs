@@ -5,12 +5,14 @@ using I2.TextAnimation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Super_Auto_Mobs
 {
     public class DialogService : MonoBehaviour
     {
         public event Action OnHide;
+        public event Action OnStartHide;
         
         [SerializeField]
         private TextMeshProUGUI _textMeshPro;
@@ -46,7 +48,14 @@ namespace Super_Auto_Mobs
         private int _numberCurrentReplica;
         private int _numberCurrentReplicaData;
         private bool _isShow;
+        private LanguageService _languageService;
 
+        [Inject]
+        private void Construct(LanguageService languageService)
+        {
+            _languageService = languageService;
+        }
+        
         private void Update()
         {
             if (!_isShow)
@@ -58,8 +67,13 @@ namespace Super_Auto_Mobs
             }
         }
         
-        public void Show()
+        public void Show(List<ReplicaData> replicasData = null)
         {
+            if (replicasData == null)
+                replicasData = _replicasData;
+
+            _replicasData = replicasData;
+            
             _isShow = true;
             _dialogCanvas.SetActive(true);
             _blackout.SetActive(true);
@@ -84,7 +98,7 @@ namespace Super_Auto_Mobs
                     rightPersonRect.anchoredPosition = rightPersonRect.anchoredPosition.SetX(x);
                 });
 
-            foreach (var replicaData in _replicasData)
+            foreach (var replicaData in replicasData)
             {
                 var isRightName = false;
                 var isLeftName = false;
@@ -112,8 +126,11 @@ namespace Super_Auto_Mobs
         
         public void Hide()
         {
-            OnHide?.Invoke();
+            OnStartHide?.Invoke();
+            
             _isShow = false;
+            _numberCurrentReplica = 0;
+            _numberCurrentReplicaData = 0;
             
             var leftPersonRect = _leftPerson.GetComponent<RectTransform>();
             leftPersonRect.anchoredPosition = leftPersonRect.anchoredPosition.SetX(0);
@@ -139,6 +156,7 @@ namespace Super_Auto_Mobs
                 {
                     _dialogCanvas.SetActive(false);
                     _blackout.SetActive(false);
+                    OnHide?.Invoke();
                 });
         }
 
@@ -170,7 +188,7 @@ namespace Super_Auto_Mobs
 
             _textAnimation.StopAllAnimations();
             _textAnimation.PlayAnim();
-            _textMeshPro.text = _currentReplicaData.Replaces[_numberCurrentReplica];
+            _textMeshPro.text = _languageService.GetText(_currentReplicaData.Replaces[_numberCurrentReplica]);
         }
         
         private IEnumerator AwaitPrintReplica()

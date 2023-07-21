@@ -192,7 +192,7 @@ namespace UnitTests.PlayTests
             
             UpdateState(GameState.Shop);
             
-            var myMob0 = shopService.SpawnMob(new MobData {MobEnum = MobEnum.Chicken});
+            var myMob0 = shopService.SpawnMob(new MobData {MobEnum = MobEnum.Duck});
             
             yield return myMob0.Perk.Activate();
             
@@ -304,7 +304,7 @@ namespace UnitTests.PlayTests
             
             UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Squid}, false);
-            var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Chicken}, false);
+            var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Duck}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
             UpdateState(GameState.Battle);
             

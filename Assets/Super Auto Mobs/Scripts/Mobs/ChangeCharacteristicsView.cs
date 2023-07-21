@@ -74,7 +74,7 @@ namespace Super_Auto_Mobs
             HeartsUpdate(value);
             ColorUpdate(_hearts, value);
             
-            StartCoroutine(AwaitChangeHearts(value, difference));
+            //StartCoroutine(AwaitChangeHearts(value, difference));
         }
 
         private void ChangeAttack(int value, int difference)
@@ -82,7 +82,7 @@ namespace Super_Auto_Mobs
             AttacksUpdate(value);
             ColorUpdate(_attacks, value);
             
-            StartCoroutine(AwaitChangeAttack(value, difference));
+            //StartCoroutine(AwaitChangeAttack(value, difference));
         }
         
         private void CreateHearts(int count)
@@ -109,11 +109,14 @@ namespace Super_Auto_Mobs
         
         private void HeartsUpdate(int value)
         {
+            /*if (_hearts.Count == MaxCountIcons)
+                return;*/
+            
             if (_hearts.Count < value)
             {
                 CreateHearts(value - _hearts.Count);
             }
-            else if (value < _hearts.Count)
+            /*else if (value < _hearts.Count)
             {
                 for (int i = 0; i < _hearts.Count - value; i++)
                 {
@@ -121,7 +124,7 @@ namespace Super_Auto_Mobs
                     _hearts.Remove(heart);
                     Destroy(heart);
                 }
-            }
+            }*/
         }
         
         private void AttacksUpdate(int value)
@@ -146,8 +149,13 @@ namespace Super_Auto_Mobs
             for (int i = 0; i < list.Count; i++)
             {
                 var color = Color.white;
+                print($"{_mob.name} {value} {i} {value - i}");
 
-                if (value - i < MaxCountIcons + 1)
+                if (value - i <= 0)
+                {
+                    color = Color.black;
+                }
+                else if (value - i < MaxCountIcons + 1)
                 {
                     color = Color.red;
                 }

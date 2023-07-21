@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df38ac74ec349949ddd6806560abfd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectPoint: {fileID: 3282735610538077965}
 --- !u!1 &2360810146375301722
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: -399534237
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &20929533633686101
@@ -471,7 +472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11.6, y: 65.4}
+  m_AnchoredPosition: {x: 0, y: 65.4}
   m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5035471152197375720
@@ -611,7 +612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4758594850162925590, guid: 3a5e1e50a6b7d2146a4e6afbfc2763fa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.122
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4758594850162925590, guid: 3a5e1e50a6b7d2146a4e6afbfc2763fa, type: 3}
       propertyPath: m_AnchoredPosition.y

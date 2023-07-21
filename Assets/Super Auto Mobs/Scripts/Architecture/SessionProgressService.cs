@@ -8,6 +8,8 @@ namespace Super_Auto_Mobs
     public class SessionProgressService : MonoBehaviour
     {
         public event Action<int> OnUpdateEmeralds;
+        public event Action<int> OnUpdateHearts;
+        public event Action<int, int> OnUpdateWins;
 
         public int Emeralds
         {
@@ -16,6 +18,26 @@ namespace Super_Auto_Mobs
             {   
                 _emeralds = value;
                 OnUpdateEmeralds?.Invoke(_emeralds);
+            }
+        }
+        
+        public int Hearts
+        {
+            get => _hearts;
+            set
+            {   
+                _hearts = value;
+                OnUpdateHearts?.Invoke(_hearts);
+            }
+        }
+        
+        public int Wins
+        {
+            get => _wins;
+            set
+            {   
+                _wins = value;
+                OnUpdateWins?.Invoke(_wins, _maxWins);
             }
         }
 
@@ -33,10 +55,15 @@ namespace Super_Auto_Mobs
         private GameData _gameData;
         
         private int _emeralds;
+        private int _hearts;
+        private int _wins;
+        private int _maxWins;
         
         private void Start()
         {
             OnUpdateEmeralds?.Invoke(_emeralds);
+            OnUpdateHearts?.Invoke(_hearts);
+            OnUpdateWins?.Invoke(_wins, _maxWins);
         }
     }
 }

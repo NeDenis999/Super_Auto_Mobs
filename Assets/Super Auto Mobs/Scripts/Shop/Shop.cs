@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -22,6 +23,9 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private InfoMobScreen _infoMobScreen;
+        
+        [SerializeField]
+        private Button _rollButton;
         
         private PlatformServiceState _platformServiceState
         {

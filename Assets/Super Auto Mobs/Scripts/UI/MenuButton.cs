@@ -22,29 +22,34 @@ namespace Super_Auto_Mobs
         
         private void OnEnable()
         {
-            _button.onClick.AddListener(StartBattle);
-            
-            _loadScreenService.OnClose += () => _loadScreenService.StartCoroutine(CloseLoadScreen());
+            _button.onClick.AddListener(CloseBattle);
+            _loadScreenService.OnClose += CloseLoadScreen;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            _button.onClick.RemoveListener(StartBattle);
-            
-            _loadScreenService.OnClose -= () => _loadScreenService.StartCoroutine(CloseLoadScreen());
+            _button.onClick.RemoveListener(CloseBattle);
+            _loadScreenService.OnClose -= CloseLoadScreen;
         }
 
-        private void StartBattle()
+        private void CloseBattle()
         {
             _loadScreenService.Close();
-            _game.CurrentGameState = GameState.ShopTransition;
+            _button.onClick.RemoveListener(CloseBattle);
         }
         
-        private IEnumerator CloseLoadScreen()
+        private IEnumerator AwaitCloseLoadScreen()
         {
+            _game.CurrentGameState = GameState.ShopTransition;
             yield return new WaitForSeconds(0.2f);
             _loadScreenService.Open();
             _game.CurrentGameState = GameState.Shop;
+        }
+
+        private void CloseLoadScreen()
+        {
+            _loadScreenService.OnClose -= CloseLoadScreen;
+            _loadScreenService.StartCoroutine(AwaitCloseLoadScreen());
         }
     }
 }

@@ -25,7 +25,10 @@ namespace Super_Auto_Mobs
         private InfoMobScreen _infoMobScreen;
         
         [SerializeField]
-        private Button _rollButton;
+        private Button _battleButton;
+        
+        [SerializeField]
+        private float _speedMove;
         
         private PlatformServiceState _platformServiceState
         {
@@ -34,14 +37,11 @@ namespace Super_Auto_Mobs
             {
                 OnUpdateState?.Invoke(value);
                 _currentPlatformServiceState = value;
+                BattleButtonUpdate();
             }
         }
 
         private PlatformServiceState _currentPlatformServiceState = PlatformServiceState.NoChoosePlatform;
-
-        [SerializeField]
-        private float _speedMove;
-        
         private ShopPlatform _shopPlatformSelected;
         private Vector2 _offsetMouseMob;
         private ShopPlatform _shopPlatformLocalSelected;
@@ -71,6 +71,19 @@ namespace Super_Auto_Mobs
             PlatformsPositionUpdate();
         }
 
+        private void BattleButtonUpdate()
+        {
+            bool isMob = false;
+            
+            foreach (var commandPetPlatform in _commandPetPlatforms)
+            {
+                if (commandPetPlatform.Mob)
+                    isMob = true;
+            }
+            
+            _battleButton.gameObject.SetActive(isMob);
+        }
+
         public override void Open()
         {
             _shop.SetActive(true);
@@ -82,6 +95,17 @@ namespace Super_Auto_Mobs
         {
             if (!_shop.activeSelf)
                 return;
+
+            _sessionProgressService.MyCommandMobsData = new List<MobData>();
+
+            foreach (var command in _commandPetPlatforms)
+            {
+                if (command.IsEntity)
+                {
+                    _sessionProgressService.MyCommandMobsData.Add(command.Mob.MobData);
+                    print(command.Mob.MobData.MobEnum);
+                }
+            }
             
             _shop.SetActive(false);
             DestroyPlatformMobs();
@@ -99,7 +123,7 @@ namespace Super_Auto_Mobs
                 var mobData = _assetProviderService
                     .GetMobInfo(_sessionProgressService.MyCommandMobsData[i].MobEnum);
                 
-                _mobFactoryService.CreateMobInPlatform(mobData.Prefab, _commandPetPlatforms[i], mobData.mobDefaultData);
+                _mobFactoryService.CreateMobInPlatform(mobData.Prefab, _commandPetPlatforms[i], mobData.mobDefaultData, _sessionProgressService.MyCommandMobsData[i]);
             }
         }
 

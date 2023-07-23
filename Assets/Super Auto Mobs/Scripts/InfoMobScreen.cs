@@ -40,13 +40,13 @@ namespace Super_Auto_Mobs
             _canvasGroup.alpha = Math.Clamp(_currentProgress, 0, 1);
         }
 
-        public void Open(Entity entity)
+        public void Open(Entity entity, bool isNotChangePosition = false)
         {
             if (!_isOpen)
                 _isOpen = true;
             
-            //gameObject.SetActive(true);
-            transform.position = entity.transform.position.AddY(2.75f);
+            if (!isNotChangePosition)
+                transform.position = entity.transform.position.AddY(2.75f);
 
             if (entity is Mob)
             {
@@ -73,8 +73,6 @@ namespace Super_Auto_Mobs
         {
             if (_isOpen)
                 _isOpen = false;
-            
-            //gameObject.SetActive(false);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Super_Auto_Mobs
         private BattleService _battleService;
         private MainMenuService _mainMenuService;
         private TitlesService _titlesService;
+        private SessionProgressService _sessionProgressService;
         
         public GameState CurrentGameState
         {
@@ -98,12 +99,13 @@ namespace Super_Auto_Mobs
 
         [Inject]
         private void Construct(ShopService shopService, BattleService battleBaseService, MainMenuService mainMenuService,
-            TitlesService titlesService)
+            TitlesService titlesService, SessionProgressService sessionProgressService)
         {
             _shopService = shopService;
             _battleService = battleBaseService;
             _mainMenuService = mainMenuService;
             _titlesService = titlesService;
+            _sessionProgressService = sessionProgressService;
         }
 
         private void Start()

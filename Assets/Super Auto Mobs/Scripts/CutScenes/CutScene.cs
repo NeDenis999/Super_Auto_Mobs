@@ -7,7 +7,6 @@ namespace Super_Auto_Mobs
 {
     public class CutScene : MonoBehaviour
     {
-        public string Name;
         public UnityEvent OnPlay;
         public UnityEvent OnEnd;
 

@@ -13,7 +13,7 @@ namespace Super_Auto_Mobs
             _diContainer = diContainer;
         }
 
-        public Mob CreateMobInPlatform(Mob mobPref, ShopPlatform platform, MobDefaultData mobDefaultData, MobData mobData = new MobData())
+        public Mob CreateMobInPlatform(Mob mobPref, ShopPlatform platform, MobDefaultData mobDefaultData, MobData mobData)
         {
             var mob = Instantiate(mobPref, platform.SpawnPoint.position, Quaternion.identity, platform.SpawnPoint);
             platform.Entity = mob;

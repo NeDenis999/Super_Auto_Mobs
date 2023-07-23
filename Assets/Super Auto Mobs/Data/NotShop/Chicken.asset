@@ -19,7 +19,7 @@ MonoBehaviour:
     Info:
       English: Just a chicken
       Russian: "\u041F\u0440\u043E\u0441\u0442\u043E \u043A\u0443\u0440\u0438\u0446\u0430"
-    Hearts: 2
-    Attack: 2
+    Hearts: 1
+    Attack: 1
     MobEnum: 17
   Prefab: {fileID: 9102684242664333105, guid: cec81bdc56ce26d4f84c662d917910e1, type: 3}

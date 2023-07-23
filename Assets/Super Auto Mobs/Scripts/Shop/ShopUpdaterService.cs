@@ -26,22 +26,52 @@ namespace Super_Auto_Mobs
             _assetProviderService = assetProviderService;
         }
 
-        public void UpdateShop()
+        public void UpdateShop(List<MobInfo> mobs = null, List<Buff> buffs = null)
         {
+            if (mobs == null)
+            {
+                mobs = new List<MobInfo>();
+                
+                foreach (var platform in _shopMobPlatforms)
+                {
+                    var randomMobInfo = _assetProviderService.AllMobs[Random.Range(0,
+                        _assetProviderService.AllMobs.Count)];
+                    
+                    mobs.Add(randomMobInfo);
+                }
+            }
+
+            if (buffs == null)
+            {
+                buffs = new List<Buff>();
+
+                foreach (var platform in _shopBuffPlatforms)
+                {
+                    buffs.Add(_assetProviderService.Buffs[Random.Range(0,
+                        _assetProviderService.Buffs.Count)]);
+                }
+            }
+            
             RemoveAllMobs();
-            CreateMobs();
+            CreateMobs(mobs);
 
             RemoveBuffs();
-            CreateBuffs();
+            CreateBuffs(buffs);
         }
 
-        private void CreateMobs()
+        private void CreateMobs(List<MobInfo> mobs)
         {
-            foreach (var platform in _shopMobPlatforms)
+            for (int i = 0; i < _shopMobPlatforms.Count; i++)
             {
-                var randomMobInfo = _assetProviderService.AllMobs[Random.Range(0,
-                    _assetProviderService.AllMobs.Count)];
-                _mobFactoryService.CreateMobInPlatform(randomMobInfo.Prefab, platform, randomMobInfo.mobDefaultData);
+                if (i < mobs.Count)
+                {
+                    var mobData = new MobData
+                    {
+                        MobEnum = mobs[i].mobDefaultData.MobEnum
+                    };
+                    
+                    _mobFactoryService.CreateMobInPlatform(mobs[i].Prefab, _shopMobPlatforms[i], mobs[i].mobDefaultData, mobData);
+                }
             }
         }
         
@@ -57,12 +87,12 @@ namespace Super_Auto_Mobs
             }
         }
         
-        private void CreateBuffs()
+        private void CreateBuffs(List<Buff> buffs)
         {
-            foreach (var platform in _shopBuffPlatforms)
+            for (int i = 0; i < _shopBuffPlatforms.Count; i++)
             {
-                _mobFactoryService.CreateBuffInPlatform(_assetProviderService.Buffs[Random.Range(0,
-                    _assetProviderService.Buffs.Count)], platform);
+                if (i < buffs.Count)
+                    _mobFactoryService.CreateBuffInPlatform(buffs[i], _shopBuffPlatforms[i]);
             }
         }
         

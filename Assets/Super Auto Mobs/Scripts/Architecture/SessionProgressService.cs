@@ -10,7 +10,7 @@ namespace Super_Auto_Mobs
         public event Action<int> OnUpdateEmeralds;
         public event Action<int> OnUpdateHearts;
         public event Action<int, int> OnUpdateWins;
-
+        
         public int Emeralds
         {
             get => _emeralds;
@@ -41,15 +41,12 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public List<MobData> MyCommandMobsData => _myCommandMobsData;
-        public List<MobData> EnemyCommandMobsData => _enemyCommandMobsData;
+        public bool IsTest;
+        public bool IsAutoPlay;
+        public bool IsTutorialComplete;
+        public List<MobData> MyCommandMobsData;
+        public List<MobData> EnemyCommandMobsData;
         public GameData GameData => _gameData;
-
-        [SerializeField]
-        private List<MobData> _myCommandMobsData;
-        
-        [SerializeField]
-        private List<MobData> _enemyCommandMobsData;
 
         [SerializeField]
         private GameData _gameData;
@@ -61,6 +58,11 @@ namespace Super_Auto_Mobs
         
         private void Start()
         {
+            if (IsTest)
+            {
+                //Убрать загрузку
+            }
+            
             OnUpdateEmeralds?.Invoke(_emeralds);
             OnUpdateHearts?.Invoke(_hearts);
             OnUpdateWins?.Invoke(_wins, _maxWins);

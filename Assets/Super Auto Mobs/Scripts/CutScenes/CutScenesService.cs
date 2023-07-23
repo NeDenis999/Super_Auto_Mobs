@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Super_Auto_Mobs
 {
@@ -17,11 +18,25 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private CutScene _testCutScene;
+
+        private SessionProgressService _sessionProgressService;
+
+        [Inject]
+        private void Construct(SessionProgressService sessionProgressService)
+        {
+            _sessionProgressService = sessionProgressService;
+        }
         
         private void Start()
         {
             if (_isTest)
+            {
                 _testCutScene.Play();
+                return;
+            }
+            
+            if (_sessionProgressService.IsTest)
+                _cutScenes[0].Play();
         }
     }
 

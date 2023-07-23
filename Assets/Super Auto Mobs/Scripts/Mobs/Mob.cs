@@ -19,12 +19,14 @@ namespace Super_Auto_Mobs
         private int _currentHearts => _hearts + mobDefaultData.Hearts;
         private int _currentAttack => _attack + mobDefaultData.Attack;
         private bool _isEnemy;
+        private MobData _mobData;
 
         public bool IsActive => _currentHearts > 0;
         public int CurrentHearts => _currentHearts;
         public int CurrentAttack => _currentAttack;
         public Perk Perk => _perk;
         public bool IsEnemy => _isEnemy;
+        public MobData MobData => _mobData;
         public Transform EffectPoint => _effectPoint;
 
         public void Init(MobDefaultData mobDefaultData, MobData mobData)
@@ -34,6 +36,7 @@ namespace Super_Auto_Mobs
             _attack = mobDefaultData.Attack;
             _name = mobDefaultData.Name;
             _info = mobDefaultData.Info;
+            _mobData = mobData;
             
             _perk = GetComponent<Perk>();
 

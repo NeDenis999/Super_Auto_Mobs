@@ -46,6 +46,15 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private LevelCompleteScreen _levelCompleteScreen;
 
+        [SerializeField]
+        private InfoMobScreen _myInfoMobScreen;
+        
+        [SerializeField]
+        private InfoMobScreen _enemyInfoMobScreen;
+
+        [SerializeField]
+        private TextMeshProUGUI _tapText;
+        
         [Header("Parameters")]
         [SerializeField]
         private bool _isSkipIntro;
@@ -94,6 +103,7 @@ namespace Super_Auto_Mobs
         private SessionProgressService _sessionProgressService;
         private DiContainer _diContainer;
         private bool _endTurn;
+        private bool _autoPlay;
         
         private List<Mob> _myCommandMobs = new();
         private List<Mob> _enemyCommandMobs = new();
@@ -258,9 +268,24 @@ namespace Super_Auto_Mobs
                     yield return new WaitForSeconds(1);
                 }
             }
+
+            if (!_autoPlay)
+            {
+                _tapText.gameObject.SetActive(true);
+            }
             
             while (MyActiveMob() && EnemyActiveMob())
             {
+                if (!_autoPlay)
+                {
+                    _myInfoMobScreen.Open(MyActiveMob(), true);
+                    _enemyInfoMobScreen.Open(EnemyActiveMob(), true);
+                    yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+                    _tapText.gameObject.SetActive(false);
+                    _myInfoMobScreen.Close();
+                    _enemyInfoMobScreen.Close();
+                }
+                
                 StartCoroutine(Attack(false));
                 yield return StartCoroutine(Attack(true));
                 StartCoroutine(AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive()));

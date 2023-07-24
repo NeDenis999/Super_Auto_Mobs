@@ -23,10 +23,7 @@ namespace Super_Auto_Mobs
         private void Awake()
         {
             _text = GetComponent<TextMeshProUGUI>();
-        }
-
-        private void OnEnable()
-        {
+            
             switch (_countData)
             {
                 case CountData.Emeralds:
@@ -36,14 +33,14 @@ namespace Super_Auto_Mobs
                     _sessionProgressService.OnUpdateHearts += TextUpdate;
                     break;
                 case CountData.Wins:
-                    _sessionProgressService.OnUpdateWins += TextUpdate;
+                    _sessionProgressService.OnUpdateWins += WinsTextUpdate;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             switch (_countData)
             {
@@ -54,7 +51,7 @@ namespace Super_Auto_Mobs
                     _sessionProgressService.OnUpdateHearts -= TextUpdate;
                     break;
                 case CountData.Wins:
-                    _sessionProgressService.OnUpdateWins -= TextUpdate;
+                    _sessionProgressService.OnUpdateWins -= WinsTextUpdate;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -66,9 +63,9 @@ namespace Super_Auto_Mobs
             _text.text = value.ToString();
         }
         
-        private void TextUpdate(int value, int maxValue)
+        private void WinsTextUpdate(int value)
         {
-            _text.text = $"{value}/{maxValue}";
+            _text.text = $"{value}/{_sessionProgressService.CurrentWorld.MaxWins}";
         }
     }
 }

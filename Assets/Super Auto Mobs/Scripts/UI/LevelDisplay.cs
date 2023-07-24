@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -6,13 +7,20 @@ namespace Super_Auto_Mobs
 {
     public class LevelDisplay : MonoBehaviour
     {
+        [SerializeField]
+        private TextMeshProUGUI _textMeshProUGUI;
+        
         private Game _game;
         private CanvasGroup _canvasGroup;
-        
+        private SessionProgressService _sessionProgressService;
+        private LanguageService _languageService;
+
         [Inject]
-        private void Construct(Game game)
+        private void Construct(Game game, SessionProgressService sessionProgressService, LanguageService languageService)
         {
             _game = game;
+            _sessionProgressService = sessionProgressService;
+            _languageService = languageService;
         }
 
         private void Awake()
@@ -49,6 +57,8 @@ namespace Super_Auto_Mobs
             _canvasGroup.alpha = 1;
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
+
+            _textMeshProUGUI.text = _languageService.GetText(_sessionProgressService.CurrentWorld.Title);
         }
 
         private void Close()

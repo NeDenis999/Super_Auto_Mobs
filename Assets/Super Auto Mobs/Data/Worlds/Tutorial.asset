@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1149b4e8ab254285bd5fe5803a7c2978, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  WorldData:
+    Title:
+      English: Tutorial
+      Russian: "\u0422\u0443\u0442\u043E\u0440\u0438\u0430\u043B"
+    LevelsData:
+    - Background: {fileID: 0}
+      EnemyCommand:
+      - Hearts: 0
+        Attack: 0
+        MobEnum: 18
+      Prizes:
+      - {fileID: 4926732014285218218, guid: 0193f7adba10e4e4689fb44fbd5c1b25, type: 3}
+      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
+      - {fileID: 5718695026528060143, guid: 5f8f8d0674a69a349b63bbdb7d1bdd52, type: 3}

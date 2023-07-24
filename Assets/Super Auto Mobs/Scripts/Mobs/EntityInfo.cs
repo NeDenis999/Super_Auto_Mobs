@@ -2,7 +2,7 @@
 
 namespace Super_Auto_Mobs
 {
-    [CreateAssetMenu(fileName = "Entity", menuName = "Mob/Entity", order = 301)]
+    [CreateAssetMenu(fileName = "Entity", menuName = "Data/Entity", order = 301)]
     public class EntityInfo : ScriptableObject
     {
         public FoodData foodData;

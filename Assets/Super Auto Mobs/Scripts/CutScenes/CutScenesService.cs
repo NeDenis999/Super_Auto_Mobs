@@ -8,9 +8,6 @@ namespace Super_Auto_Mobs
     public class CutScenesService : MonoBehaviour
     {
         [SerializeField]
-        private ProgressEnum _progressEnum;
-        
-        [SerializeField]
         private List<CutScene> _cutScenes;
 
         [SerializeField]
@@ -20,14 +17,21 @@ namespace Super_Auto_Mobs
         private CutScene _testCutScene;
 
         private SessionProgressService _sessionProgressService;
+        private Game _game;
 
         [Inject]
-        private void Construct(SessionProgressService sessionProgressService)
+        private void Construct(SessionProgressService sessionProgressService, Game game)
         {
             _sessionProgressService = sessionProgressService;
+            _game = game;
         }
         
-        private void Start()
+        private void Awake()
+        {
+            _game.OnUpdateGameState += CheckState;
+        }
+
+        private void CheckState(GameState gameState)
         {
             if (_isTest)
             {
@@ -35,8 +39,21 @@ namespace Super_Auto_Mobs
                 return;
             }
             
-            if (_sessionProgressService.IsTest)
-                _cutScenes[0].Play();
+            switch (_sessionProgressService.ProgressEnum)
+            {
+                case ProgressEnum.StartGame:
+                    if (gameState == GameState.Shop)
+                        _cutScenes[0].Play();
+                    break;
+                case ProgressEnum.FirstPresentDream:
+                    if (gameState == GameState.Shop)
+                        _cutScenes[0].Play();
+                    break;
+                case ProgressEnum.Tutorial:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 

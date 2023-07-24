@@ -27,7 +27,7 @@ namespace Super_Auto_Mobs
 
         private void AddCoins()
         {
-            _sessionProgressService.Emeralds += _countCoins;
+            _sessionProgressService.Gold += _countCoins;
         }
     }
 }

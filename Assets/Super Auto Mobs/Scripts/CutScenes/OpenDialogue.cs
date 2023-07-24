@@ -13,7 +13,7 @@ namespace Super_Auto_Mobs
         private UnityEvent _onEndDialogue;
 
         [SerializeField]
-        private List<ReplicaData> _replicasData;
+        private Dialogue _dialogue;
         
         [Inject]
         private void Construct(DialogService dialogService)
@@ -23,7 +23,7 @@ namespace Super_Auto_Mobs
 
         public void Open()
         {
-            _dialogService.Show(_replicasData);
+            _dialogService.Show(_dialogue);
             _dialogService.OnHide += _onEndDialogue.Invoke;
         }
     }

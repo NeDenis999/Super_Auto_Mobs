@@ -10,19 +10,19 @@ namespace Super_Auto_Mobs
 
         private void Awake()
         {
-            _sessionProgress.Emeralds = 10;
+            _sessionProgress.Gold = Constants.StartGold;
         }
 
         public void Sell()
         {
-            _sessionProgress.Emeralds += 3;
+            _sessionProgress.Gold += Constants.PriceEntity;
         }
 
-        public bool TryBuy(int cost = 3)
+        public bool TryBuy(int cost = Constants.PriceEntity)
         {
-            if (_sessionProgress.Emeralds >= cost)
+            if (_sessionProgress.Gold >= cost)
             {
-                _sessionProgress.Emeralds -= cost;
+                _sessionProgress.Gold -= cost;
                 return true;
             }
             

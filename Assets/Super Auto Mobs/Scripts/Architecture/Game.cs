@@ -50,6 +50,7 @@ namespace Super_Auto_Mobs
                             break;
                         case GameState.Shop:
                             _shopService.Close();
+                            _sessionProgressService.Gold = 10;
                             break;
                         case GameState.Battle:
                             _battleService.Close();

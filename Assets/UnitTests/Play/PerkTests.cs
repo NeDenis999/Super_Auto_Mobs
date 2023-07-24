@@ -45,7 +45,7 @@ namespace UnitTests.PlayTests
             UpdateState(GameState.Battle);
             yield return null;
             
-            Assert.AreNotEqual(sessionProgressService.Emeralds, 0);
+            Assert.AreNotEqual(sessionProgressService.Gold, 0);
             battleService.RemovePets();
         }
 
@@ -312,7 +312,7 @@ namespace UnitTests.PlayTests
             yield return battleService.Attack(true);
             yield return new WaitForSeconds(2);
             
-            Assert.AreNotEqual(sessionProgressService.Emeralds, 0);
+            Assert.AreNotEqual(sessionProgressService.Gold, 0);
             battleService.RemovePets();
         }
                 

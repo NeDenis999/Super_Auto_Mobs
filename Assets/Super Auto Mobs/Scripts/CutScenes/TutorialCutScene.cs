@@ -24,11 +24,11 @@ namespace Super_Auto_Mobs
         public override void Play()
         {
             base.Play();
-            _sessionProgressService.MyCommandMobsData = new List<MobData>();
+            /*_sessionProgressService.MyCommandMobsData = new List<MobData>();
             _sessionProgressService.EnemyCommandMobsData = new List<MobData>()
             {
                 new MobData() {MobEnum = MobEnum.Palesos}
-            };
+            };*/
             
             _shopService.DestroyPlatformMobs();
             _shopUpdaterService.UpdateShop(new List<MobInfo>() {_assetProviderService.ChickenMob}, new List<Buff>());

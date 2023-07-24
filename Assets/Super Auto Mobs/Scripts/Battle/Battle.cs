@@ -451,8 +451,11 @@ namespace Super_Auto_Mobs
         {
             for (int i = 0; i < _myCommandMobs.Count; i++)
             {
-                _myCommandMobs[i].transform.localPosition = _myCommandMobs[i].transform.localPosition.SetX(DistanceBetweenTeams * i);
-                _enemyCommandMobs[i].transform.localPosition = _enemyCommandMobs[i].transform.localPosition.SetX(DistanceBetweenTeams * i);
+                if (_myCommandMobs.Count > i)
+                    _myCommandMobs[i].transform.localPosition = _myCommandMobs[i].transform.localPosition.SetX(DistanceBetweenTeams * i);
+                
+                if (_enemyCommandMobs.Count > i)
+                    _enemyCommandMobs[i].transform.localPosition = _enemyCommandMobs[i].transform.localPosition.SetX(DistanceBetweenTeams * i);
             }
         }
 

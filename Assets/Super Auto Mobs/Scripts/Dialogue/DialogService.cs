@@ -42,9 +42,9 @@ namespace Super_Auto_Mobs
         private List<Sprite> _viewsPerson;
 
         [SerializeField]
-        private List<ReplicaData> _replicasData;
+        private Dialogue _dialogue;
 
-        private ReplicaData _currentReplicaData => _replicasData[_numberCurrentReplicaData];
+        private ReplicaData _currentReplicaData => _dialogue.ReplicasData[_numberCurrentReplicaData];
         private int _numberCurrentReplica;
         private int _numberCurrentReplicaData;
         private bool _isShow;
@@ -67,12 +67,12 @@ namespace Super_Auto_Mobs
             }
         }
         
-        public void Show(List<ReplicaData> replicasData = null)
+        public void Show(Dialogue dialogue = null)
         {
-            if (replicasData == null)
-                replicasData = _replicasData;
+            if (dialogue == null)
+                dialogue = _dialogue;
 
-            _replicasData = replicasData;
+            _dialogue = dialogue;
             
             _isShow = true;
             _dialogCanvas.SetActive(true);
@@ -98,7 +98,7 @@ namespace Super_Auto_Mobs
                     rightPersonRect.anchoredPosition = rightPersonRect.anchoredPosition.SetX(x);
                 });
 
-            foreach (var replicaData in replicasData)
+            foreach (var replicaData in dialogue.ReplicasData)
             {
                 var isRightName = false;
                 var isLeftName = false;
@@ -223,7 +223,7 @@ namespace Super_Auto_Mobs
         {
             _numberCurrentReplicaData++;
 
-            if (_numberCurrentReplicaData >= _replicasData.Count)
+            if (_numberCurrentReplicaData >= _dialogue.ReplicasData.Count)
             {
                 Hide();
                 return;

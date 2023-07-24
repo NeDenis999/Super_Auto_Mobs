@@ -2,7 +2,7 @@
 
 namespace Super_Auto_Mobs
 {
-    [CreateAssetMenu(fileName = "Mob", menuName = "Mob/Mob", order = 300)]
+    [CreateAssetMenu(fileName = "Mob", menuName = "Data/Mob", order = 300)]
     public class MobInfo : ScriptableObject
     {
         public MobDefaultData mobDefaultData;

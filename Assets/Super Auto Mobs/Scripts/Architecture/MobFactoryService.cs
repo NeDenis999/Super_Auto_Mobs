@@ -29,10 +29,11 @@ namespace Super_Auto_Mobs
             return mob;
         }
 
-        public Buff CreateBuffInPlatform(Buff buffPref, ShopBuffPlatform platform)
+        public Buff CreateBuffInPlatform(BuffInfo buffInfo, ShopBuffPlatform platform)
         {
-            var buff = Instantiate(buffPref, platform.SpawnPoint.position, Quaternion.identity, platform.SpawnPoint);
+            var buff = Instantiate(buffInfo.Prefab, platform.SpawnPoint.position, Quaternion.identity, platform.SpawnPoint);
             platform.Entity = buff;
+            buff.Init(buffInfo.BuffData);
             
             _diContainer.Inject(buff);
             

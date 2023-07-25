@@ -18,7 +18,7 @@ namespace Super_Auto_Mobs
         private GameState _previousGameState = GameState.None;
         private ShopService _shopService;
         private BattleService _battleService;
-        private MainMenuService _mainMenuService;
+        private StartScreenService _startScreenService;
         private TitlesService _titlesService;
         private SessionProgressService _sessionProgressService;
         
@@ -38,13 +38,13 @@ namespace Super_Auto_Mobs
                     switch (_previousGameState)
                     {
                         case GameState.None:
-                            _mainMenuService.Close();
+                            _startScreenService.Close();
                             _shopService.Close();
                             _battleService.Close();
                             _titlesService.Close();
                             break;
                         case GameState.StartMenu:
-                            _mainMenuService.Close();
+                            _startScreenService.Close();
                             break;
                         case GameState.ShopTransition:
                             break;
@@ -74,7 +74,7 @@ namespace Super_Auto_Mobs
                     case GameState.None:
                         break;
                     case GameState.StartMenu:
-                        _mainMenuService.Open();
+                        _startScreenService.Open();
                         break;
                     case GameState.ShopTransition:
                         break;
@@ -98,13 +98,15 @@ namespace Super_Auto_Mobs
             }
         }
 
+        public int IndexCurrentWorld;
+
         [Inject]
-        private void Construct(ShopService shopService, BattleService battleBaseService, MainMenuService mainMenuService,
+        private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
             TitlesService titlesService, SessionProgressService sessionProgressService)
         {
             _shopService = shopService;
             _battleService = battleBaseService;
-            _mainMenuService = mainMenuService;
+            this._startScreenService = startScreenService;
             _titlesService = titlesService;
             _sessionProgressService = sessionProgressService;
         }

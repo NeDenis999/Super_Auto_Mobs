@@ -15,7 +15,7 @@ namespace Super_Auto_Mobs
         private ShopTradeService _shopTradeService;
         
         [SerializeField]
-        private SessionProgressService _sessionProgressServiceService;
+        private SessionProgressService _sessionProgressService;
 
         [SerializeField]
         private BattleService _battleService;
@@ -33,24 +33,44 @@ namespace Super_Auto_Mobs
         private SparkService _sparkService;
 
         [SerializeField]
-        private MainMenuService _mainMenuService;
+        private StartScreenService startScreenService;
         
         [SerializeField]
         private TitlesService _titlesService;
+        
+        [SerializeField]
+        private LanguageService _languageService;
+
+        [SerializeField]
+        private AssetProviderService _assetProviderService;
+
+        [SerializeField]
+        private LoaderLevelService _loaderLevelService;
+
+        [SerializeField]
+        private SoundsService _soundsService;
+
+        [SerializeField]
+        private LoadScreenService _loadScreenService;
         
         public override void InstallBindings()
         {
             BindFromInstance(_game);
             BindFromInstance(_shopService);
             BindFromInstance(_shopTradeService);
-            BindFromInstance(_sessionProgressServiceService);
+            BindFromInstance(_sessionProgressService);
             BindFromInstance(_battleService);
             BindFromInstance(_dialogService);
             BindFromInstance(_shopUpdaterService);
             BindFromInstance(_mobFactoryService);
             BindFromInstance(_sparkService);
-            BindFromInstance(_mainMenuService);
+            BindFromInstance(startScreenService);
             BindFromInstance(_titlesService);
+            BindFromInstance(_languageService);
+            BindFromInstance(_assetProviderService);
+            BindFromInstance(_loaderLevelService);
+            BindFromInstance(_soundsService);
+            BindFromInstance(_loadScreenService);
         }
 
         private void BindFromInstance<T>(T instance)

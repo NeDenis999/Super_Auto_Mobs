@@ -10,6 +10,8 @@ namespace Super_Auto_Mobs
         public ShopCommandMobPlatform ShopCommandMobPlatform;
         public Spark Spark;
         
+        public List<World> Worlds;
+        
         [Header("Mobs")]
         public MobInfo DuckMob;
         public MobInfo OcelotMob;
@@ -32,10 +34,13 @@ namespace Super_Auto_Mobs
         public MobInfo PalesosMob;
 
         [Header("Bosses")]
-        public Mob SquidBoss;
+        public MobInfo SquidBoss;
 
+        [Header("Buffs")]
+        public BuffInfo AppleBuff;
+        
+        [Header("All")]
         public List<MobInfo> AllMobs;
-        public List<Buff> Buffs;
 
         public MobInfo GetMobInfo(MobEnum mobEnum)
         {
@@ -81,6 +86,17 @@ namespace Super_Auto_Mobs
                     return PalesosMob;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public BuffInfo GetBuffInfo(BuffEnum buffEnum)
+        {
+            switch (buffEnum)
+            {
+                case BuffEnum.Apple:
+                    return AppleBuff;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buffEnum), buffEnum, null);
             }
         }
     }

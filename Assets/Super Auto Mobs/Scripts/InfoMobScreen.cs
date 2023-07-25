@@ -64,8 +64,8 @@ namespace Super_Auto_Mobs
                 
                 _titleText.text = _languageService.GetText(mob.Name);
                 _infoText.text = _languageService.GetText(mob.Info);
-                _attackText.text = mob.Attack.ToString();
-                _heartsText.text = mob.Hearts.ToString();
+                _attackText.text = mob.CurrentAttack.ToString();
+                _heartsText.text = mob.CurrentHearts.ToString();
             }
         }
 

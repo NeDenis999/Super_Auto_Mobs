@@ -36,7 +36,7 @@ namespace Super_Auto_Mobs
         {
             _languageService.OnUpdateLanguage -= UpdateLanguage;
         }
-
+        
         private void UpdateLanguage(LanguageService.Language language)
         {
             _textMeshPro.text = _languageService.GetText(_title);

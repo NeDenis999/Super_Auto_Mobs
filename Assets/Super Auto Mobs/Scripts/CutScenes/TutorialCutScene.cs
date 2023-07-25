@@ -31,7 +31,7 @@ namespace Super_Auto_Mobs
             };*/
             
             _shopService.DestroyPlatformMobs();
-            _shopUpdaterService.UpdateShop(new List<MobInfo>() {_assetProviderService.ChickenMob}, new List<Buff>());
+            _shopUpdaterService.UpdateShop(new List<MobInfo>() {_assetProviderService.ChickenMob}, new List<BuffInfo>());
         }
     }
 }

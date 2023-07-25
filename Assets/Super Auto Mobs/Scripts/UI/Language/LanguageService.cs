@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Super_Auto_Mobs
 {
     public class LanguageService : MonoBehaviour
     {
+        [SerializeField]
+        private SessionProgressService _sessionProgressService;
+        
         public enum Language
         {
             English,
@@ -13,24 +17,28 @@ namespace Super_Auto_Mobs
     
         public event Action<Language> OnUpdateLanguage;
 
-        public Language CurrentLanguage => _currentLanguage;
+        public Language CurrentLanguage => _sessionProgressService.Language;
 
-        private Language _currentLanguage;
-
+        /*[Inject]
+        private void Construct(SessionProgressService sessionProgressService)
+        {
+            _sessionProgressService = sessionProgressService;
+        }*/
+        
         private void Start()
         {
-            OnUpdateLanguage?.Invoke(Language.English);
+            OnUpdateLanguage?.Invoke(CurrentLanguage);
         }
 
         public void UpdateLanguage(Language language)
         {
-            _currentLanguage = language;
+            _sessionProgressService.Language = language;
             OnUpdateLanguage?.Invoke(language);
         }
 
         public string GetText(Title title)
         {
-            switch (_currentLanguage)
+            switch (CurrentLanguage)
             {
                 case Language.English:
                     return title.English;

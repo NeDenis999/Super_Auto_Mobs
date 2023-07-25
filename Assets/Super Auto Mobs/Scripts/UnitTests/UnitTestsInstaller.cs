@@ -25,7 +25,7 @@ namespace Super_Auto_Mobs
         private SparkService sparkService;
 
         [SerializeField]
-        private MainMenuService _mainMenuService;
+        private StartScreenService startScreenService;
 
         [SerializeField]
         private TitlesService _titlesService;
@@ -46,7 +46,7 @@ namespace Super_Auto_Mobs
             //BindFromInstance(_sessionProgressServiceService);
             BindFromInstance(_battleService);
             BindFromInstance(sparkService);
-            BindFromInstance(_mainMenuService);
+            BindFromInstance(startScreenService);
             BindFromInstance(_titlesService);
             //BindFromInstance(_dialogService);
             //BindFromInstance(_shopUpdaterService);

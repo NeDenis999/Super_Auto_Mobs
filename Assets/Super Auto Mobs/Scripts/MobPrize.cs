@@ -18,7 +18,7 @@ namespace Super_Auto_Mobs
         
         public override void Activate()
         {
-            _sessionProgressService.MobsUnlocked.Add(_mobEnum);
+            _sessionProgressService.AddMobUnlocked(_mobEnum);
         }
     }
 }

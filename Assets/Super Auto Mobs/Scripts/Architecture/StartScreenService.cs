@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Super_Auto_Mobs
 {
-    public class MainMenuService : MonoBehaviour
+    public class StartScreenService : MonoBehaviour
     {
         [SerializeField]
         private GameObject _menu;

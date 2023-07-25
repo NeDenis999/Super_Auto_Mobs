@@ -30,13 +30,16 @@ namespace Super_Auto_Mobs
         private SessionProgressService _sessionProgressService;
         private List<Prize> _prizes = new();
         private DiContainer _diContainer;
+        private SoundsService _soundsService;
 
         [Inject]
-        private void Construct(LanguageService languageService, SessionProgressService sessionProgressService, DiContainer diContainer)
+        private void Construct(LanguageService languageService, SessionProgressService sessionProgressService, 
+            DiContainer diContainer, SoundsService soundsService)
         {
             _languageService = languageService;
             _sessionProgressService = sessionProgressService;
             _diContainer = diContainer;
+            _soundsService = soundsService;
         }
         
         public void Open(EndBattleEnum endBattleEnum)
@@ -64,6 +67,7 @@ namespace Super_Auto_Mobs
             {
                 case EndBattleEnum.Won:
                     titleText = "Won";
+                    _soundsService.PlayWin();
 
                     if (_sessionProgressService.Hearts < _sessionProgressService.CurrentWorld.MaxHealth)
                     {

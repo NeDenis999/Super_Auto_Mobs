@@ -29,7 +29,7 @@ namespace Super_Auto_Mobs
             _sessionProgressService = sessionProgressService;
         }
 
-        public void UpdateShop(List<MobInfo> mobs = null, List<Buff> buffs = null)
+        public void UpdateShop(List<MobInfo> mobs = null, List<BuffInfo> buffs = null)
         {
             _shopMobPlatformsUnlock = new List<ShopMobPlatform>();
             _shopBuffPlatformsUnlock = new List<ShopBuffPlatform>();
@@ -62,8 +62,11 @@ namespace Super_Auto_Mobs
                 
                 foreach (var platform in _shopMobPlatformsUnlock)
                 {
-                    var randomMobInfo = _assetProviderService.AllMobs[Random.Range(0,
-                        _assetProviderService.AllMobs.Count)];
+                    if (_sessionProgressService.MobsUnlocked.Count == 0)
+                        break;
+                    
+                    var randomMobInfo = _assetProviderService.GetMobInfo(_sessionProgressService.MobsUnlocked[Random.Range(0,
+                        _sessionProgressService.MobsUnlocked.Count)]);
                     
                     mobs.Add(randomMobInfo);
                 }
@@ -71,12 +74,20 @@ namespace Super_Auto_Mobs
 
             if (buffs == null)
             {
-                buffs = new List<Buff>();
+                buffs = new List<BuffInfo>();
 
                 foreach (var platform in _shopBuffPlatformsUnlock)
                 {
-                    buffs.Add(_assetProviderService.Buffs[Random.Range(0,
-                        _assetProviderService.Buffs.Count)]);
+                    if (_sessionProgressService.MobsUnlocked.Count == 0)
+                        break;
+                    
+                    var randomBuffInfo = _assetProviderService.GetBuffInfo(_sessionProgressService.BuffsUnlocked[Random.Range(0,
+                        _sessionProgressService.BuffsUnlocked.Count)]);
+                    
+                    buffs.Add(randomBuffInfo);
+                    
+                    //buffs.Add(_assetProviderService.Buffs[Random.Range(0,
+                        //_assetProviderService.Buffs.Count)]);
                 }
             }
             
@@ -115,7 +126,7 @@ namespace Super_Auto_Mobs
             }
         }
         
-        private void CreateBuffs(List<Buff> buffs)
+        private void CreateBuffs(List<BuffInfo> buffs)
         {
             for (int i = 0; i < _shopBuffPlatformsUnlock.Count; i++)
             {

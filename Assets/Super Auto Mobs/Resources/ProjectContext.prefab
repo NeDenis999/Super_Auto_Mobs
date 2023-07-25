@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8350603626312408480
 Transform:
   m_ObjectHideFlags: 0
@@ -48,7 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSourceMusic: {fileID: 6984833179992705348}
   _audioSourceSound: {fileID: 3925699329940697042}
-  _buySound: {fileID: 8300000, guid: 16c9f1b4971627340841eeebe246dac0, type: 3}
+  _buySound: {fileID: 8300000, guid: 1b9d300b54d8a8849b890492d03b340e, type: 3}
+  _winSound: {fileID: 8300000, guid: 619eb1e38da55994fb3452942ec8eb32, type: 3}
+  _clickSound: {fileID: 8300000, guid: 24c0d33b135b4d348b2a3b94bcf27443, type: 3}
+  _eatSound: {fileID: 8300000, guid: e71830371a6358e49ae7514da4a04f87, type: 3}
   _mainTheme: {fileID: 8300000, guid: e4b6034e4ef1d4a47b3b830a898d5df8, type: 3}
   _speedRun: {fileID: 8300000, guid: a737d3219eb54ab489d2b8baf77b89fe, type: 3}
   _battleTheme: {fileID: 8300000, guid: c034004562b2f6a4f9ea24511a3842d2, type: 3}
@@ -260,7 +263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8416037153158995595
 Transform:
   m_ObjectHideFlags: 0
@@ -380,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8101304959445213085
 Transform:
   m_ObjectHideFlags: 0
@@ -424,7 +427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6544786127919673397
 Transform:
   m_ObjectHideFlags: 0
@@ -547,8 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 214504952828391278}
+  _monoInstallers: []
   _installerPrefabs: []
   _parentNewObjectsUnderContext: 1
   _editorReflectionBakingCoverageMode: 0
@@ -570,14 +572,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8919159729248377034}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9626b1c9695f4e1998e6c69392495009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _languageService: {fileID: 4476769977067933299}
   _assetProviderService: {fileID: 6544786127919673398}
-  _sessionProgressService: {fileID: 0}
   _loaderLevelService: {fileID: 6003548044166158377}
   _soundsService: {fileID: 6938469970427929182}
   _loadScreenService: {fileID: 2734728183442362209}
@@ -623,6 +624,10 @@ PrefabInstance:
     - target: {fileID: 5969373685062666949, guid: 650bee182c3a1b747815a91835494874, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969373685062666949, guid: 650bee182c3a1b747815a91835494874, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5969373685062666953, guid: 650bee182c3a1b747815a91835494874, type: 3}
       propertyPath: m_Pivot.x

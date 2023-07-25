@@ -1,15 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace Super_Auto_Mobs
 {
     public class Buff : Entity
     {
-        public int Hearts;
-        public int Attack;
-        
         private const float SpeedAnimationMove = 8;
+        
+        private int _hearts;
+        private int _attack;
 
+        public int CurrentAttack => _attack;
+        public int CurrentHearts => _hearts;
+
+        public void Init(BuffData buffData)
+        {
+            _hearts = buffData.Hearts;
+            _attack = buffData.Attack;
+        }
+        
         public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob)
         {
             LTSeq sequence = LeanTween.sequence();
@@ -30,11 +40,13 @@ namespace Super_Auto_Mobs
                 });
             }
             
-            if (Hearts != 0)
-                mob.ChangeHearts(Hearts);
+            _soundsService.PlayEat();
             
-            if (Attack != 0)
-                mob.ChangeAttack(Attack);
+            if (_hearts != 0)
+                mob.ChangeHearts(_hearts);
+            
+            if (_attack != 0)
+                mob.ChangeAttack(_attack);
             
             if (mob.Perk.TriggeringSituation == TriggeringSituation.Eat)
             {

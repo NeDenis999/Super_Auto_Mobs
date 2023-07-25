@@ -16,14 +16,16 @@ namespace Super_Auto_Mobs
         
         private Material _defaultMaterial, _outlitMaterial;
         private LTSeq _sequence;
+        protected SoundsService _soundsService;
 
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
         public Title Info => _info;
         public Title Name => _name;
 
         [Inject]
-        private void Construct(AssetProviderService assetProviderService)
+        private void Construct(AssetProviderService assetProviderService, SoundsService soundsService)
         {
+            _soundsService = soundsService;
             _assetProviderService = assetProviderService;
 
             _defaultMaterial = _assetProviderService.DefaultMaterial;
@@ -54,27 +56,19 @@ namespace Super_Auto_Mobs
 
         public void UpScaleSmoothly()
         {
-            //LeanTween.cancel(gameObject);
-            /*_sequence.append(*/
-                LeanTween.scale(gameObject, Vector3.one * 1.1f, 0.2f)
-                    .setEaseOutBack()
-                    .setOnComplete(() => LeanTween.scale(gameObject, Vector3.one * 1.02f, 0.2f).setEaseOutBack());
+            _soundsService.PlayClick();
+
+            LeanTween.scale(gameObject, Vector3.one * 1.1f, 0.2f)
+                .setEaseOutBack()
+                .setOnComplete(() => LeanTween.scale(gameObject, Vector3.one * 1.02f, 0.2f).setEaseOutBack());
         }
 
         public void DownScaleSmoothly()
         {
-            //LeanTween.cancel(gameObject);
-            /*_sequence.append(*/
-                LeanTween.scale(gameObject, Vector3.one, 0.2f)
-                    .setEaseOutBack();
-        }
-
-        public void MoveSmoothly(float target)
-        {
-            LeanTween.cancel(gameObject);
-            /*_sequence.append(*/
-                LeanTween.moveX(gameObject, target, 0.5f)
-                    .setEaseOutBack();
+            _soundsService.PlayClick();
+            
+            LeanTween.scale(gameObject, Vector3.one, 0.2f)
+                .setEaseOutBack();
         }
     }
 }

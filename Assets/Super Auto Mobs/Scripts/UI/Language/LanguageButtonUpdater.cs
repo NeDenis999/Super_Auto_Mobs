@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -28,21 +29,32 @@ namespace Super_Auto_Mobs
             _languageService = languageService;
         }
         
-        private void OnEnable()
+        private void Awake()
         {
             _button.onClick.AddListener(UpdateLanguage);
+            _languageService.OnUpdateLanguage += LoadLanguage;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _button.onClick.RemoveListener(UpdateLanguage);
+            _languageService.OnUpdateLanguage -= LoadLanguage;
+        }
+
+        private void Start()
+        {
+            LoadLanguage(_languageService.CurrentLanguage);
         }
 
         private void UpdateLanguage()
         {
             _currentNumberLanguage = MathfExtensions.RepeatInt(_currentNumberLanguage + 1, _languages.Count);
             _languageService.UpdateLanguage(_languages[_currentNumberLanguage]);
-            _flag.sprite = _flagSprites[_currentNumberLanguage];
+        }
+
+        private void LoadLanguage(LanguageService.Language language)
+        {
+            _flag.sprite = _flagSprites[(int)language];
         }
     }
 }

@@ -53,20 +53,29 @@ namespace Super_Auto_Mobs
         public override ShopPlatform ShopPlatformSelected => _shopPlatformSelected;
         public override List<ShopCommandMobPlatform> CommandPlatforms => _commandPetPlatforms;
         private ShopUpdaterService _shopUpdaterService;
+        private Game _game;
+        private SoundsService _soundsService;
+        private bool _isOpen;
 
         [Inject]
         private void Construct(SessionProgressService sessionProgressService, MobFactoryService mobFactoryService, 
-            AssetProviderService assetProviderService, ShopTradeService shopTradeService, ShopUpdaterService shopUpdaterService)
+            AssetProviderService assetProviderService, ShopTradeService shopTradeService, ShopUpdaterService shopUpdaterService,
+            Game game, SoundsService soundsService)
         {
             _mobFactoryService = mobFactoryService;
             _sessionProgressService = sessionProgressService;
             _assetProviderService = assetProviderService;
             _shopTradeService = shopTradeService;
             _shopUpdaterService = shopUpdaterService;
+            _game = game;
+            _soundsService = soundsService;
         }
 
         private void Update()
         {
+            if (_game.CurrentGameState != GameState.Shop || !_shop.activeSelf)
+                return;
+
             PlatformServiceUpdate();
             PlatformsPositionUpdate();
         }
@@ -86,6 +95,7 @@ namespace Super_Auto_Mobs
 
         public override void Open()
         {
+            _isOpen = true;
             _shop.SetActive(true);
             _shopUpdaterService.UpdateShop();
             CreatePlatformMobs();
@@ -96,17 +106,21 @@ namespace Super_Auto_Mobs
             if (!_shop.activeSelf)
                 return;
 
-            _sessionProgressService.MyCommandMobsData = new List<MobData>();
-
-            foreach (var command in _commandPetPlatforms)
+            if (_isOpen)
             {
-                if (command.IsEntity)
+                _isOpen = false;
+                _sessionProgressService.MyCommandMobsData = new List<MobData>();
+
+                foreach (var command in _commandPetPlatforms)
                 {
-                    _sessionProgressService.MyCommandMobsData.Add(command.Mob.MobData);
-                    print(command.Mob.MobData.MobEnum);
+                    if (command.IsEntity)
+                    {
+                        _sessionProgressService.MyCommandMobsData.Add(command.Mob.MobData);
+                        print(command.Mob.MobData.MobEnum);
+                    }
                 }
             }
-            
+
             _shop.SetActive(false);
             DestroyPlatformMobs();
         }

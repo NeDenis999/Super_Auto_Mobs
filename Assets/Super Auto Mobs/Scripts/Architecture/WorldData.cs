@@ -6,9 +6,14 @@ namespace Super_Auto_Mobs
     [Serializable]
     public struct WorldData
     {
+        public WorldEnum WorldEnum;
         public Title Title;
-        public int MaxHealth => LevelsData.Count;
-        public int MaxWins => LevelsData.Count;
+        public int MaxHealth;
+        public int ShopMobPlatformCountUnlock;
+        public int ShopBuffPlatformCountUnlock;
+        public List<MobData> CommandData; 
+        public List<MobEnum> MobsUnlocked;
+        public List<BuffEnum> BuffsUnlocked;
         public List<LevelData> LevelsData;
     }
 }

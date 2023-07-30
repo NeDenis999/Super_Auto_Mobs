@@ -12,10 +12,9 @@ namespace Super_Auto_Mobs
         private ShopService _shopService;
         
         [Inject]
-        private void Construct(SessionProgressService sessionProgressService, ShopUpdaterService shopUpdaterService,
+        private void Construct(ShopUpdaterService shopUpdaterService,
             AssetProviderService assetProviderService, ShopService shopService)
         {
-            _sessionProgressService = sessionProgressService;
             _shopUpdaterService = shopUpdaterService;
             _assetProviderService = assetProviderService;
             _shopService = shopService;

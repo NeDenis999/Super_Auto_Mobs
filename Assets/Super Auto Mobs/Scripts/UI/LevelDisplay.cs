@@ -58,7 +58,7 @@ namespace Super_Auto_Mobs
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
 
-            _textMeshProUGUI.text = _languageService.GetText(_sessionProgressService.CurrentWorld.Title);
+            _textMeshProUGUI.text = _languageService.GetText(_sessionProgressService.CurrentWorldData.Title);
         }
 
         private void Close()

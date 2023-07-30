@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1149b4e8ab254285bd5fe5803a7c2978, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
+  Preview: {fileID: -1216052023, guid: fa46d9466ca7f1f4a96469c76ff18192, type: 3}
   WorldData:
+    WorldEnum: 0
     Title:
       English: Tutorial
       Russian: "\u0422\u0443\u0442\u043E\u0440\u0438\u0430\u043B"
+    MaxHealth: 999
+    ShopMobPlatformCountUnlock: 1
+    ShopBuffPlatformCountUnlock: 0
+    CommandData: []
+    MobsUnlocked: 11000000
+    BuffsUnlocked: 
     LevelsData:
     - Background: {fileID: 0}
       EnemyCommand:

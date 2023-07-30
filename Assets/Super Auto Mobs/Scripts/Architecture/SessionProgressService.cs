@@ -12,142 +12,100 @@ namespace Super_Auto_Mobs
         public event Action<int> OnUpdateHearts;
         public event Action<int> OnUpdateWins;
         public event Action<bool> OnUpdateIsAutoPlay;
+        public event Action<float> OnUpdateMusic;
+        public event Action<float> OnUpdateSound;
         
         public int Gold
         {
-            get => _gameData.Emeralds;
-            set
-            {   
-                _gameData.Emeralds = value;
-                OnUpdateEmeralds?.Invoke(_gameData.Emeralds);
-            }
-        }
-        
-        public int Hearts
-        {
-            get => _gameData.Hearts;
+            get => CurrentWorld.Emeralds;
             set
             {
-                if (value <= 0)
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.Emeralds = value;
+                CurrentWorld = worldProgress;
+                OnUpdateEmeralds?.Invoke(value);
+            }
+        }
+
+        public int Hearts
+        {
+            get => CurrentWorld.Hearts;
+            set
+            {
+                if (value > 0)
                 {
-                    IndexCurrentLevel = 0;
-                    Wins = 0;
-                }
-                else
-                {
-                    _gameData.Hearts = value;
+                    WorldProgress worldProgress = CurrentWorld;
+                    worldProgress.Hearts = value;
+                    CurrentWorld = worldProgress;
                 }
                 
-                OnUpdateHearts?.Invoke(_gameData.Hearts);
+                OnUpdateHearts?.Invoke(value);
             }
         }
         
         public int Wins
         {
-            get => _gameData.Wins;
+            get => CurrentWorld.Wins;
             set
             {
-                if (value >= CurrentWorld.MaxWins)
+                WorldProgress worldProgress = CurrentWorld;
+                
+                if (value < CurrentWorldData.LevelsData.Count)
                 {
-                    _gameData.Wins = CurrentWorld.MaxWins;
-                    IndexCurrentLevel++;
+                    worldProgress.Wins = value;
                 }
-                else
-                {
-                    IndexCurrentLevel = value;
-                    _gameData.Wins = value;
-                }
-
+                
+                CurrentWorld = worldProgress;
                 OnUpdateWins?.Invoke(value);
             }
         }
-        
-        public int IndexCurrentLevel
-        {
-            get => _gameData.IndexCurrentLevel;
-            set
-            {
-                if (value >= CurrentWorld.LevelsData.Count)
-                {
-                    //IndexCurrentWorld++;
-                    //_gameData.IndexCurrentLevel = 0;
-                }
-                else
-                {
-                    _gameData.IndexCurrentLevel = value;
-                }
-            }
-        }
-        
-        /*public int IndexCurrentWorld
-        {
-            get => _gameData.IndexCurrentWorld;
-            set
-            {
-                _gameData.IndexCurrentLevel = 0;
-                _gameData.Wins = 0;
-                _gameData.Hearts = CurrentWorld.MaxHealth;
-                
-                if (value >= _assetProviderService.Worlds.Count)
-                {
-                    _gameData.IndexCurrentWorld = _assetProviderService.Worlds.Count - 1;
-                }
-                else
-                {
-                    _gameData.IndexCurrentWorld = value;
-                }
-            }
-        }*/
 
-        public WorldData CurrentWorld
+        public WorldData CurrentWorldData
         {
-            get { return _assetProviderService.Worlds[_game.IndexCurrentWorld].WorldData; }
-            set
-            {
-                for (int i = 0; i < _assetProviderService.Worlds.Count; i++)
-                {
-                    if (_assetProviderService.Worlds[i].WorldData.Equals(value))
-                    {
-                        _game.IndexCurrentWorld = i;
-                    }
-                }
-            }
+            get => _worldData;
         }
 
-        public GameData GameData => _gameData;
-        public LevelData CurrentLevel => CurrentWorld.LevelsData[IndexCurrentLevel];
+        private WorldData _worldData;
         
         public List<MobEnum> MobsUnlocked
         {
-            get => _gameData.MobsUnlocked;
+            get => CurrentWorld.MobsUnlocked;
             set
             {
-                _gameData.MobsUnlocked = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.MobsUnlocked = value;
+                CurrentWorld = worldProgress;
             }
         }
-        
+
         public void AddMobUnlocked(MobEnum mobEnum)
         {
             bool isBe = false;
             
-            foreach (var currentMobEnum in _gameData.MobsUnlocked)
+            foreach (var currentMobEnum in CurrentWorld.MobsUnlocked)
             {
                 if (mobEnum == currentMobEnum)
                 {
                     isBe = true;
                 }
             }
-            
+
             if (!isBe)
-                _gameData.MobsUnlocked.Add(mobEnum);
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.MobsUnlocked.Add(mobEnum);
+                CurrentWorld = worldProgress;
+            }
         }
 
         public List<BuffEnum> BuffsUnlocked
         {
-            get => _gameData.BuffsUnlocked;
+            get => CurrentWorld.BuffsUnlocked;
             set
             {
-                _gameData.BuffsUnlocked = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.BuffsUnlocked = value;
+                CurrentWorld = worldProgress;
             }
         }
         
@@ -155,48 +113,56 @@ namespace Super_Auto_Mobs
         {
             bool isBe = false;
             
-            foreach (var currentBuffEnum in _gameData.BuffsUnlocked)
+            foreach (var currentBuffEnum in CurrentWorld.BuffsUnlocked)
             {
                 if (buffEnum == currentBuffEnum)
                 {
                     isBe = true;
                 }
             }
-            
+
             if (!isBe)
-                _gameData.BuffsUnlocked.Add(buffEnum);
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.BuffsUnlocked.Add(buffEnum);
+                CurrentWorld = worldProgress;
+            }
         }
         
         public int ShopMobPlatformCountUnlock
         {
-            get => _gameData.ShopMobPlatformCountUnlock;
+            get => CurrentWorld.ShopMobPlatformCountUnlock;
             set
             {
-                _gameData.ShopMobPlatformCountUnlock = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.ShopMobPlatformCountUnlock = value;
+                CurrentWorld = worldProgress;
             }
         }
         
         public int ShopBuffPlatformCountUnlock
         {
-            get => _gameData.ShopBuffPlatformCountUnlock;
+            get => CurrentWorld.ShopBuffPlatformCountUnlock;
             set
             {
-                _gameData.ShopBuffPlatformCountUnlock = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.ShopBuffPlatformCountUnlock = value;
+                CurrentWorld = worldProgress;
             }
         }
         
         public List<MobData> MyCommandMobsData
         {
-            get { return _gameData.MyCommandMobsData; }
+            get => CurrentWorld.MyCommandMobsData;
             set
             {
-                _gameData.MyCommandMobsData = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.MyCommandMobsData = value;
+                CurrentWorld = worldProgress;
             }
         }
 
         public List<MobData> EnemyCommandMobsData => CurrentLevel.EnemyCommand;
-        public event Action<float> OnUpdateMusic;
-        public event Action<float> OnUpdateSound;
 
         public float Music
         {
@@ -252,15 +218,24 @@ namespace Super_Auto_Mobs
                 _gameData.IsFirsOpenGame = value;
             }
         }
-            
-        public ProgressEnum ProgressEnum
-        {
-            get => _gameData.ProgressEnum;
 
+        public GameData GameData => _gameData;
+        public LevelData CurrentLevel => CurrentWorldData.LevelsData[IndexCurrentLevel];
+        public int IndexCurrentWorld;
+        public WorldProgress CurrentWorld
+        {
+            get => _gameData.WorldsProgress[IndexCurrentWorld];
+            set => _gameData.WorldsProgress[IndexCurrentWorld] = value;
+        }
+
+        public int IndexCurrentLevel
+        {
+            get => CurrentWorld.IndexCurrentLevel;
             set
             {
-                //OnUpdateIsAutoPlay?.Invoke(_settingsData.IsAutoPlay);
-                _gameData.ProgressEnum = value;
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.IndexCurrentLevel = value;
+                CurrentWorld = worldProgress;
             }
         }
 
@@ -288,11 +263,8 @@ namespace Super_Auto_Mobs
             if (IsFirsOpenGame)
             {
                 //Перезаписать все сохранения
-                _gameData.ShopMobPlatformCountUnlock = 2;
                 IsFirsOpenGame = false;
             }
-
-            _gameData.Hearts = CurrentWorld.MaxHealth;
         }
 
         private void OnEnable()
@@ -317,9 +289,39 @@ namespace Super_Auto_Mobs
 
         private void Start()
         {
-            OnUpdateEmeralds?.Invoke(_gameData.Emeralds);
-            OnUpdateHearts?.Invoke(_gameData.Hearts);
-            OnUpdateWins?.Invoke(_gameData.Wins);
+            OnUpdateEmeralds?.Invoke(CurrentWorld.Emeralds);
+            OnUpdateHearts?.Invoke(CurrentWorld.Hearts);
+            OnUpdateWins?.Invoke(CurrentWorld.Wins);
+        }
+
+        public void SetWorldData(WorldData worldData)
+        {
+            _worldData = worldData;
+
+            for (int i = 0; i < _gameData.WorldsProgress.Count; i++)
+            {
+                if (_gameData.WorldsProgress[i].WorldEnum == worldData.WorldEnum)
+                {
+                    IndexCurrentWorld = i;
+                    return;
+                }
+            }
+
+            var progress = new WorldProgress
+            {
+                Hearts = worldData.MaxHealth,
+                Wins = 0, 
+                Emeralds = Constants.StartGold, 
+                IndexCurrentLevel = 0,
+                MyCommandMobsData = worldData.CommandData,
+                MobsUnlocked = worldData.MobsUnlocked,
+                BuffsUnlocked = worldData.BuffsUnlocked,
+                ShopMobPlatformCountUnlock = worldData.ShopMobPlatformCountUnlock,
+                ShopBuffPlatformCountUnlock = worldData.ShopBuffPlatformCountUnlock,
+                WorldEnum = worldData.WorldEnum
+            };
+
+            _gameData.WorldsProgress.Add(progress);
         }
     }
 }

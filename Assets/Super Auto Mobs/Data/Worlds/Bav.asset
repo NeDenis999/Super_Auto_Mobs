@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1149b4e8ab254285bd5fe5803a7c2978, type: 3}
+  m_Name: Bav
+  m_EditorClassIdentifier: 
+  Preview: {fileID: 0}
+  WorldData:
+    WorldEnum: 2
+    Title:
+      English: Bav
+      Russian: "\u0411\u0430\u0432"
+    MaxHealth: 0
+    ShopMobPlatformCountUnlock: 0
+    ShopBuffPlatformCountUnlock: 0
+    CommandData: []
+    MobsUnlocked: 
+    BuffsUnlocked: 
+    LevelsData:
+    - Background: {fileID: 0}
+      EnemyCommand:
+      - Hearts: 2
+        Attack: 0
+        MobEnum: 0
+      Prizes:
+      - {fileID: 1761118455993192824, guid: 21036e48378d3c54ba00daf04023105c, type: 3}
+    - Background: {fileID: 0}
+      EnemyCommand:
+      - Hearts: 0
+        Attack: 0
+        MobEnum: 6
+      - Hearts: 1
+        Attack: 0
+        MobEnum: 3
+      - Hearts: 1
+        Attack: 2
+        MobEnum: 6
+      Prizes:
+      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}

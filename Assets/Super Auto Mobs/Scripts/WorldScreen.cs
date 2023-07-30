@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -13,6 +12,9 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private TextMeshProUGUI _text;
+
+        [SerializeField]
+        private Image _previewImage;
         
         [SerializeField]
         private Button _button;
@@ -42,11 +44,12 @@ namespace Super_Auto_Mobs
         private void Start()
         {
             _text.text = _languageService.GetText(_world.WorldData.Title);
+            _previewImage.sprite = _world.Preview;
         }
 
         private void OpenWorld()
         {
-            _sessionProgressService.CurrentWorld = _world.WorldData;
+            _sessionProgressService.SetWorldData(_world.WorldData);
             _game.CurrentGameState = GameState.Shop;
         }
     }

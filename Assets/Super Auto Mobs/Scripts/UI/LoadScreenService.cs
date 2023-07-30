@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Super_Auto_Mobs
 {
@@ -17,6 +21,18 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private float _speed = 1;
 
+        [SerializeField]
+        private Image _image;
+        
+        [SerializeField]
+        private SessionProgressService _sessionProgressService;
+        
+        [SerializeField]
+        private AssetProviderService _assetProviderService;
+
+        [SerializeField]
+        private List<Texture> _textures;
+         
         private bool _isActive;
         private bool _isOpen = true;
         private float _progress = 1;
@@ -60,6 +76,8 @@ namespace Super_Auto_Mobs
         [ContextMenu("Open")]
         public void Open()
         {
+            UpdateTexture();
+            
             _progress = 0;
             _isActive = true;
             _material.SetFloat(_parametr, 0);
@@ -69,10 +87,29 @@ namespace Super_Auto_Mobs
         [ContextMenu("Close")]
         public void Close()
         {
+            UpdateTexture();
+            /*if (_sessionProgressService.MobsUnlocked.Count > 0)
+            {
+                _image.sprite = _assetProviderService
+                    .GetMobInfo(_sessionProgressService.MobsUnlocked[Random.Range(0, _sessionProgressService.MobsUnlocked.Count)])
+                    .Prefab.GetComponent<SpriteRenderer>()
+                    .sprite;
+            }
+            else
+            {
+                _image.sprite = _defaultImage;
+               // _material.SetTexture("_TransitionTex", _defaultImage.texture);
+            }*/
+            
             _progress = 1;
             _isActive = false;
             _material.SetFloat(_parametr, 1);
             _isOpen = true;
+        }
+
+        private void UpdateTexture()
+        {
+            _material.SetTexture("_TransitionTex", _textures[Random.Range(0, _textures.Count)]);
         }
     }
 }

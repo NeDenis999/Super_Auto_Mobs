@@ -3,6 +3,8 @@
     public enum CharacterEnum
     {
         CaptainEugene,
-        Palesos
+        Palesos,
+        Zak,
+        Bav
     }
 }

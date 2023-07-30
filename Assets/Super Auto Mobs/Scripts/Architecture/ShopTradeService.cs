@@ -15,11 +15,6 @@ namespace Super_Auto_Mobs
             _soundsService = soundsService;
             _sessionProgressService = sessionProgressService;
         }
-        
-        private void Awake()
-        {
-            _sessionProgressService.Gold = Constants.StartGold;
-        }
 
         public void Sell()
         {

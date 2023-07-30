@@ -47,10 +47,10 @@ namespace Super_Auto_Mobs
             Open();
             var titleText = "";
 
-            _healthSlider.maxValue = _sessionProgressService.CurrentWorld.MaxHealth;
+            _healthSlider.maxValue = _sessionProgressService.CurrentWorldData.MaxHealth;
             _healthSlider.value = _sessionProgressService.Hearts;
                     
-            _progressSlider.maxValue = _sessionProgressService.CurrentWorld.MaxWins;
+            _progressSlider.maxValue = _sessionProgressService.CurrentWorldData.LevelsData.Count;
             _progressSlider.value = _sessionProgressService.Wins;
 
             _prizeText.gameObject.SetActive(_sessionProgressService.CurrentLevel.Prizes.Count > 0);
@@ -68,13 +68,9 @@ namespace Super_Auto_Mobs
                 case EndBattleEnum.Won:
                     titleText = "Won";
                     _soundsService.PlayWin();
-
-                    if (_sessionProgressService.Hearts < _sessionProgressService.CurrentWorld.MaxHealth)
-                    {
-                        _sessionProgressService.Hearts++;
-                    }
-
+                    _sessionProgressService.Hearts++;
                     _sessionProgressService.Wins++;
+                    _sessionProgressService.IndexCurrentLevel++;
                     break;
                 case EndBattleEnum.Lose:
                     titleText = "Lose";

@@ -38,22 +38,6 @@ namespace Super_Auto_Mobs
                 _testCutScene.Play();
                 return;
             }
-            
-            switch (_sessionProgressService.ProgressEnum)
-            {
-                case ProgressEnum.StartGame:
-                    if (gameState == GameState.Shop)
-                        _cutScenes[0].Play();
-                    break;
-                case ProgressEnum.FirstPresentDream:
-                    if (gameState == GameState.Shop)
-                        _cutScenes[0].Play();
-                    break;
-                case ProgressEnum.Tutorial:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 

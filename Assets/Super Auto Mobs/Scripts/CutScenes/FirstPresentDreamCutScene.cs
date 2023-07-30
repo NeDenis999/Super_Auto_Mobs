@@ -33,14 +33,12 @@ namespace Super_Auto_Mobs
         private SessionProgressService _sessionProgressService;
 
         [Inject]
-        private void Construct(DialogService dialogService, SoundsService soundsService, ShopService shopService, Game game,
-            SessionProgressService sessionProgressService)
+        private void Construct(DialogService dialogService, SoundsService soundsService, ShopService shopService, Game game)
         {
             _dialogService = dialogService;
             _soundsService = soundsService;
             _shopService = shopService;
             _game = game;
-            _sessionProgressService = sessionProgressService;
         }
         
         public override void Play()

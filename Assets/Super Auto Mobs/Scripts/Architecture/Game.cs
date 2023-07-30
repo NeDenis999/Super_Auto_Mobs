@@ -7,12 +7,15 @@ namespace Super_Auto_Mobs
     public class Game : MonoBehaviour
     {
         public event Action<GameState> OnUpdateGameState;
-        
+
         [SerializeField]
         private GameState _startGameState;
 
         [SerializeField]
         private bool _isTest;
+
+        [SerializeField]
+        private Screen _endWorldScreen;
         
         private GameState _currentGameState;
         private GameState _previousGameState = GameState.None;
@@ -79,6 +82,13 @@ namespace Super_Auto_Mobs
                     case GameState.ShopTransition:
                         break;
                     case GameState.Shop:
+                        if (_sessionProgressService.Wins == _sessionProgressService.CurrentWorldData.LevelsData.Count)
+                        {
+                            _endWorldScreen.Open();
+                            //_currentGameState = GameState.StartMenu;
+                            return;
+                        }
+                        
                         _shopService.Open();
                         break;
                     case GameState.BattleTransition:
@@ -98,15 +108,13 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public int IndexCurrentWorld;
-
         [Inject]
         private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
             TitlesService titlesService, SessionProgressService sessionProgressService)
         {
             _shopService = shopService;
             _battleService = battleBaseService;
-            this._startScreenService = startScreenService;
+            _startScreenService = startScreenService;
             _titlesService = titlesService;
             _sessionProgressService = sessionProgressService;
         }

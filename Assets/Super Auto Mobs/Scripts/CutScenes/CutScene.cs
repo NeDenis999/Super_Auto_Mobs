@@ -14,7 +14,7 @@ namespace Super_Auto_Mobs
         [SerializeField]
         protected ProgressEnum _progress;
 
-        private SessionProgressService _sessionProgressService;
+        protected SessionProgressService _sessionProgressService;
 
         [Inject]
         private void Construct(SessionProgressService sessionProgressService)
@@ -31,7 +31,6 @@ namespace Super_Auto_Mobs
         private void End()
         {
             OnEnd.RemoveListener(End);
-            _sessionProgressService.ProgressEnum = _progress;
         }
     }
 }

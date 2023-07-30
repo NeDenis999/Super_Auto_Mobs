@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1149b4e8ab254285bd5fe5803a7c2978, type: 3}
   m_Name: DreamTuor
   m_EditorClassIdentifier: 
+  Preview: {fileID: -915107284, guid: fa46d9466ca7f1f4a96469c76ff18192, type: 3}
   WorldData:
+    WorldEnum: 1
     Title:
       English: Dream Tuor
       Russian: "\u0414\u0440\u0438\u043C \u0422\u0443\u0440"
+    MaxHealth: 0
+    ShopMobPlatformCountUnlock: 0
+    ShopBuffPlatformCountUnlock: 0
+    CommandData: []
+    MobsUnlocked: 
+    BuffsUnlocked: 
     LevelsData:
     - Background: {fileID: 0}
       EnemyCommand:

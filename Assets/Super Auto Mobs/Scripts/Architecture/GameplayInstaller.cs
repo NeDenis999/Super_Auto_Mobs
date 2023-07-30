@@ -52,6 +52,9 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private LoadScreenService _loadScreenService;
+
+        [SerializeField]
+        private CoroutineRunner _coroutineRunner;
         
         public override void InstallBindings()
         {
@@ -71,6 +74,7 @@ namespace Super_Auto_Mobs
             BindFromInstance(_loaderLevelService);
             BindFromInstance(_soundsService);
             BindFromInstance(_loadScreenService);
+            BindFromInstance(_coroutineRunner);
         }
 
         private void BindFromInstance<T>(T instance)

@@ -65,7 +65,7 @@ namespace Super_Auto_Mobs
         
         private void WinsTextUpdate(int value)
         {
-            _text.text = $"{value}/{_sessionProgressService.CurrentWorld.MaxWins}";
+            _text.text = $"{value}/{_sessionProgressService.CurrentWorldData.LevelsData.Count}";
         }
     }
 }

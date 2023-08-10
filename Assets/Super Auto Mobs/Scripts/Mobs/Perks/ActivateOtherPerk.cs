@@ -38,7 +38,7 @@ namespace Super_Auto_Mobs
 
                 yield return ActivateOthersPerk(_shopService.CommandPlatforms, platform);
             }
-            else if (_game.CurrentGameState is GameState.Battle or GameState.BattleTransition)
+            else if (_game.CurrentGameState is GameState.Battle)
             {
                 var mob = GetComponent<Mob>();
 
@@ -62,7 +62,8 @@ namespace Super_Auto_Mobs
 
             foreach (var mob in mobs)
             {
-                _sparkService.StartAnimation(transform.position, mob.transform.position);
+                _sparkService.StartAnimation(transform.position, mob.transform.position, 
+                    SparkEnum.ActivatePerk);
             }
 
             yield return new WaitForSeconds(1);
@@ -83,7 +84,8 @@ namespace Super_Auto_Mobs
             foreach (var platform in platforms)
             {
                 var mob = platform.Mob;
-                _sparkService.StartAnimation(transform.position, mob.transform.position);
+                _sparkService.StartAnimation(transform.position, mob.transform.position, 
+                    SparkEnum.ActivatePerk);
             }
             
             yield return new WaitForSeconds(1);

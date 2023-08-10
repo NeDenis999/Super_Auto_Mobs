@@ -18,6 +18,8 @@ namespace Super_Auto_Mobs
         {
             _hearts = buffData.Hearts;
             _attack = buffData.Attack;
+            _name = buffData.Name;
+            _info = buffData.Info;
         }
         
         public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob)

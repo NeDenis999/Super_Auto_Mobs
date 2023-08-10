@@ -12,6 +12,8 @@ namespace Super_Auto_Mobs
         public override event Action OnUnselectCommandPlatform;
         public override event Action<PlatformServiceState> OnUpdateState;
         
+        private bool _isDisableBattleButton;
+        
         [SerializeField]
         private GameObject _shop;
         
@@ -25,10 +27,19 @@ namespace Super_Auto_Mobs
         private InfoMobScreen _infoMobScreen;
         
         [SerializeField]
-        private Button _battleButton;
+        private Button _battleButton, _rollButton;
         
         [SerializeField]
         private float _speedMove;
+
+        [SerializeField]
+        private Transform _commandPlatformPoint;
+
+        [SerializeField]
+        private Transform _shopPlatformPoint;
+        
+        [SerializeField]
+        private Transform _buffPlatformPoint;
         
         private PlatformServiceState _platformServiceState
         {
@@ -54,13 +65,13 @@ namespace Super_Auto_Mobs
         public override List<ShopCommandMobPlatform> CommandPlatforms => _commandPetPlatforms;
         private ShopUpdaterService _shopUpdaterService;
         private Game _game;
-        private SoundsService _soundsService;
         private bool _isOpen;
+        private Location _location;
 
         [Inject]
         private void Construct(SessionProgressService sessionProgressService, MobFactoryService mobFactoryService, 
             AssetProviderService assetProviderService, ShopTradeService shopTradeService, ShopUpdaterService shopUpdaterService,
-            Game game, SoundsService soundsService)
+            Game game, SoundsService soundsService, BattleService battleService)
         {
             _mobFactoryService = mobFactoryService;
             _sessionProgressService = sessionProgressService;
@@ -68,7 +79,6 @@ namespace Super_Auto_Mobs
             _shopTradeService = shopTradeService;
             _shopUpdaterService = shopUpdaterService;
             _game = game;
-            _soundsService = soundsService;
         }
 
         private void Update()
@@ -80,17 +90,27 @@ namespace Super_Auto_Mobs
             PlatformsPositionUpdate();
         }
 
+        public override void EnableBattleButton()
+        {
+            _isDisableBattleButton = false;
+            _battleButton.gameObject.SetActive(true);
+            _sessionProgressService.IsDisableBattleButton = false;
+        }
+        
         private void BattleButtonUpdate()
         {
             bool isMob = false;
-            
-            foreach (var commandPetPlatform in _commandPetPlatforms)
+
+            if (!_isDisableBattleButton)
             {
-                if (commandPetPlatform.Mob)
-                    isMob = true;
+                foreach (var commandPetPlatform in _commandPetPlatforms)
+                {
+                    if (commandPetPlatform.Mob)
+                        isMob = true;
+                }
             }
-            
-            _battleButton.gameObject.SetActive(isMob);
+
+            _battleButton.gameObject.SetActive(isMob && _sessionProgressService.IsBattle);
         }
 
         public override void Open()
@@ -99,6 +119,25 @@ namespace Super_Auto_Mobs
             _shop.SetActive(true);
             _shopUpdaterService.UpdateShop();
             CreatePlatformMobs();
+            BattleButtonUpdate();
+            _isDisableBattleButton = _sessionProgressService.CurrentWorld.IsDisableBattleButton;
+            _rollButton.gameObject.SetActive(!_sessionProgressService.CurrentWorld.IsDisableRollButton);
+
+            if (_location)
+            {
+                Destroy(_location);
+            }
+                
+            _location = Instantiate(_sessionProgressService.ShopLocation, _shop.transform);
+
+            _commandPlatformPoint.position = _commandPlatformPoint.position
+                .SetY(_location.CommandSpawnPoint.position.y);
+            
+            _shopPlatformPoint.position = _shopPlatformPoint.position
+                .SetY(_location.ShopSpawnPoint.position.y);
+            
+            _buffPlatformPoint.position = _buffPlatformPoint.position
+                .SetY(_location.ShopSpawnPoint.position.y);
         }
 
         public override void Close()
@@ -126,6 +165,11 @@ namespace Super_Auto_Mobs
         }
 
         public override Mob SpawnMob(MobData mobData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Buff SpawnBuff(BuffData buffData)
         {
             throw new NotImplementedException();
         }
@@ -314,7 +358,7 @@ namespace Super_Auto_Mobs
                                 {
                                     if (!shopPlatform.IsEntity && _shopPlatformSelected.IsEntity)
                                     {
-                                        if (_shopTradeService.TryBuy())
+                                        if (_shopTradeService.TryBuy(PurchaseEnum.Mob))
                                         {
                                             shopPlatform.Entity = _shopPlatformSelected.Entity;
 
@@ -334,7 +378,7 @@ namespace Super_Auto_Mobs
                             {
                                 if (shopPlatform is ShopCommandMobPlatform && shopPlatform.IsEntity)
                                 {
-                                    if (_shopTradeService.TryBuy())
+                                    if (_shopTradeService.TryBuy(PurchaseEnum.Buff))
                                     {
                                         var mob = (Mob)shopPlatform.Entity;
 
@@ -442,7 +486,7 @@ namespace Super_Auto_Mobs
                                 {
                                     if (!shopPlatform.IsEntity && _shopPlatformSelected.IsEntity)
                                     {
-                                        if (_shopTradeService.TryBuy())
+                                        if (_shopTradeService.TryBuy(PurchaseEnum.Mob))
                                         {
                                             shopPlatform.Entity = _shopPlatformSelected.Entity;
                                             
@@ -462,7 +506,7 @@ namespace Super_Auto_Mobs
                             {
                                 if (shopPlatform is ShopCommandMobPlatform && shopPlatform.IsEntity)
                                 {
-                                    if (_shopTradeService.TryBuy())
+                                    if (_shopTradeService.TryBuy(PurchaseEnum.Buff))
                                     {
                                         var mob = (Mob)shopPlatform.Entity;
 

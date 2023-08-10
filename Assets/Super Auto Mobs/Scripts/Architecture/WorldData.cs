@@ -15,5 +15,7 @@ namespace Super_Auto_Mobs
         public List<MobEnum> MobsUnlocked;
         public List<BuffEnum> BuffsUnlocked;
         public List<LevelData> LevelsData;
+        public bool IsDisableBattleButton;
+        public bool IsDisableRollButton;
     }
 }

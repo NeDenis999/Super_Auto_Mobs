@@ -11,9 +11,6 @@ namespace Super_Auto_Mobs
         public UnityEvent OnPlay;
         public UnityEvent OnEnd;
 
-        [SerializeField]
-        protected ProgressEnum _progress;
-
         protected SessionProgressService _sessionProgressService;
 
         [Inject]

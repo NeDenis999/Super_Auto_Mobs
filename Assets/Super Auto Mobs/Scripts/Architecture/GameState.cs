@@ -4,10 +4,8 @@
     {
         None,
         StartMenu,
-        ShopTransition,
         Shop,
         Battle,
-        BattleTransition,
         Titles,
         World
     }

@@ -5,6 +5,10 @@
         CaptainEugene,
         Palesos,
         Zak,
-        Bav
+        Bav,
+        Notch,
+        Moddychat,
+        SirPiligrim,
+        ModdychatDeath,
     }
 }

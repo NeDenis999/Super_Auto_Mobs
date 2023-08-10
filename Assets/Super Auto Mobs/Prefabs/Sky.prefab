@@ -728,6 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e284a6d871634a1c92a84e10dc071fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
   _clouds:
   - {fileID: 5947029648005000831}
   - {fileID: 5947029648117992243}
@@ -741,6 +742,7 @@ MonoBehaviour:
   - {fileID: 5947029648436794457}
   - {fileID: 5947029647121962244}
   - {fileID: 5947029648329896540}
+  _color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5947029648329896531
 GameObject:
   m_ObjectHideFlags: 0

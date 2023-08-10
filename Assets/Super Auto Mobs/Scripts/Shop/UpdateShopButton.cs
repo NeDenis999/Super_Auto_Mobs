@@ -32,7 +32,7 @@ namespace Super_Auto_Mobs
 
         private void UpdateShop()
         {
-            if (shopTradeService.TryBuy(Constants.PriceRoll))
+            if (shopTradeService.TryBuy(PurchaseEnum.Update, Constants.PriceRoll))
             {
                 _shopUpdaterService.UpdateShop();
             }

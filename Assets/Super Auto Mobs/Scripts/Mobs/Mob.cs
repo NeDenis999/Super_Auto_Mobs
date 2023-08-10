@@ -12,8 +12,8 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private Transform _effectPoint;
         
-        private int _hearts = 1;
-        private int _attack = 1;
+        private int _hearts = 0;
+        private int _attack = 0;
         private Perk _perk;
         private MobDefaultData mobDefaultData;
         private int _currentHearts => _hearts + mobDefaultData.Hearts;
@@ -32,8 +32,8 @@ namespace Super_Auto_Mobs
         public void Init(MobDefaultData mobDefaultData, MobData mobData)
         {
             this.mobDefaultData = mobDefaultData;
-            _hearts = mobDefaultData.Hearts;
-            _attack = mobDefaultData.Attack;
+            //_hearts = mobDefaultData.Hearts;
+            //_attack = mobDefaultData.Attack;
             _name = mobDefaultData.Name;
             _info = mobDefaultData.Info;
             _mobData = mobData;

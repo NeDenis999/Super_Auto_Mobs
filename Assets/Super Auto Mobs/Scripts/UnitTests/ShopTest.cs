@@ -24,7 +24,12 @@ namespace Super_Auto_Mobs
             _assetProviderService = assetProviderService;
             _diContainer = diContainer;
         }
-        
+
+        public override void EnableBattleButton()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Open()
         {
             gameObject.SetActive(true);
@@ -47,6 +52,11 @@ namespace Super_Auto_Mobs
             platform.Mob = mob;
             _commandPlatforms.Add(platform);
             return mob;
+        }
+
+        public override Buff SpawnBuff(BuffData buffData)
+        {
+            throw new NotImplementedException();
         }
 
         public override void DestroySelectEntity()

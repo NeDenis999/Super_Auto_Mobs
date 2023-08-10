@@ -26,13 +26,13 @@ namespace Super_Auto_Mobs
             _textMeshPro = GetComponent<TextMeshProUGUI>();
         }
 
-        private void OnEnable()
+        private void Start()
         {
             _languageService.OnUpdateLanguage += UpdateLanguage;
             UpdateLanguage(_languageService.CurrentLanguage);
         }
-        
-        private void OnDisable()
+
+        private void OnDestroy()
         {
             _languageService.OnUpdateLanguage -= UpdateLanguage;
         }

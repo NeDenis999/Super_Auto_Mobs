@@ -18,30 +18,28 @@ MonoBehaviour:
     Title:
       English: Mineshield
       Russian: "\u041C\u0430\u0439\u043D\u0448\u0438\u043B\u0434"
-    MaxHealth: 0
-    ShopMobPlatformCountUnlock: 0
+    MaxHealth: 1
+    ShopMobPlatformCountUnlock: 1
     ShopBuffPlatformCountUnlock: 0
     CommandData: []
-    MobsUnlocked: 
+    MobsUnlocked: 16000000
     BuffsUnlocked: 
     LevelsData:
-    - Background: {fileID: 0}
+    - ShopLocation: {fileID: 6882972256058586776, guid: 0d9d0478db9275b498cc39551c7ab18c, type: 3}
+      BattleLocation: {fileID: 6882972256058586776, guid: 0d9d0478db9275b498cc39551c7ab18c, type: 3}
+      EnemyCommand:
+      - Hearts: 2
+        Attack: 0
+        MobEnum: 20
+        EffectEnum: 0
+      Prizes: []
+    - ShopLocation: {fileID: 8685956109559608981, guid: e2811b575ba303642882da751841ea03, type: 3}
+      BattleLocation: {fileID: 8685956109559608981, guid: e2811b575ba303642882da751841ea03, type: 3}
       EnemyCommand:
       - Hearts: 2
         Attack: 0
         MobEnum: 0
-      Prizes:
-      - {fileID: 1761118455993192824, guid: 21036e48378d3c54ba00daf04023105c, type: 3}
-    - Background: {fileID: 0}
-      EnemyCommand:
-      - Hearts: 0
-        Attack: 0
-        MobEnum: 6
-      - Hearts: 1
-        Attack: 0
-        MobEnum: 3
-      - Hearts: 1
-        Attack: 2
-        MobEnum: 6
-      Prizes:
-      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
+        EffectEnum: 0
+      Prizes: []
+    IsDisableBattleButton: 0
+    IsDisableRollButton: 1

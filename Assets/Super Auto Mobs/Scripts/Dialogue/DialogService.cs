@@ -30,16 +30,16 @@ namespace Super_Auto_Mobs
         private GameObject _leftPerson;
 
         [SerializeField]
+        private GameObject _rightName;
+        
+        [SerializeField]
+        private GameObject _leftName;
+        
+        [SerializeField]
         private TextMeshProUGUI _leftNameText;
         
         [SerializeField]
         private TextMeshProUGUI _rightNameText;
-        
-        [SerializeField]
-        private GameObject _blackout;
-        
-        [SerializeField]
-        private List<Sprite> _viewsPerson;
 
         [SerializeField]
         private Dialogue _dialogue;
@@ -49,11 +49,15 @@ namespace Super_Auto_Mobs
         private int _numberCurrentReplicaData;
         private bool _isShow;
         private LanguageService _languageService;
+        private AssetProviderService _assetProviderService;
+        private ShopService _shopService;
 
         [Inject]
-        private void Construct(LanguageService languageService)
+        private void Construct(LanguageService languageService, AssetProviderService assetProviderService, ShopService shopService)
         {
+            _shopService = shopService;
             _languageService = languageService;
+            _assetProviderService = assetProviderService;
         }
         
         private void Update()
@@ -69,14 +73,14 @@ namespace Super_Auto_Mobs
         
         public void Show(Dialogue dialogue = null)
         {
+            _shopService.IsInteractive = false;
+            
             if (dialogue == null)
                 dialogue = _dialogue;
 
             _dialogue = dialogue;
             
-            _isShow = true;
             _dialogCanvas.SetActive(true);
-            _blackout.SetActive(true);
             _textMeshPro.text = "";
             _rightPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
             _leftPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
@@ -90,7 +94,8 @@ namespace Super_Auto_Mobs
                 .setOnUpdate(x =>
                 {
                     leftPersonRect.anchoredPosition = leftPersonRect.anchoredPosition.SetX(x);
-                });
+                })
+                .setOnComplete(() => _isShow = true);
             
             LeanTween.value(gameObject, 250, -250, 0.5f)
                 .setOnUpdate(x =>
@@ -98,22 +103,24 @@ namespace Super_Auto_Mobs
                     rightPersonRect.anchoredPosition = rightPersonRect.anchoredPosition.SetX(x);
                 });
 
+            var isRightName = false;
+            var isLeftName = false;
+            
             foreach (var replicaData in dialogue.ReplicasData)
             {
-                var isRightName = false;
-                var isLeftName = false;
-
+                var characterData = _assetProviderService.GetCharactersData(replicaData.Character);
+                
                 if (!isRightName && replicaData.Side == SideEnum.Right)
                 {
-                    _rightNameText.text = GetNamePerson(replicaData.Character);
-                    _rightPerson.GetComponent<Image>().sprite = GetViewPerson(replicaData.Character);
+                    _rightNameText.text = _languageService.GetText(characterData.Name);
+                    _rightPerson.GetComponent<Image>().sprite = characterData.View;
                     isRightName = true;
                 }
                 
                 if (!isLeftName && replicaData.Side == SideEnum.Left)
                 {
-                    _leftNameText.text = GetNamePerson(replicaData.Character);
-                    _leftPerson.GetComponent<Image>().sprite = GetViewPerson(replicaData.Character);
+                    _leftNameText.text = _languageService.GetText(characterData.Name);
+                    _leftPerson.GetComponent<Image>().sprite = characterData.View;
                     isLeftName = true;
                 }
 
@@ -121,6 +128,32 @@ namespace Super_Auto_Mobs
                     break;
             }
 
+            if (!isRightName)
+            {
+                _rightNameText.text = "";
+                _rightPerson.GetComponent<Image>().sprite = null;
+                _rightPerson.SetActive(false);
+                _rightName.SetActive(false);
+            }
+            else
+            {
+                _rightPerson.SetActive(true);
+                _rightName.SetActive(true);
+            }
+            
+            if (!isLeftName)
+            {
+                _leftNameText.text = "";
+                _leftPerson.GetComponent<Image>().sprite = null;
+                _leftPerson.SetActive(false);
+                _leftName.SetActive(false);
+            }
+            else
+            {
+                _rightPerson.SetActive(true);
+                _leftName.SetActive(true);
+            }
+            
             StartCoroutine(AwaitPrintReplica());
         }
         
@@ -155,9 +188,10 @@ namespace Super_Auto_Mobs
                 .setOnComplete(() =>
                 {
                     _dialogCanvas.SetActive(false);
-                    _blackout.SetActive(false);
                     OnHide?.Invoke();
                 });
+            
+            _shopService.IsInteractive = true;
         }
 
         public void NextReplica()
@@ -179,11 +213,15 @@ namespace Super_Auto_Mobs
             {
                 _rightPerson.GetComponent<Image>().color = Color.white;
                 _leftPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
+                _rightName.GetComponent<Image>().color = Color.white;
+                _leftName.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
             }
             else
             {
                 _rightPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
                 _leftPerson.GetComponent<Image>().color = Color.white;
+                _rightName.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
+                _leftName.GetComponent<Image>().color = Color.white;
             }
 
             _textAnimation.StopAllAnimations();
@@ -195,28 +233,6 @@ namespace Super_Auto_Mobs
         {
             yield return new WaitForSeconds(0.5f);
             PrintReplica();
-        }
-
-        private string GetNamePerson(CharacterEnum character)
-        {
-            if (character == CharacterEnum.Palesos)
-                return "Palesos";
-            
-            if (character == CharacterEnum.CaptainEugene)
-                return "CaptainEugene";
-
-            return "Add Name";
-        }
-        
-        private Sprite GetViewPerson(CharacterEnum character)
-        {
-            if (character == CharacterEnum.Palesos)
-                return _viewsPerson[0];
-            
-            if (character == CharacterEnum.CaptainEugene)
-                return _viewsPerson[1];
-
-            return null;
         }
 
         private void NextReplicaData()

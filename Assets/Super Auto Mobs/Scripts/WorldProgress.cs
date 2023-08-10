@@ -8,6 +8,7 @@ namespace Super_Auto_Mobs
     {
         public WorldEnum WorldEnum;
         public int IndexCurrentLevel;
+        public int Turn;
         public List<MobData> MyCommandMobsData;
         public List<MobEnum> MobsUnlocked;
         public List<BuffEnum> BuffsUnlocked;
@@ -16,5 +17,8 @@ namespace Super_Auto_Mobs
         public int Emeralds;
         public int ShopMobPlatformCountUnlock;
         public int ShopBuffPlatformCountUnlock;
+        public bool IsEndWorld;
+        public bool IsDisableBattleButton;
+        public bool IsDisableRollButton;
     }
 }

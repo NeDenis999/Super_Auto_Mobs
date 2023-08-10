@@ -42,7 +42,7 @@ namespace Super_Auto_Mobs
 
         private void CheckGameState(GameState gameState)
         {
-            if (gameState == GameState.BattleTransition)
+            if (gameState == GameState.Battle)
             {
                 Close();
             }

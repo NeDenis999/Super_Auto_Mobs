@@ -6,32 +6,32 @@ namespace Super_Auto_Mobs
 {
     public class OpenStartScreen : MonoBehaviour
     {
+        [SerializeField]
+        private Screen _screen;
+        
         private Game _game;
-        private Button _button;
+        private LoadScreenService _loadScreenService;
 
         [Inject]
-        private void Construct(Game game)
+        private void Construct(Game game, LoadScreenService loadScreenService)
         {
             _game = game;
-        }
-        
-        private void Awake()
-        {
-            _button = GetComponent<Button>();
+            _loadScreenService = loadScreenService;
         }
 
         private void OnEnable()
         {
-            _button.onClick.AddListener(OpenStartMenu);
+            _screen.OnFinalyClosing += OpenStartMenu;
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(OpenStartMenu);
+            _screen.OnFinalyClosing -= OpenStartMenu;
         }
 
         private void OpenStartMenu()
         {
+            //_loadScreenService.Close();
             _game.CurrentGameState = GameState.StartMenu;
         }
     }

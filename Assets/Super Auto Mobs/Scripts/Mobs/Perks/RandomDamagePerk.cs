@@ -56,7 +56,7 @@ namespace Super_Auto_Mobs
             
             foreach (var enemy in enemies)
             {
-                _sparkService.StartAnimation(transform.position, enemy.transform.position, Color.red);
+                _sparkService.StartAnimation(transform.position, enemy.transform.position, SparkEnum.Damage);
             }
 
             yield return new WaitForSeconds(1);

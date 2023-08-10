@@ -6,7 +6,7 @@ namespace Super_Auto_Mobs
     public class Screen : MonoBehaviour
     {
         public event Action OnBeginOpen;
-        public event Action OnStartedClosing;
+        public event Action OnFinalyClosing;
 
         private Transition _transition;
         private bool _firstOpen;
@@ -31,10 +31,10 @@ namespace Super_Auto_Mobs
         public virtual void Close()
         {
             if (_transition)
-                _transition.CloseAnimate(this, OnStartedClosing);
+                _transition.CloseAnimate(this, OnFinalyClosing);
             else
             {
-                OnStartedClosing?.Invoke();
+                OnFinalyClosing?.Invoke();
                 gameObject.SetActive(false);
             }
         }

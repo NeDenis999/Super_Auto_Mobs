@@ -8,6 +8,6 @@ namespace Super_Auto_Mobs
     {
         public abstract void OpenAnimate(Screen screen);
 
-        public abstract void CloseAnimate(Screen screen, Action OnOnStartedClosing);
+        public abstract void CloseAnimate(Screen screen, Action OnFinalyClosing);
     }
 }

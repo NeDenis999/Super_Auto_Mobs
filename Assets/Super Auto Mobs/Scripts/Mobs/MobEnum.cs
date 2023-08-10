@@ -20,6 +20,12 @@
         VillagerBig,
         Test,
         Chicken,
-        Palesos
+        Palesos,
+        Notch,
+        ModdychatDeath,
+        Moddychat,
+        Zak,
+        SirPiligrim,
+        Bav
     }
 }

@@ -40,7 +40,6 @@ namespace UnitTests.PlayTests
 
             //В начале битвы даёт 3 золота
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Bee}, false);
             UpdateState(GameState.Battle);
             yield return null;
@@ -56,7 +55,6 @@ namespace UnitTests.PlayTests
             
             //Обморок → Дайте одному случайному другу + 3 Значок атаки и +3 Значок здоровья
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Cat}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
             var entityMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
@@ -80,7 +78,6 @@ namespace UnitTests.PlayTests
 
             //Упасть в обморок → Дайте двум ближайшим друзьям позади +3 к значку атаки и +3 к значку здоровья
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Chocobo}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
             var myMob2 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
@@ -128,7 +125,6 @@ namespace UnitTests.PlayTests
             
             //Вызванный друг → Дайте ему +3 к Значок атаки до конца битвы
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.SnowGollum}, false);
             var startAttack = battleService.MyCommandMobs[0].CurrentAttack;
             UpdateState(GameState.Battle);
@@ -169,7 +165,6 @@ namespace UnitTests.PlayTests
             
             //Начало битвы → Нанесите 3 Значок поврежденияурон одному случайному врагу
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Skeleton}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
             UpdateState(GameState.Battle);
@@ -207,7 +202,6 @@ namespace UnitTests.PlayTests
 
             //Ранить → Нанести 9 единиц урона одному случайному врагу
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Enderman}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Dog}, true);
             UpdateState(GameState.Battle);
@@ -229,7 +223,6 @@ namespace UnitTests.PlayTests
 
             //Ранить → Дайте ближайшему другу сзади +6 к значку атаки и +6 к значку здоровья
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.MushroomCow}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Dog}, true);
@@ -252,7 +245,6 @@ namespace UnitTests.PlayTests
 
             //Начало битвы → Дайте 150% иконки атаки ближайшему другу впереди
             
-            UpdateState(GameState.BattleTransition);
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.MilkaCow}, false);
             
@@ -270,8 +262,7 @@ namespace UnitTests.PlayTests
             yield return _awaitInit;
 
             //Прежде чем упасть в обморок → Наносит 150% урона от атаки, наносит урон соседним питомцам
-            
-            UpdateState(GameState.BattleTransition);
+
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Creeper}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
             var enemyMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
@@ -301,8 +292,7 @@ namespace UnitTests.PlayTests
             yield return _awaitInit;
 
             //Падает в обморок активирует способность друга сзади
-            
-            UpdateState(GameState.BattleTransition);
+
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Squid}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Duck}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
@@ -322,8 +312,7 @@ namespace UnitTests.PlayTests
             yield return _awaitInit;
             
             //Обморок → Вызовите одного 1/1 голема
-            
-            UpdateState(GameState.BattleTransition);
+
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Villager}, false);
             var enemyMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, true);
             UpdateState(GameState.Battle);
@@ -342,8 +331,7 @@ namespace UnitTests.PlayTests
             yield return _awaitInit;
 
             //Начало битвы → Дайте ВСЕМ питомцам +24 к значку здоровья
-            
-            UpdateState(GameState.BattleTransition);
+
             var myMob0 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Witch}, false);
             var myMob1 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
             var myMob2 = battleService.SpawnMob(new MobData {MobEnum = MobEnum.Test}, false);
@@ -383,7 +371,6 @@ namespace UnitTests.PlayTests
             yield return null;
             game = sceneContex.Container.Resolve<Game>();
             battleService = sceneContex.Container.Resolve<BattleService>();
-            game.CurrentGameState = GameState.BattleTransition;
             shopService = sceneContex.Container.Resolve<ShopService>();
             sessionProgressService = sceneContex.Container.Resolve<SessionProgressService>();
             _isInit = true;

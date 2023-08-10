@@ -18,6 +18,12 @@ namespace Super_Auto_Mobs
         private TextMeshProUGUI _prizeText;
         
         [SerializeField]
+        private TextMeshProUGUI _heartsText;
+        
+        [SerializeField]
+        private TextMeshProUGUI _progressText;
+        
+        [SerializeField]
         private Slider _healthSlider;
         
         [SerializeField]
@@ -25,6 +31,13 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private Transform _prizeContainer;
+
+        [Header("Titles")]
+        [SerializeField]
+        private Title _winTitle;
+        
+        [SerializeField]
+        private Title _loseTitle, _faintTitle, _youTitle, _prizeTitle;
         
         private LanguageService _languageService;
         private SessionProgressService _sessionProgressService;
@@ -47,11 +60,8 @@ namespace Super_Auto_Mobs
             Open();
             var titleText = "";
 
-            _healthSlider.maxValue = _sessionProgressService.CurrentWorldData.MaxHealth;
-            _healthSlider.value = _sessionProgressService.Hearts;
-                    
-            _progressSlider.maxValue = _sessionProgressService.CurrentWorldData.LevelsData.Count;
-            _progressSlider.value = _sessionProgressService.Wins;
+            var startHearts = _sessionProgressService.Hearts;
+            var startProgress = _sessionProgressService.Wins;
 
             _prizeText.gameObject.SetActive(_sessionProgressService.CurrentLevel.Prizes.Count > 0);
             
@@ -66,31 +76,61 @@ namespace Super_Auto_Mobs
             switch (endBattleEnum)
             {
                 case EndBattleEnum.Won:
-                    titleText = "Won";
+                    titleText = _languageService.GetText(_winTitle);
                     _soundsService.PlayWin();
                     _sessionProgressService.Hearts++;
                     _sessionProgressService.Wins++;
                     _sessionProgressService.IndexCurrentLevel++;
                     break;
                 case EndBattleEnum.Lose:
-                    titleText = "Lose";
+                    titleText = _languageService.GetText(_loseTitle);
 
                     _sessionProgressService.Hearts--;
                     break;
                 case EndBattleEnum.Faint:
-                    titleText = "Faint";
+                    titleText = _languageService.GetText(_faintTitle);
                     
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(endBattleEnum), endBattleEnum, null);
             }
 
-            _prizeText.text = "Prize";
-            _titleText.text = "You " + titleText;
+            _sessionProgressService.Turn += 1;
+            
+            _prizeText.text = _languageService.GetText(_prizeTitle);
+            _titleText.text = _languageService.GetText(_youTitle) + " " + titleText;
+            
+            _healthSlider.maxValue = _sessionProgressService.CurrentWorldData.MaxHealth;
+            _healthSlider.value = startHearts;
+            _heartsText.text = $"{startHearts}/{_sessionProgressService.CurrentWorldData.MaxHealth}";  
+            LeanTween.value(gameObject, startHearts, _sessionProgressService.Hearts, 1)
+                .setOnUpdate(value =>
+                {
+                    _healthSlider.value = value;
+                })                
+                .setOnComplete(() =>
+                {
+                    _heartsText.text = $"{_sessionProgressService.Hearts}/{_sessionProgressService.CurrentWorldData.MaxHealth}";
+                });
+
+            _progressSlider.maxValue = _sessionProgressService.CurrentWorldData.LevelsData.Count;
+            _progressSlider.value = startProgress;
+            _progressText.text = $"{startProgress}/{_sessionProgressService.CurrentWorldData.LevelsData.Count}";   
+            LeanTween.value(gameObject, startProgress, _sessionProgressService.Wins, 1)
+                .setOnUpdate(value =>
+                {
+                    _progressSlider.value = value;
+                })
+                .setOnComplete(() =>
+                {
+                    _progressText.text = $"{_sessionProgressService.Wins}/{_sessionProgressService.CurrentWorldData.LevelsData.Count}";
+                });
         }
 
         public override void Close()
         {
+            LeanTween.cancel(gameObject);
+            
             for (int i = 0; i < _prizes.Count; i++)
             {
                 Destroy(_prizes[i].gameObject);

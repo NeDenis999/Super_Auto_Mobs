@@ -9,7 +9,7 @@ namespace Super_Auto_Mobs
     public class TextCountUpdater : MonoBehaviour
     {
         [SerializeField]
-        private CountData _countData;
+        private CountEnum countEnum;
         
         private SessionProgressService _sessionProgressService;
         private TextMeshProUGUI _text;
@@ -24,16 +24,19 @@ namespace Super_Auto_Mobs
         {
             _text = GetComponent<TextMeshProUGUI>();
             
-            switch (_countData)
+            switch (countEnum)
             {
-                case CountData.Emeralds:
+                case CountEnum.Emeralds:
                     _sessionProgressService.OnUpdateEmeralds += TextUpdate;
+                    TextUpdate(_sessionProgressService.Gold);
                     break;
-                case CountData.Hearts:
+                case CountEnum.Hearts:
                     _sessionProgressService.OnUpdateHearts += TextUpdate;
+                    TextUpdate(_sessionProgressService.Hearts);
                     break;
-                case CountData.Wins:
+                case CountEnum.Wins:
                     _sessionProgressService.OnUpdateWins += WinsTextUpdate;
+                    TextUpdate(_sessionProgressService.Wins);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -42,15 +45,15 @@ namespace Super_Auto_Mobs
 
         private void OnDestroy()
         {
-            switch (_countData)
+            switch (countEnum)
             {
-                case CountData.Emeralds:
+                case CountEnum.Emeralds:
                     _sessionProgressService.OnUpdateEmeralds -= TextUpdate;
                     break;
-                case CountData.Hearts:
+                case CountEnum.Hearts:
                     _sessionProgressService.OnUpdateHearts -= TextUpdate;
                     break;
-                case CountData.Wins:
+                case CountEnum.Wins:
                     _sessionProgressService.OnUpdateWins -= WinsTextUpdate;
                     break;
                 default:

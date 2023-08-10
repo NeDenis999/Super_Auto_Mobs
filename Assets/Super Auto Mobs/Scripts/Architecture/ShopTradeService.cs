@@ -6,6 +6,8 @@ namespace Super_Auto_Mobs
 {
     public class ShopTradeService : MonoBehaviour
     {
+        public event Action<PurchaseEnum> OnBuy;
+        
         private SessionProgressService _sessionProgressService;
         private SoundsService _soundsService;
 
@@ -22,12 +24,13 @@ namespace Super_Auto_Mobs
             _sessionProgressService.Gold += Constants.PriceEntity;
         }
 
-        public bool TryBuy(int cost = Constants.PriceEntity)
+        public bool TryBuy(PurchaseEnum purchaseEnum, int cost = Constants.PriceEntity)
         {
             if (_sessionProgressService.Gold >= cost)
             {
                 _soundsService.PlayBuy();
                 _sessionProgressService.Gold -= cost;
+                OnBuy?.Invoke(purchaseEnum);
                 return true;
             }
             

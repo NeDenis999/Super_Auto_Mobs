@@ -9,7 +9,12 @@ namespace Super_Auto_Mobs
         private OpenButton _openMenu, _openSetting;
 
         [SerializeField]
+        private GameObject _menu;
+        
+        [SerializeField]
         private Game _game;
+
+        public GameObject Menu => _menu;
 
         private void OnEnable()
         {

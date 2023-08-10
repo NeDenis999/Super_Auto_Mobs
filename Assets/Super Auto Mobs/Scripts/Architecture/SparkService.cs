@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor.Graphs;
 using UnityEngine;
 using Zenject;
 
@@ -11,12 +10,14 @@ namespace Super_Auto_Mobs
         private const int StartCount = 5;
         
         private Spark _sparkPrefab;
+        private AssetProviderService _assetProviderService;
         private List<Spark> _sparks = new();
 
         [Inject]
         private void Construct(AssetProviderService assetProviderService)
         {
             _sparkPrefab = assetProviderService.Spark;
+            _assetProviderService = assetProviderService;
         }
 
         private void Start()
@@ -27,16 +28,30 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public void StartAnimation(Vector2 start, Vector2 target, Color color = default, float delay = 1)
+        public void StartAnimation(Vector2 start, Vector2 target, SparkEnum sparkEnum, Color color = default, 
+            float delay = 1)
         {
             var spark = GetSpark();
-
-            if (color == default)
-            {
-                color = Color.green;
-            }
-            
             spark.SetColor(color);
+
+            switch (sparkEnum)
+            {
+                case SparkEnum.Attack:
+                    spark.SetSprite(_assetProviderService.AttackSprite);
+                    break;
+                case SparkEnum.Heart:
+                    spark.SetSprite(_assetProviderService.HeartSprite);
+                    break;
+                case  SparkEnum.Damage:
+                    spark.SetSprite(_assetProviderService.DamageSprite);
+                    break;
+                case  SparkEnum.ActivatePerk:
+                    spark.SetSprite(_assetProviderService.ActivatePerkSprite);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sparkEnum), sparkEnum, null);
+            }
+
             spark.transform.position = start;
             
             var pathPoints = MathfExtensions.CreateSineWave(start, 

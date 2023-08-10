@@ -15,5 +15,10 @@ namespace Super_Auto_Mobs
         {
             _sprite.color = color;
         }
+
+        public void SetSprite(Sprite sprite)
+        {
+            _sprite.sprite = sprite;
+        }
     }
 }

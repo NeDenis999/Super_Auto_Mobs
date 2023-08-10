@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638c45e0ea824efba79d37219560c6f1, type: 3}
+  m_Name: SirPiligrim
+  m_EditorClassIdentifier: 
+  mobDefaultData:
+    Name:
+      English: SirPiligrim
+      Russian: "\u0421\u0438\u0440\u041F\u0438\u043B\u0438\u0433\u0440\u0438\u043C"
+    Info:
+      English: 
+      Russian: 
+    Hearts: 2
+    Attack: 3
+    MobEnum: 23
+  Prefab: {fileID: 2895518650418213882, guid: ef977aa4113fd8d4881dfbac97621314, type: 3}

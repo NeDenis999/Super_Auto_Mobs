@@ -4,6 +4,8 @@
     {
         Tutorial,
         DreamTour,
-        Mineshield
+        Mineshield,
+        Grief,
+        Bav
     }
 }

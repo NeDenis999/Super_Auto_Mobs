@@ -30,25 +30,25 @@ namespace Super_Auto_Mobs
         private void OnEnable()
         {
             _button.onClick.AddListener(OpenLoadScreen);
-            _loadScreenService.OnClose += LoadSceneGameplay;
+            _loadScreenService.OnOpen += LoadSceneGameplay;
         }
 
         private void OnDisable()
         {
             _button.onClick.RemoveListener(OpenLoadScreen);
-            _loadScreenService.OnClose -= LoadSceneGameplay;
+            _loadScreenService.OnOpen -= LoadSceneGameplay;
         }
 
         private void OpenLoadScreen()
         {
             _mainMenu.LeanAlpha(0 , 0.25f);
-            _loadScreenService.Close();
+            _loadScreenService.Open();
         }
         
         private void LoadSceneGameplay()
         {
             _loaderLevelService.LoadSceneGameplayStory();
-            _loadScreenService.Open();
+            _loadScreenService.Close();
         }
     }
 }

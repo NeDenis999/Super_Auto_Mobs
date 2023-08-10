@@ -28,5 +28,12 @@ namespace UnitTests
             var newList = RandomExtensions.GetRandomList(list, 4);
             Assert.AreEqual(list.Count, newList.Count);
         }
+        
+        [Test]
+        public void PercentInt_150_4_return_6()
+        {
+            var value = MathfExtensions.GetPercent(4 * 150);
+            Assert.AreEqual(value, 6);
+        }
     }
 }

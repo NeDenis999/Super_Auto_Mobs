@@ -78,7 +78,7 @@ namespace Super_Auto_Mobs
 
                 foreach (var platform in _shopBuffPlatformsUnlock)
                 {
-                    if (_sessionProgressService.MobsUnlocked.Count == 0)
+                    if (_sessionProgressService.BuffsUnlocked.Count == 0)
                         break;
                     
                     var randomBuffInfo = _assetProviderService.GetBuffInfo(_sessionProgressService.BuffsUnlocked[Random.Range(0,
@@ -92,13 +92,31 @@ namespace Super_Auto_Mobs
             }
             
             RemoveAllMobs();
-            CreateMobs(mobs);
+            SpawnMobs(mobs);
 
             RemoveBuffs();
-            CreateBuffs(buffs);
+            SpawnBuffs(buffs);
         }
 
-        private void CreateMobs(List<MobInfo> mobs)
+        public void SpawnMob(MobEnum mobEnum)
+        {
+            for (int i = 0; i < _shopMobPlatformsUnlock.Count; i++)
+            {
+                if (!_shopMobPlatformsUnlock[i].IsEntity)
+                {
+                    var mobInfo = _assetProviderService.GetMobInfo(mobEnum);
+                    var mobData = new MobData()
+                    {
+                        MobEnum = mobInfo.mobDefaultData.MobEnum
+                    };
+                    
+                    _mobFactoryService.CreateMobInPlatform(mobInfo.Prefab, _shopMobPlatformsUnlock[i], mobInfo.mobDefaultData, mobData);
+                    return;
+                }
+            }
+        }
+        
+        private void SpawnMobs(List<MobInfo> mobs)
         {
             for (int i = 0; i < _shopMobPlatformsUnlock.Count; i++)
             {
@@ -113,7 +131,7 @@ namespace Super_Auto_Mobs
                 }
             }
         }
-        
+
         private void RemoveAllMobs()
         {
             foreach (var platform in _shopMobPlatformsUnlock)
@@ -126,7 +144,20 @@ namespace Super_Auto_Mobs
             }
         }
         
-        private void CreateBuffs(List<BuffInfo> buffs)
+        public void SpawnBuff(BuffEnum buffEnum)
+        {
+            for (int i = 0; i < _shopBuffPlatformsUnlock.Count; i++)
+            {
+                if (!_shopBuffPlatformsUnlock[i].IsEntity)
+                {
+                    var buffInfo = _assetProviderService.GetBuffInfo(buffEnum);
+                    _mobFactoryService.CreateBuffInPlatform(buffInfo, _shopBuffPlatformsUnlock[i]);
+                    return;
+                }
+            }
+        }
+        
+        private void SpawnBuffs(List<BuffInfo> buffs)
         {
             for (int i = 0; i < _shopBuffPlatformsUnlock.Count; i++)
             {

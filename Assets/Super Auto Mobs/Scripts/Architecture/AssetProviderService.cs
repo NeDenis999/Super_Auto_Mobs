@@ -32,15 +32,31 @@ namespace Super_Auto_Mobs
         public MobInfo TestMob;
         public MobInfo ChickenMob;
         public MobInfo PalesosMob;
+        public MobInfo NotchMob;
+        public MobInfo ModdychatDeathMob;
+        public MobInfo ModdychatMob;
+        public MobInfo ZakMob;
+        public MobInfo SirPiligrimMob;
+        public MobInfo BavMob;
 
         [Header("Bosses")]
         public MobInfo SquidBoss;
 
         [Header("Buffs")]
         public BuffInfo AppleBuff;
+        public BuffInfo TagBuff;
+        
+        [Header("Characters")]
+        public List<CharacterData> CharactersData;
         
         [Header("All")]
         public List<MobInfo> AllMobs;
+
+        [Header("Sprites")]
+        public Sprite AttackSprite;
+        public Sprite HeartSprite;
+        public Sprite DamageSprite;
+        public Sprite ActivatePerkSprite;
 
         public MobInfo GetMobInfo(MobEnum mobEnum)
         {
@@ -84,6 +100,18 @@ namespace Super_Auto_Mobs
                     return ChickenMob;
                 case MobEnum.Palesos:
                     return PalesosMob;
+                case MobEnum.Notch:
+                    return NotchMob;
+                case MobEnum.ModdychatDeath:
+                    return ModdychatDeathMob;
+                case MobEnum.Moddychat:
+                    return ModdychatMob;
+                case MobEnum.Zak:
+                    return ZakMob;
+                case MobEnum.SirPiligrim:
+                    return SirPiligrimMob;
+                case MobEnum.Bav:
+                    return BavMob;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -95,9 +123,22 @@ namespace Super_Auto_Mobs
             {
                 case BuffEnum.Apple:
                     return AppleBuff;
+                case BuffEnum.Tag:
+                    return TagBuff;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(buffEnum), buffEnum, null);
             }
+        }
+
+        public CharacterData GetCharactersData(CharacterEnum characterEnum)
+        {
+            foreach (var character in CharactersData)
+            {
+                if (character.Character == characterEnum)
+                    return character;
+            }
+
+            throw new Exception("Not found character");
         }
     }
 }

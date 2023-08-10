@@ -7,7 +7,8 @@ namespace Super_Auto_Mobs
     [Serializable]
     public struct LevelData
     {
-        public GameObject Background;
+        public Location ShopLocation;
+        public Location BattleLocation;
         public List<MobData> EnemyCommand;
         public List<Prize> Prizes;
     }

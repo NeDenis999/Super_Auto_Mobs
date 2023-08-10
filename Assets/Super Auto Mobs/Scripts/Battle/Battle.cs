@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Super_Auto_Mobs
 {
@@ -54,50 +55,53 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private TextMeshProUGUI _tapText;
-        
+
+        [SerializeField]
+        private Transform _battlePlatformPoint;
+
         [Header("Parameters")]
         [SerializeField]
         private bool _isSkipIntro;
-        
+
         [SerializeField]
         private bool _isSkipBattle;
-        
+
         [SerializeField]
         private float _emergencyLandingDelay = 0.5f;
-        
+
         [SerializeField]
         private float _emergencyEndLandingDelay = 0.5f;
-        
+
         [SerializeField]
         private float _updatePositionDelay = 0.5f;
-                
+
         [SerializeField]
         private float _preparingAttackDelay = 0.5f;
-                
+
         [SerializeField]
         private float _takeDamageDelay = 0.5f;
-                
+
         [SerializeField]
         private float _landingDelay = 0.2f;
-                
+
         [SerializeField]
         private float _approachDelay = 0.2f;
-                
+
         [SerializeField]
         private float _attackPerkDelay = 1f;
-                
+
         [SerializeField]
         private float _takeDamagePerkDelay = 1f;
-        
+
         [SerializeField]
         private float _endGamePerkDelay = 1f;
-        
+
         [SerializeField]
         private float _betweenAttacksDelay = 1f;
-                
+
         [SerializeField]
         private float _damageDelay = 0.1f;
-        
+
         private AssetProviderService _assetProviderService;
         private Camera _camera;
         private SessionProgressService _sessionProgressService;
@@ -107,6 +111,7 @@ namespace Super_Auto_Mobs
         
         private List<Mob> _myCommandMobs = new();
         private List<Mob> _enemyCommandMobs = new();
+        private Location _location;
 
         public override List<Mob> MyCommandMobs => _myCommandMobs;
         public override List<Mob> EnemyCommandMobs => _enemyCommandMobs;
@@ -122,6 +127,16 @@ namespace Super_Auto_Mobs
         public override void Open()
         {
             _battle.SetActive(true);
+            
+            if (_location)
+            {
+                Destroy(_location);
+            }
+                
+            _location = Instantiate(_sessionProgressService.BattleLocation, _battle.transform);
+            
+            _battlePlatformPoint.position = _battlePlatformPoint.position
+                .SetY(_location.CommandSpawnPoint.position.y);
         }
         
         public override void Close()

@@ -12,7 +12,7 @@ namespace Super_Auto_Mobs
             LeanTween.scale(gameObject, Vector3.one, 0.2f);
         }
 
-        public override void CloseAnimate(Screen screen, Action OnOnStartedClosing)
+        public override void CloseAnimate(Screen screen, Action OnFinalyClosing)
         {
             transform.localScale = Vector3.one;
             LeanTween
@@ -20,7 +20,7 @@ namespace Super_Auto_Mobs
                 .setOnComplete(() =>
                 {
                     gameObject.SetActive(false);
-                    OnOnStartedClosing?.Invoke();
+                    OnFinalyClosing?.Invoke();
                 });
         }
     }

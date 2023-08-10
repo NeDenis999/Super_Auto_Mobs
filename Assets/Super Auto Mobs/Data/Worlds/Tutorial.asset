@@ -18,19 +18,20 @@ MonoBehaviour:
     Title:
       English: Tutorial
       Russian: "\u0422\u0443\u0442\u043E\u0440\u0438\u0430\u043B"
-    MaxHealth: 999
-    ShopMobPlatformCountUnlock: 1
-    ShopBuffPlatformCountUnlock: 0
+    MaxHealth: 1
+    ShopMobPlatformCountUnlock: 5
+    ShopBuffPlatformCountUnlock: 2
     CommandData: []
-    MobsUnlocked: 11000000
+    MobsUnlocked: 
     BuffsUnlocked: 
     LevelsData:
-    - Background: {fileID: 0}
+    - ShopLocation: {fileID: 8685956109559608981, guid: e2811b575ba303642882da751841ea03, type: 3}
+      BattleLocation: {fileID: 8768131774820091914, guid: d0823e6cc5c969f4e8cf6b8eaa4def34, type: 3}
       EnemyCommand:
       - Hearts: 0
         Attack: 0
-        MobEnum: 18
-      Prizes:
-      - {fileID: 4926732014285218218, guid: 0193f7adba10e4e4689fb44fbd5c1b25, type: 3}
-      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
-      - {fileID: 5718695026528060143, guid: 5f8f8d0674a69a349b63bbdb7d1bdd52, type: 3}
+        MobEnum: 19
+        EffectEnum: 0
+      Prizes: []
+    IsDisableBattleButton: 1
+    IsDisableRollButton: 1

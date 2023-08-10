@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +10,8 @@ namespace Super_Auto_Mobs
 {
     public class LoadScreenService : MonoBehaviour
     {
-        public event Action OnOpen;
         public event Action OnClose;
+        public event Action OnOpen;
         
         [SerializeField]
         private Material _material;
@@ -31,6 +32,9 @@ namespace Super_Auto_Mobs
         private AssetProviderService _assetProviderService;
 
         [SerializeField]
+        private MenuService _menuService;
+        
+        [SerializeField]
         private List<Texture> _textures;
          
         private bool _isActive;
@@ -46,7 +50,6 @@ namespace Super_Auto_Mobs
 
         private void Update()
         {
-            _progress = Mathf.Clamp(_progress, 0, 1);
             _material.SetFloat(_parametr, _progress);
             
             if (_isActive)
@@ -56,8 +59,7 @@ namespace Super_Auto_Mobs
                 if (!_isOpen && _progress >= 1f)
                 {
                     _isOpen = true;
-                    OnOpen?.Invoke();
-                    print("Open");
+                    print("Close");
                 }
             }
             else
@@ -67,14 +69,15 @@ namespace Super_Auto_Mobs
                 if (_isOpen && _progress <= 0f)
                 {
                     _isOpen = false;
-                    OnClose?.Invoke();
-                    print("Close");
+                    print("Open");
                 }
             }
+            
+            _progress = Mathf.Clamp(_progress, 0, 1);
         }
 
-        [ContextMenu("Open")]
-        public void Open()
+        [ContextMenu("Close")]
+        public IEnumerator Close()
         {
             UpdateTexture();
             
@@ -82,34 +85,36 @@ namespace Super_Auto_Mobs
             _isActive = true;
             _material.SetFloat(_parametr, 0);
             _isOpen = false;
+            
+            yield return new WaitUntil(() => _isOpen);
+            _menuService.Menu.SetActive(true);
+            OnClose?.Invoke();
         }
         
-        [ContextMenu("Close")]
-        public void Close()
+        [ContextMenu("Open")]
+        public IEnumerator Open()
         {
             UpdateTexture();
-            /*if (_sessionProgressService.MobsUnlocked.Count > 0)
-            {
-                _image.sprite = _assetProviderService
-                    .GetMobInfo(_sessionProgressService.MobsUnlocked[Random.Range(0, _sessionProgressService.MobsUnlocked.Count)])
-                    .Prefab.GetComponent<SpriteRenderer>()
-                    .sprite;
-            }
-            else
-            {
-                _image.sprite = _defaultImage;
-               // _material.SetTexture("_TransitionTex", _defaultImage.texture);
-            }*/
+            
+            _menuService.Menu.SetActive(false);
             
             _progress = 1;
             _isActive = false;
             _material.SetFloat(_parametr, 1);
             _isOpen = true;
+            
+            yield return new WaitUntil(() => !_isOpen);
+            OnOpen?.Invoke();
         }
 
         private void UpdateTexture()
         {
             _material.SetTexture("_TransitionTex", _textures[Random.Range(0, _textures.Count)]);
+        }
+
+        private void OnDestroy()
+        {
+            _material.SetFloat(_parametr, 1);
         }
     }
 }

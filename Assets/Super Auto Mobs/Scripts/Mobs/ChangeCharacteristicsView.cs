@@ -149,7 +149,6 @@ namespace Super_Auto_Mobs
             for (int i = 0; i < list.Count; i++)
             {
                 var color = Color.white;
-                print($"{_mob.name} {value} {i} {value - i}");
 
                 if (value - i <= 0)
                 {

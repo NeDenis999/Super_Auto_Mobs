@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Super_Auto_Mobs.Scripts;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Super_Auto_Mobs
@@ -14,6 +13,7 @@ namespace Super_Auto_Mobs
         public event Action<bool> OnUpdateIsAutoPlay;
         public event Action<float> OnUpdateMusic;
         public event Action<float> OnUpdateSound;
+        public event Action OnUpdateInEndWorld;
         
         public int Gold
         {
@@ -35,7 +35,7 @@ namespace Super_Auto_Mobs
                 if (value > 0)
                 {
                     WorldProgress worldProgress = CurrentWorld;
-                    worldProgress.Hearts = value;
+                    worldProgress.Hearts = value <= _worldData.MaxHealth ? value : _worldData.MaxHealth;
                     CurrentWorld = worldProgress;
                 }
                 
@@ -50,7 +50,7 @@ namespace Super_Auto_Mobs
             {
                 WorldProgress worldProgress = CurrentWorld;
                 
-                if (value < CurrentWorldData.LevelsData.Count)
+                if (value <= CurrentWorldData.LevelsData.Count)
                 {
                     worldProgress.Wins = value;
                 }
@@ -234,10 +234,57 @@ namespace Super_Auto_Mobs
             set
             {
                 WorldProgress worldProgress = CurrentWorld;
-                worldProgress.IndexCurrentLevel = value;
+
+                if (value >= _worldData.LevelsData.Count)
+                    worldProgress.IndexCurrentLevel = _worldData.LevelsData.Count - 1;
+                else
+                    worldProgress.IndexCurrentLevel = value;
+                
                 CurrentWorld = worldProgress;
             }
         }
+
+        public bool IsCurrentWorld => _isCurrentWorld;
+        public bool IsEndData        
+        {
+            get => CurrentWorld.IsEndWorld;
+
+            set
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.IsEndWorld = value;
+                CurrentWorld = worldProgress;
+                OnUpdateInEndWorld?.Invoke();
+            }
+        }
+
+        public int Turn
+        {
+            get => CurrentWorld.Turn;
+
+            set
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.Turn = value;
+                CurrentWorld = worldProgress;
+            }
+        }
+
+        public bool IsDisableBattleButton
+        {
+            get => CurrentWorld.IsDisableBattleButton;
+
+            set
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.IsDisableBattleButton = value;
+                CurrentWorld = worldProgress;
+            }
+        }
+
+        public Location ShopLocation => CurrentLevel.ShopLocation;
+        public Location BattleLocation => CurrentLevel.BattleLocation;
+        public bool IsBattle => CurrentWorld.Wins < _worldData.LevelsData.Count;
 
         public bool IsTest;
 
@@ -252,6 +299,8 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private SettingsData _settingsData;
+        
+        private bool _isCurrentWorld;
         
         private void Awake()
         {
@@ -276,22 +325,15 @@ namespace Super_Auto_Mobs
                 IsAutoPlay = false
             };
 
-            var textDefaultSettingData = JsonConvert.SerializeObject(defaultSettingsData);
+            var textDefaultSettingData = JsonUtility.ToJson(defaultSettingsData);
             
-            _settingsData = JsonConvert.DeserializeObject<SettingsData>(PlayerPrefs.GetString("Setting", textDefaultSettingData));
+            _settingsData = JsonUtility.FromJson<SettingsData>(PlayerPrefs.GetString("Setting", textDefaultSettingData));
             print(_settingsData);
         }
 
         private void OnDisable()
         {
-            PlayerPrefs.SetString("Setting", JsonConvert.SerializeObject(_settingsData));
-        }
-
-        private void Start()
-        {
-            OnUpdateEmeralds?.Invoke(CurrentWorld.Emeralds);
-            OnUpdateHearts?.Invoke(CurrentWorld.Hearts);
-            OnUpdateWins?.Invoke(CurrentWorld.Wins);
+            PlayerPrefs.SetString("Setting", JsonUtility.ToJson(_settingsData));
         }
 
         public void SetWorldData(WorldData worldData)
@@ -318,10 +360,34 @@ namespace Super_Auto_Mobs
                 BuffsUnlocked = worldData.BuffsUnlocked,
                 ShopMobPlatformCountUnlock = worldData.ShopMobPlatformCountUnlock,
                 ShopBuffPlatformCountUnlock = worldData.ShopBuffPlatformCountUnlock,
-                WorldEnum = worldData.WorldEnum
+                WorldEnum = worldData.WorldEnum,
+                IsDisableBattleButton = worldData.IsDisableBattleButton,
+                IsDisableRollButton = worldData.IsDisableRollButton
             };
 
             _gameData.WorldsProgress.Add(progress);
+            _isCurrentWorld = true;
+            
+            OnUpdateEmeralds?.Invoke(CurrentWorld.Emeralds);
+            OnUpdateHearts?.Invoke(CurrentWorld.Hearts);
+            OnUpdateWins?.Invoke(CurrentWorld.Wins);
+            //OnUpdateHearts?.Invoke(Hearts);
+        }
+
+        public WorldProgress GetProgress(World world)
+        {
+            foreach (var worldProgress in _gameData.WorldsProgress)
+            {
+                if (worldProgress.WorldEnum == world.WorldData.WorldEnum)
+                    return worldProgress;
+            }
+
+            WorldProgress cleanWorldProgress = new WorldProgress()
+            {
+                Hearts = world.WorldData.MaxHealth
+            };
+            
+            return cleanWorldProgress;
         }
     }
 }

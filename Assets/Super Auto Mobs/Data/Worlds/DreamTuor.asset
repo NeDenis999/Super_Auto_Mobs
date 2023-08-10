@@ -18,30 +18,38 @@ MonoBehaviour:
     Title:
       English: Dream Tuor
       Russian: "\u0414\u0440\u0438\u043C \u0422\u0443\u0440"
-    MaxHealth: 0
+    MaxHealth: 1
     ShopMobPlatformCountUnlock: 0
     ShopBuffPlatformCountUnlock: 0
     CommandData: []
     MobsUnlocked: 
     BuffsUnlocked: 
     LevelsData:
-    - Background: {fileID: 0}
+    - ShopLocation: {fileID: 0}
+      BattleLocation: {fileID: 0}
       EnemyCommand:
       - Hearts: 2
         Attack: 0
         MobEnum: 0
+        EffectEnum: 0
       Prizes:
       - {fileID: 1761118455993192824, guid: 21036e48378d3c54ba00daf04023105c, type: 3}
-    - Background: {fileID: 0}
+    - ShopLocation: {fileID: 0}
+      BattleLocation: {fileID: 0}
       EnemyCommand:
       - Hearts: 0
         Attack: 0
         MobEnum: 6
+        EffectEnum: 0
       - Hearts: 1
         Attack: 0
         MobEnum: 3
+        EffectEnum: 0
       - Hearts: 1
         Attack: 2
         MobEnum: 6
+        EffectEnum: 0
       Prizes:
       - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
+    IsDisableBattleButton: 0
+    IsDisableRollButton: 0

@@ -30,7 +30,6 @@ namespace Super_Auto_Mobs
         private SoundsService _soundsService;
         private ShopService _shopService;
         private Game _game;
-        private SessionProgressService _sessionProgressService;
 
         [Inject]
         private void Construct(DialogService dialogService, SoundsService soundsService, ShopService shopService, Game game)

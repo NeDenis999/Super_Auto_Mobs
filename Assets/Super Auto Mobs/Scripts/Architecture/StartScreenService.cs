@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Super_Auto_Mobs
 {
@@ -15,19 +14,36 @@ namespace Super_Auto_Mobs
         private Camera _menuCamera;
 
         [SerializeField]
-        private List<GameObject> _offObjects;
+        private GameObject _blurCanvas;
+        
+        [SerializeField]
+        private GameObject _canvas;
+        
+        [SerializeField]
+        private Screen _selectWorldScreen;
+        
+        [SerializeField]
+        private Screen _blackoutScreen;
 
-        public void Open()
+        [SerializeField]
+        private SessionProgressService _sessionProgressService;
+
+        [SerializeField]
+        private Game _game;
+
+        private World _world;
+
+        public void PreparationOpen()
         {
             _menu.SetActive(true);
-
-            foreach (var offObject in _offObjects)
-            {
-                offObject.SetActive(false);
-            }
-            
             _myCamera.gameObject.SetActive(false);
             _menuCamera.gameObject.SetActive(true);
+        }
+        
+        public void Open()
+        {
+            _blurCanvas.SetActive(true);
+            _canvas.SetActive(true);
         }
         
         public void Close()
@@ -36,14 +52,26 @@ namespace Super_Auto_Mobs
                 return;
 
             _menu.SetActive(false);
-            
-            foreach (var offObject in _offObjects)
-            {
-                offObject.SetActive(true);
-            }
-            
             _myCamera.gameObject.SetActive(true);
             _menuCamera.gameObject.SetActive(false);
+            _blurCanvas.SetActive(false);
+        }
+
+        public void OpenWorld(World world)
+        {
+            _world = world;
+            
+            _selectWorldScreen.OnFinalyClosing += CloseSelectWorldScreen;
+            _selectWorldScreen.Close();
+            _blackoutScreen.Close();
+            _sessionProgressService.SetWorldData(_world.WorldData);
+        }
+
+        private void CloseSelectWorldScreen()
+        {
+            _selectWorldScreen.OnFinalyClosing -= CloseSelectWorldScreen;
+            _canvas.SetActive(false);
+            _game.CurrentGameState = GameState.Shop;
         }
     }
 }

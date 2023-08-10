@@ -34,7 +34,7 @@ namespace Super_Auto_Mobs
             var buff = Instantiate(buffInfo.Prefab, platform.SpawnPoint.position, Quaternion.identity, platform.SpawnPoint);
             platform.Entity = buff;
             buff.Init(buffInfo.BuffData);
-            
+
             _diContainer.Inject(buff);
             
             return buff;

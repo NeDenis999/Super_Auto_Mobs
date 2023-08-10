@@ -9,10 +9,12 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Super Auto Mobs/Scenes/MainMenu.unity
-    guid: 28bcf690e2e06b0458a92abac9a7071a
-  - enabled: 1
     path: Assets/Super Auto Mobs/Scenes/Game.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 0
+    path: Assets/Super Auto Mobs/Scenes/MainMenu.unity
+    guid: 28bcf690e2e06b0458a92abac9a7071a
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 4cc0465fb6339a5438145d672eff0e4b, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 8eee79e4aac02034fac48927c08aa6d8, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: d777879359e675d47bf1f00c50973087, type: 2}

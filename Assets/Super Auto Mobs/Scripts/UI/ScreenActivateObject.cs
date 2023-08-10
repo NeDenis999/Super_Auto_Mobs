@@ -15,13 +15,13 @@ namespace Super_Auto_Mobs
             _screen = GetComponent<Screen>();
             
             _screen.OnBeginOpen += Activate;
-            _screen.OnStartedClosing += Deactivate;
+            _screen.OnFinalyClosing += Deactivate;
         }
         
         private void OnDestroy()
         {
             _screen.OnBeginOpen -= Activate;
-            _screen.OnStartedClosing -= Deactivate;
+            _screen.OnFinalyClosing -= Deactivate;
         }
 
         private void Activate()

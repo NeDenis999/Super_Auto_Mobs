@@ -21,7 +21,7 @@ namespace Super_Auto_Mobs
         private CutScene _tutorial;
         
         [SerializeField]
-        private CutScene _mineShield1;
+        private CutScene _mineShield1, _mineShield2;
         
         private SessionProgressService _sessionProgressService;
         private Game _game;
@@ -54,7 +54,7 @@ namespace Super_Auto_Mobs
                 case WorldEnum.Tutorial:
                     if (gameState == GameState.Shop)
                     {
-                        if (_sessionProgressService.CurrentWorld.Turn == 0)
+                        if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
                         {
                             _tutorial.Play();
                         }
@@ -65,9 +65,13 @@ namespace Super_Auto_Mobs
                 case WorldEnum.Mineshield:
                     if (gameState == GameState.Shop)
                     {
-                        if (_sessionProgressService.CurrentWorld.Turn == 0)
+                        if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
                         {
                             _mineShield1.Play();
+                        }
+                        else if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 1)
+                        {
+                            _mineShield2.Play();
                         }
                     }
                     break;

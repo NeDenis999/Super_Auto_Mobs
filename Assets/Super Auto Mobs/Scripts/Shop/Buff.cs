@@ -10,9 +10,11 @@ namespace Super_Auto_Mobs
         
         private int _hearts;
         private int _attack;
+        private BuffData _buffData;
 
         public int CurrentAttack => _attack;
         public int CurrentHearts => _hearts;
+        public BuffData BuffData => _buffData;
 
         public void Init(BuffData buffData)
         {
@@ -20,6 +22,7 @@ namespace Super_Auto_Mobs
             _attack = buffData.Attack;
             _name = buffData.Name;
             _info = buffData.Info;
+            _buffData = buffData;
         }
         
         public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob)

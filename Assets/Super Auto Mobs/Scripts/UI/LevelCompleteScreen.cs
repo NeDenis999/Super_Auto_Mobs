@@ -72,7 +72,7 @@ namespace Super_Auto_Mobs
                 prize.Activate();
                 _prizes.Add(prize);
             }
-            
+
             switch (endBattleEnum)
             {
                 case EndBattleEnum.Won:
@@ -84,8 +84,16 @@ namespace Super_Auto_Mobs
                     break;
                 case EndBattleEnum.Lose:
                     titleText = _languageService.GetText(_loseTitle);
+                    
+                    if (_sessionProgressService.CurrentLevel.IsCanLose)
+                    {
+                        _sessionProgressService.IndexCurrentLevel++;
+                    }
+                    else
+                    {
+                        _sessionProgressService.Hearts--;
+                    }
 
-                    _sessionProgressService.Hearts--;
                     break;
                 case EndBattleEnum.Faint:
                     titleText = _languageService.GetText(_faintTitle);

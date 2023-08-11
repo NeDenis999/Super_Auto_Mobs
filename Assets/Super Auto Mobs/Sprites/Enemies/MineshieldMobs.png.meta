@@ -455,6 +455,342 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_15
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 187
+        width: 12
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4729763b85f4b9f47a0d579b8db68097
+      internalID: -274739081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_16
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 187
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ab6cd73de61a8d45bde5356472b79f0
+      internalID: -960435999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_17
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 223
+        width: 12
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e87e4fb5139489f4caae75a73ad1f2fe
+      internalID: 1463990056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_18
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 205
+        width: 12
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30431dd4d1425c643b1496cf162163b5
+      internalID: -1562110420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_19
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 205
+        width: 12
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02dc7182808aea499a26ffbaff23ce5
+      internalID: -114953020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_20
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 205
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a603820fd218c4547963c4b4e85b1fe3
+      internalID: -1584231030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_21
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 169
+        width: 12
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2845c54e7e5bc34c812a9280d71c7b5
+      internalID: -1240465650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_22
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 169
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76d89d33699b626439c3d3a23f735c91
+      internalID: 1996523105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_23
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 169
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3704712b03e2b5647aa370875c440e4c
+      internalID: 558017705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_24
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 151
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecde886e9ae666b4db461a177dfa31a6
+      internalID: -94249407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_25
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 151
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bbca63064eeba7429ac29a788f0c345
+      internalID: -306399604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_26
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 109
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7b4dee42fa37264cae3f8feafe42205
+      internalID: -847596677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_27
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 109
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ee17eac7dfa6684c91d773b5fe8ccee
+      internalID: -1312177500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_28
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 108
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2838cb7c64130da49a9b76598b29d858
+      internalID: 1007108089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_29
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 91
+        width: 12
+        height: 17
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb2e0ae2fba569b46bdf8ed29de31aef
+      internalID: -966666073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MineshieldMobs_30
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 91
+        width: 12
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19336bd0f3224d74abfa83b89f312600
+      internalID: 1160460857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -473,8 +809,24 @@ TextureImporter:
       MineshieldMobs_12: 310467508
       MineshieldMobs_13: 199864454
       MineshieldMobs_14: -325302784
+      MineshieldMobs_15: -274739081
+      MineshieldMobs_16: -960435999
+      MineshieldMobs_17: 1463990056
+      MineshieldMobs_18: -1562110420
+      MineshieldMobs_19: -114953020
       MineshieldMobs_2: -1802254483
+      MineshieldMobs_20: -1584231030
+      MineshieldMobs_21: -1240465650
+      MineshieldMobs_22: 1996523105
+      MineshieldMobs_23: 558017705
+      MineshieldMobs_24: -94249407
+      MineshieldMobs_25: -306399604
+      MineshieldMobs_26: -847596677
+      MineshieldMobs_27: -1312177500
+      MineshieldMobs_28: 1007108089
+      MineshieldMobs_29: -966666073
       MineshieldMobs_3: 1146054171
+      MineshieldMobs_30: 1160460857
       MineshieldMobs_4: -847792264
       MineshieldMobs_5: 1446263429
       MineshieldMobs_6: -1780811855

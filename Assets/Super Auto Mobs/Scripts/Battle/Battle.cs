@@ -130,10 +130,11 @@ namespace Super_Auto_Mobs
             
             if (_location)
             {
-                Destroy(_location);
+                Destroy(_location.gameObject);
             }
                 
             _location = Instantiate(_sessionProgressService.BattleLocation, _battle.transform);
+            Camera.main.backgroundColor = _location.CameraColor;
             
             _battlePlatformPoint.position = _battlePlatformPoint.position
                 .SetY(_location.CommandSpawnPoint.position.y);

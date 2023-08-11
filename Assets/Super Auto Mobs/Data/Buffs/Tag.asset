@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Tag
   m_EditorClassIdentifier: 
   BuffData:
+    BuffEnum: 1
     Name:
       English: Tag
       Russian: "\u0411\u0438\u0440\u043A\u0430"
@@ -23,4 +24,5 @@ MonoBehaviour:
     Attack: 0
     Hearts: 0
     EffectEnum: 1
+    IsSingle: 0
   Prefab: {fileID: 7079592020010366796, guid: 3185b95e1a36e7d40bb61fc10ba681c4, type: 3}

@@ -10,14 +10,20 @@ namespace Super_Auto_Mobs
         public event Action<GameState> OnUpdateGameState;
 
         [SerializeField]
-        private GameState _startGameState;
+        private bool _isTest;
 
         [SerializeField]
-        private bool _isTest;
+        private GameState _startGameState;
 
         [SerializeField]
         private World _world;
 
+        [SerializeField]
+        private int _indexCurrentLevel;
+
+        [SerializeField]
+        private bool _isSkipDialogs;
+        
         private GameState _currentGameState;
         private GameState _previousGameState = GameState.None;
         private ShopService _shopService;
@@ -28,6 +34,7 @@ namespace Super_Auto_Mobs
         private LoadScreenService _loadScreenService;
 
         private bool _isLoad;
+        private DialogService _dialogService;
 
         public bool IsLoad => _isLoad;
 
@@ -46,8 +53,10 @@ namespace Super_Auto_Mobs
 
         [Inject]
         private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
-            TitlesService titlesService, SessionProgressService sessionProgressService, LoadScreenService loadScreenService)
+            TitlesService titlesService, SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
+            DialogService dialogService)
         {
+            _dialogService = dialogService;
             _shopService = shopService;
             _battleService = battleBaseService;
             _startScreenService = startScreenService;
@@ -63,6 +72,9 @@ namespace Super_Auto_Mobs
             if (_isTest)
             {
                 _sessionProgressService.SetWorldData(_world.WorldData);
+                _sessionProgressService.IndexCurrentLevel = _indexCurrentLevel;
+                _dialogService.IsSkipDialogs = _isSkipDialogs;
+                
                 CurrentGameState = _startGameState;
             }
         }

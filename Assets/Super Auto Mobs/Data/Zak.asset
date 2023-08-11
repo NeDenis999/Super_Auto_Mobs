@@ -22,4 +22,5 @@ MonoBehaviour:
     Hearts: 3
     Attack: 2
     MobEnum: 22
+    IsSingle: 1
   Prefab: {fileID: 4970265744928836480, guid: cefd64c244459e94d8029e5b239eae57, type: 3}

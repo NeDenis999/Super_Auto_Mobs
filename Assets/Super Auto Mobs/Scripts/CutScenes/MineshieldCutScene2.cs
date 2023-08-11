@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Super_Auto_Mobs
 {
-    public class MineshieldCutScene1 : CutScene
+    public class MineshieldCutScene2 : CutScene
     {
         public UnityEvent OnHideDialog1;
         

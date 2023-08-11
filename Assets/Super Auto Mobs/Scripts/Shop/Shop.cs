@@ -125,10 +125,11 @@ namespace Super_Auto_Mobs
 
             if (_location)
             {
-                Destroy(_location);
+                Destroy(_location.gameObject);
             }
                 
             _location = Instantiate(_sessionProgressService.ShopLocation, _shop.transform);
+            Camera.main.backgroundColor = _location.CameraColor;
 
             _commandPlatformPoint.position = _commandPlatformPoint.position
                 .SetY(_location.CommandSpawnPoint.position.y);
@@ -360,16 +361,7 @@ namespace Super_Auto_Mobs
                                     {
                                         if (_shopTradeService.TryBuy(PurchaseEnum.Mob))
                                         {
-                                            shopPlatform.Entity = _shopPlatformSelected.Entity;
-
-                                            var mob = (Mob)_shopPlatformSelected.Entity;
-                                            
-                                            if (mob.Perk.TriggeringSituation == TriggeringSituation.Buy)
-                                            {
-                                                mob.Perk.Activate();
-                                            }
-                                            
-                                            _shopPlatformSelected.Entity = null;
+                                            Buy(PurchaseEnum.Mob, shopPlatform);
                                         }
                                     }
                                 }
@@ -380,14 +372,7 @@ namespace Super_Auto_Mobs
                                 {
                                     if (_shopTradeService.TryBuy(PurchaseEnum.Buff))
                                     {
-                                        var mob = (Mob)shopPlatform.Entity;
-
-                                        var _buff = (Buff)_shopPlatformSelected.Entity;
-                                        StartCoroutine(_buff.ToMoveTrajectory(
-                                            _trajectory.GetTrajectory(
-                                                _shopPlatformSelected.Entity.transform.position, 
-                                                shopPlatform.transform.position), mob));
-                                        _shopPlatformSelected.Entity = null;
+                                        Buy(PurchaseEnum.Buff, shopPlatform);
                                     }
                                 }
                             }
@@ -488,16 +473,7 @@ namespace Super_Auto_Mobs
                                     {
                                         if (_shopTradeService.TryBuy(PurchaseEnum.Mob))
                                         {
-                                            shopPlatform.Entity = _shopPlatformSelected.Entity;
-                                            
-                                            var mob = (Mob)_shopPlatformSelected.Entity;
-                                            
-                                            if (mob.Perk.TriggeringSituation == TriggeringSituation.Buy)
-                                            {
-                                                mob.Perk.Activate();
-                                            }
-                                            
-                                            _shopPlatformSelected.Entity = null;
+                                            Buy(PurchaseEnum.Mob, shopPlatform);
                                         }
                                     }
                                 }
@@ -508,13 +484,7 @@ namespace Super_Auto_Mobs
                                 {
                                     if (_shopTradeService.TryBuy(PurchaseEnum.Buff))
                                     {
-                                        var mob = (Mob)shopPlatform.Entity;
-
-                                        var _buff = (Buff)_shopPlatformSelected.Entity;
-                                        StartCoroutine(_buff.ToMoveTrajectory(_trajectory.GetTrajectory(
-                                            _shopPlatformSelected.Entity.transform.position, 
-                                            shopPlatform.transform.position), mob));
-                                        _shopPlatformSelected.Entity = null;
+                                        Buy(PurchaseEnum.Buff, shopPlatform);
                                     }
                                 }
                             }
@@ -564,7 +534,46 @@ namespace Super_Auto_Mobs
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
+        private void Buy(PurchaseEnum purchaseEnum, ShopPlatform shopPlatform)
+        {
+            if (purchaseEnum == PurchaseEnum.Mob)
+            {
+                shopPlatform.Entity = _shopPlatformSelected.Entity;
+
+                var mob = (Mob)_shopPlatformSelected.Entity;
+
+                if (mob.MobDefaultData.IsSingle)
+                {
+                    _sessionProgressService.MobsUnlocked.Remove(mob.MobData.MobEnum);
+                }
+                
+                if (mob.Perk.TriggeringSituation == TriggeringSituation.Buy)
+                {
+                    mob.Perk.Activate();
+                }
+
+                _shopPlatformSelected.Entity = null;
+            }
+            else if (purchaseEnum == PurchaseEnum.Buff)
+            {
+                var mob = (Mob)shopPlatform.Entity;
+
+                var _buff = (Buff)_shopPlatformSelected.Entity;
+                
+                if (_buff.BuffData.IsSingle)
+                {
+                    _sessionProgressService.BuffsUnlocked.Remove(_buff.BuffData.BuffEnum);
+                }
+                
+                StartCoroutine(_buff.ToMoveTrajectory(
+                    _trajectory.GetTrajectory(
+                        _shopPlatformSelected.Entity.transform.position, 
+                        shopPlatform.transform.position), mob));
+                _shopPlatformSelected.Entity = null;
+            }
+        }
+
         private void MoveMobs(ShopPlatform shopPlatform)
         {
             var numberSelectedPlatform =

@@ -8,8 +8,11 @@ namespace Super_Auto_Mobs
     public class InfoMobScreen : MonoBehaviour
     {
         [SerializeField]
-        private TextMeshProUGUI _titleText, _infoText, _attackText, _heartsText;
+        private TextMeshProUGUI _titleText, _infoText, _attackText, _heartsText, _priceText;
 
+        [SerializeField]
+        private GameObject _price;
+        
         [SerializeField]
         private CanvasGroup _canvasGroup;
         
@@ -17,13 +20,16 @@ namespace Super_Auto_Mobs
         private float _currentProgress;
         private float _speed = 2f;
         private LanguageService _languageService;
+        private Game _game;
+
 
         [Inject]
-        private void Construct(LanguageService languageService)
+        private void Construct(LanguageService languageService, Game game)
         {
             _languageService = languageService;
+            _game = game;
         }
-        
+
         private void Update()
         {
             if (_isOpen)
@@ -48,6 +54,8 @@ namespace Super_Auto_Mobs
             if (!isNotChangePosition)
                 transform.position = entity.transform.position.AddY(2.75f);
 
+            _price.SetActive(_game.CurrentGameState == GameState.Shop);
+            
             if (entity is Mob)
             {
                 var mob = (Mob)entity;
@@ -56,6 +64,7 @@ namespace Super_Auto_Mobs
                 _infoText.text = _languageService.GetText(mob.Info);
                 _attackText.text = mob.CurrentAttack.ToString();
                 _heartsText.text = mob.CurrentHearts.ToString();
+                _priceText.text = Constants.PriceEntity.ToString();
             }
             
             if (entity is Buff)
@@ -66,6 +75,7 @@ namespace Super_Auto_Mobs
                 _infoText.text = _languageService.GetText(mob.Info);
                 _attackText.text = mob.CurrentAttack.ToString();
                 _heartsText.text = mob.CurrentHearts.ToString();
+                _priceText.text = Constants.PriceEntity.ToString();
             }
         }
 

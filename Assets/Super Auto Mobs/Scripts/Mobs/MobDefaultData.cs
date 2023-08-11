@@ -10,5 +10,6 @@ namespace Super_Auto_Mobs
         public int Hearts;
         public int Attack;
         public MobEnum MobEnum;
+        public bool IsSingle;
     }
 }

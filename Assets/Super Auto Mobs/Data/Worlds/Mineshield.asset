@@ -33,13 +33,23 @@ MonoBehaviour:
         MobEnum: 20
         EffectEnum: 0
       Prizes: []
-    - ShopLocation: {fileID: 8685956109559608981, guid: e2811b575ba303642882da751841ea03, type: 3}
-      BattleLocation: {fileID: 8685956109559608981, guid: e2811b575ba303642882da751841ea03, type: 3}
+      IsCanLose: 1
+    - ShopLocation: {fileID: 3234937463826943017, guid: 4f89bf7ae1716364c98e903dd969b205, type: 3}
+      BattleLocation: {fileID: 3234937463826943017, guid: 4f89bf7ae1716364c98e903dd969b205, type: 3}
       EnemyCommand:
-      - Hearts: 2
+      - Hearts: 0
         Attack: 0
-        MobEnum: 0
+        MobEnum: 3
+        EffectEnum: 0
+      - Hearts: 0
+        Attack: 0
+        MobEnum: 3
+        EffectEnum: 0
+      - Hearts: 0
+        Attack: 0
+        MobEnum: 5
         EffectEnum: 0
       Prizes: []
+      IsCanLose: 0
     IsDisableBattleButton: 0
     IsDisableRollButton: 1

@@ -13,31 +13,33 @@ namespace Super_Auto_Mobs
     {
         public event Action OnHide;
         public event Action OnStartHide;
-        
+
+        public bool IsSkipDialogs;
+
         [SerializeField]
         private TextMeshProUGUI _textMeshPro;
-        
+
         [SerializeField]
         private TextAnimation _textAnimation;
-        
+
         [SerializeField]
         private GameObject _dialogCanvas;
-        
+
         [SerializeField]
         private GameObject _rightPerson;
-        
+
         [SerializeField]
         private GameObject _leftPerson;
 
         [SerializeField]
         private GameObject _rightName;
-        
+
         [SerializeField]
         private GameObject _leftName;
-        
+
         [SerializeField]
         private TextMeshProUGUI _leftNameText;
-        
+
         [SerializeField]
         private TextMeshProUGUI _rightNameText;
 
@@ -73,6 +75,12 @@ namespace Super_Auto_Mobs
         
         public void Show(Dialogue dialogue = null)
         {
+            if (IsSkipDialogs)
+            {
+                Hide();
+                return;
+            }
+            
             _shopService.IsInteractive = false;
             
             if (dialogue == null)

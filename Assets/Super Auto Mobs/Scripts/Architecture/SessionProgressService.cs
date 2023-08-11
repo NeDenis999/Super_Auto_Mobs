@@ -349,6 +349,20 @@ namespace Super_Auto_Mobs
                 }
             }
 
+            var MobsUnlocked = new List<MobEnum>(worldData.MobsUnlocked.Count);
+
+            worldData.MobsUnlocked.ForEach((item) =>
+            {
+                MobsUnlocked.Add(item);
+            });
+            
+            var BuffsUnlocked = new List<BuffEnum>(worldData.BuffsUnlocked.Count);
+
+            worldData.BuffsUnlocked.ForEach((item) =>
+            {
+                BuffsUnlocked.Add(item);
+            });
+            
             var progress = new WorldProgress
             {
                 Hearts = worldData.MaxHealth,
@@ -356,8 +370,8 @@ namespace Super_Auto_Mobs
                 Emeralds = Constants.StartGold, 
                 IndexCurrentLevel = 0,
                 MyCommandMobsData = worldData.CommandData,
-                MobsUnlocked = worldData.MobsUnlocked,
-                BuffsUnlocked = worldData.BuffsUnlocked,
+                MobsUnlocked = MobsUnlocked,
+                BuffsUnlocked = new List<BuffEnum>(worldData.BuffsUnlocked),
                 ShopMobPlatformCountUnlock = worldData.ShopMobPlatformCountUnlock,
                 ShopBuffPlatformCountUnlock = worldData.ShopBuffPlatformCountUnlock,
                 WorldEnum = worldData.WorldEnum,

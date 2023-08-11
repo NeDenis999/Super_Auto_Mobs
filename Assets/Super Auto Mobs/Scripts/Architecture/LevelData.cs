@@ -11,5 +11,6 @@ namespace Super_Auto_Mobs
         public Location BattleLocation;
         public List<MobData> EnemyCommand;
         public List<Prize> Prizes;
+        public bool IsCanLose;
     }
 }

@@ -42,13 +42,13 @@ namespace Super_Auto_Mobs
         private void OpenLoadScreen()
         {
             _mainMenu.LeanAlpha(0 , 0.25f);
-            _loadScreenService.Open();
+            _loadScreenService.AwaitOpen();
         }
         
         private void LoadSceneGameplay()
         {
             _loaderLevelService.LoadSceneGameplayStory();
-            _loadScreenService.Close();
+            _loadScreenService.AwaitClose();
         }
     }
 }

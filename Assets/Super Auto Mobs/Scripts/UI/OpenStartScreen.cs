@@ -31,7 +31,7 @@ namespace Super_Auto_Mobs
 
         private void OpenStartMenu()
         {
-            //_loadScreenService.Close();
+            //_loadScreenService.AwaitClose();
             _game.CurrentGameState = GameState.StartMenu;
         }
     }

@@ -781,6 +781,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Android: I2_TMPro
     Standalone: I2_TMPro
+    WebGL: I2_TMPro
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

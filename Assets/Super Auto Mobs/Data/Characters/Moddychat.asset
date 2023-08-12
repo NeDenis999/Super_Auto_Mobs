@@ -15,5 +15,5 @@ MonoBehaviour:
   Character: 5
   Name:
     English: Moddychat
-    Russian: "\u041C\u043E\u0434\u0438\u0447\u0430\u0442"
+    Russian: "\u041C\u043E\u0434\u0434\u0438\u0447\u0430\u0442"
   View: {fileID: 1146054171, guid: 5f801cac73df80044b6620c5ba06a1fc, type: 3}

@@ -12,6 +12,9 @@ namespace Super_Auto_Mobs
     {
         public event Action OnClose;
         public event Action OnOpen;
+
+        [SerializeField]
+        private AnimationCurve _openCurve, _closeCurve;
         
         [SerializeField]
         private Material _material;
@@ -36,75 +39,62 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private List<Texture> _textures;
-         
-        private bool _isActive;
-        private bool _isOpen = true;
+        
         private float _progress = 1;
+        private AnimationCurve _currentCurve;
 
         private void Start()
         {
             _material.SetFloat(_parametr, 1);
-            _isActive = true;
-            _progress = 1;
         }
 
         private void Update()
         {
-            _material.SetFloat(_parametr, _progress);
+            if (_progress >= 1)
+                return;
             
-            if (_isActive)
-            {
-                _progress += Time.deltaTime * _speed * (1.05f - _progress);
-                
-                if (!_isOpen && _progress >= 1f)
-                {
-                    _isOpen = true;
-                    print("Close");
-                }
-            }
-            else
-            {
-                _progress -= Time.deltaTime * _speed * (1.005f - _progress) * 2;
-                
-                if (_isOpen && _progress <= 0f)
-                {
-                    _isOpen = false;
-                    print("Open");
-                }
-            }
-            
+            _progress += Time.deltaTime * _speed;
             _progress = Mathf.Clamp(_progress, 0, 1);
+            _material.SetFloat(_parametr, Mathf.Clamp(_currentCurve.Evaluate(_progress), 0, 1));
         }
-
-        [ContextMenu("Close")]
-        public IEnumerator Close()
+        
+        public IEnumerator AwaitClose()
         {
             UpdateTexture();
             
             _progress = 0;
-            _isActive = true;
             _material.SetFloat(_parametr, 0);
-            _isOpen = false;
+            _currentCurve = _closeCurve;
             
-            yield return new WaitUntil(() => _isOpen);
+            yield return new WaitUntil(() =>  Math.Abs(_progress - 1) < 0.000001f);
             _menuService.Menu.SetActive(true);
             OnClose?.Invoke();
         }
         
-        [ContextMenu("Open")]
-        public IEnumerator Open()
+        public IEnumerator AwaitOpen()
         {
             UpdateTexture();
             
             _menuService.Menu.SetActive(false);
             
-            _progress = 1;
-            _isActive = false;
+            _progress = 0;
             _material.SetFloat(_parametr, 1);
-            _isOpen = true;
+            _currentCurve = _openCurve;
             
-            yield return new WaitUntil(() => !_isOpen);
+            yield return new WaitUntil(() => Math.Abs(_progress - 1) < 0.000001f);
             OnOpen?.Invoke();
+        }
+
+        [ContextMenu("Open")]
+        public void Open()
+        {
+            StartCoroutine(AwaitOpen());
+        }
+        
+        [ContextMenu("Close")]
+        public void Close()
+        {
+            StartCoroutine(AwaitClose());
         }
 
         private void UpdateTexture()

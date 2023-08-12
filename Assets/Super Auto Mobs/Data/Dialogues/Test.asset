@@ -16,5 +16,5 @@ MonoBehaviour:
   - Side: 1
     Character: 1
     Replaces:
-    - English: Test
-      Russian: Test
+    - English: <color=yellow>Test</color>
+      Russian: "<color=yellow>\u0422\u0435\u0441\u0442</color>"

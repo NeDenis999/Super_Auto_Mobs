@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using Zenject;
 using Object = UnityEngine.Object;
 
@@ -59,6 +61,9 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private Transform _battlePlatformPoint;
 
+        [SerializeField]
+        private Button _tapZoneButton;
+        
         [Header("Parameters")]
         [SerializeField]
         private bool _isSkipIntro;
@@ -192,7 +197,7 @@ namespace Super_Auto_Mobs
         
         public override IEnumerator AwaitIntro()
         {
-            if (_isSkipIntro)
+            if (_location == _sessionProgressService.ShopLocation || _isSkipIntro)
             {
                 SkipIntro();
                 yield break;
@@ -296,7 +301,9 @@ namespace Super_Auto_Mobs
                 {
                     _myInfoMobScreen.Open(MyActiveMob(), true);
                     _enemyInfoMobScreen.Open(EnemyActiveMob(), true);
-                    yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+                    
+                    yield return AwaitTap();
+                    
                     _tapText.gameObject.SetActive(false);
                     _myInfoMobScreen.Close();
                     _enemyInfoMobScreen.Close();
@@ -309,6 +316,15 @@ namespace Super_Auto_Mobs
             }
 
             StartCoroutine(AwaitEndBattle());
+        }
+
+        private IEnumerator AwaitTap()
+        {
+            var trigger = false;
+            UnityAction action = () => trigger = true;
+            _tapZoneButton.onClick.AddListener(action);
+            yield return new WaitUntil(() => trigger);
+            _tapZoneButton.onClick.RemoveListener(action);
         }
 
         public override IEnumerator Attack(bool isEnemy)

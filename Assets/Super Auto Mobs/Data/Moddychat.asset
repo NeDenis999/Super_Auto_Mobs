@@ -15,11 +15,12 @@ MonoBehaviour:
   mobDefaultData:
     Name:
       English: Moddychat
-      Russian: "\u041C\u043E\u0434\u0438\u0447\u0430\u0442"
+      Russian: "\u041C\u043E\u0434\u0434\u0438\u0447\u0430\u0442"
     Info:
       English: 
       Russian: 
     Hearts: 10
     Attack: 5
     MobEnum: 21
+    IsSingle: 0
   Prefab: {fileID: 536432378533548408, guid: 52e567393ed91814c9f767259fb67a59, type: 3}

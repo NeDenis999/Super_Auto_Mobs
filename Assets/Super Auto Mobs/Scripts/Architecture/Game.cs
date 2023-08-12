@@ -94,19 +94,19 @@ namespace Super_Auto_Mobs
                     break;
                 case GameState.StartMenu:
                     if (!_isTest)
-                        yield return _loadScreenService.Open();
+                        yield return _loadScreenService.AwaitOpen();
                     
                     _startScreenService.Close();
                     break;
                 case GameState.Shop:
                     if (!_isTest)
-                        yield return _loadScreenService.Open();
+                        yield return _loadScreenService.AwaitOpen();
                     _shopService.Close();
                     _sessionProgressService.Gold = 10;
                     break;
                 case GameState.Battle:
                     if (!_isTest)
-                        yield return _loadScreenService.Open();
+                        yield return _loadScreenService.AwaitOpen();
                     _battleService.Close();
                     break;
                 case GameState.Titles:
@@ -126,7 +126,7 @@ namespace Super_Auto_Mobs
                     _startScreenService.PreparationOpen();
                     
                     if (_previousGameState != GameState.None)
-                        yield return _loadScreenService.Close();
+                        yield return _loadScreenService.AwaitClose();
 
                     _startScreenService.Open();
                     break;
@@ -134,13 +134,13 @@ namespace Super_Auto_Mobs
                     _shopService.Open();
 
                     if (!_isTest)
-                        yield return _loadScreenService.Close();
+                        yield return _loadScreenService.AwaitClose();
                     break;
                 case GameState.Battle:
                     _battleService.Open();
                     
                     if (!_isTest)
-                        yield return _loadScreenService.Close();
+                        yield return _loadScreenService.AwaitClose();
                     StartCoroutine(_battleService.AwaitProcessBattle());
                     break;
                 case GameState.Titles:

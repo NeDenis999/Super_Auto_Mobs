@@ -11,6 +11,7 @@
         Draw,
         Win,
         Eat,
-        Faint
+        Faint,
+        EatOther
     }
 }

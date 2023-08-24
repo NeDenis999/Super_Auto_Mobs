@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -16,14 +17,20 @@ namespace Super_Auto_Mobs
         private GameState _startGameState;
 
         [SerializeField]
+        private bool _isWorldData;
+        
+        [SerializeField]
         private World _world;
+
+        [SerializeField]
+        private WorldData _worldData;
 
         [SerializeField]
         private int _indexCurrentLevel;
 
         [SerializeField]
         private bool _isSkipDialogs;
-        
+
         private GameState _currentGameState;
         private GameState _previousGameState = GameState.None;
         private ShopService _shopService;
@@ -35,8 +42,12 @@ namespace Super_Auto_Mobs
 
         private bool _isLoad;
         private DialogService _dialogService;
+        private BackgroundService _backgroundService;
+        private CutScenesService _cutScenesService;
+        private MenuService _menuService;
 
         public bool IsLoad => _isLoad;
+        public bool IsTest => _isTest;
 
         public GameState CurrentGameState
         {
@@ -54,8 +65,11 @@ namespace Super_Auto_Mobs
         [Inject]
         private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
             TitlesService titlesService, SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
-            DialogService dialogService)
+            DialogService dialogService, BackgroundService backgroundService, CutScenesService cutScenesService, 
+            MenuService menuService)
         {
+            _cutScenesService = cutScenesService;
+            _backgroundService = backgroundService;
             _dialogService = dialogService;
             _shopService = shopService;
             _battleService = battleBaseService;
@@ -63,6 +77,7 @@ namespace Super_Auto_Mobs
             _titlesService = titlesService;
             _sessionProgressService = sessionProgressService;
             _loadScreenService = loadScreenService;
+            _menuService = menuService;
         }
 
         private void Start()
@@ -71,12 +86,22 @@ namespace Super_Auto_Mobs
             
             if (_isTest)
             {
-                _sessionProgressService.SetWorldData(_world.WorldData);
+                if (!_isWorldData)
+                {
+                    _sessionProgressService.SetWorldData(_world.WorldData); 
+                }
+                else
+                {
+                    _sessionProgressService.SetWorldData(_worldData);
+                }
+                
                 _sessionProgressService.IndexCurrentLevel = _indexCurrentLevel;
                 _dialogService.IsSkipDialogs = _isSkipDialogs;
                 
                 CurrentGameState = _startGameState;
             }
+            
+            OnUpdateGameState?.Invoke(_currentGameState);
         }
 
         private IEnumerator AwaitCurrentGameState(GameState gameState)
@@ -91,6 +116,7 @@ namespace Super_Auto_Mobs
                     _shopService.Close();
                     _battleService.Close();
                     _titlesService.Close();
+                    _menuService.Close();
                     break;
                 case GameState.StartMenu:
                     if (!_isTest)
@@ -102,7 +128,7 @@ namespace Super_Auto_Mobs
                     if (!_isTest)
                         yield return _loadScreenService.AwaitOpen();
                     _shopService.Close();
-                    _sessionProgressService.Gold = 10;
+                    _sessionProgressService.Gold = Constants.StartGold;
                     break;
                 case GameState.Battle:
                     if (!_isTest)
@@ -118,12 +144,15 @@ namespace Super_Auto_Mobs
                     throw new ArgumentOutOfRangeException();
             }
 
+            _backgroundService.BackgroundUpdate(_currentGameState);
+            
             switch (_currentGameState)
             {
                 case GameState.None:
                     break;
                 case GameState.StartMenu:
                     _startScreenService.PreparationOpen();
+                    _menuService.Close();
                     
                     if (_previousGameState != GameState.None)
                         yield return _loadScreenService.AwaitClose();
@@ -131,19 +160,35 @@ namespace Super_Auto_Mobs
                     _startScreenService.Open();
                     break;
                 case GameState.Shop:
-                    _shopService.Open();
+                    if (_cutScenesService.GetCutscene())
+                    {
+                        if (!_isTest)
+                            yield return _loadScreenService.AwaitClose();
 
-                    if (!_isTest)
-                        yield return _loadScreenService.AwaitClose();
+                        print(_cutScenesService.GetCutscene());
+                        yield return _cutScenesService.GetCutscene().Play();
+                        _shopService.Open();
+                    }
+                    else
+                    {
+                        _shopService.Open();
+                        
+                        if (!_isTest)
+                            yield return _loadScreenService.AwaitClose();
+                    }
+                    
+                    _menuService.Open();
                     break;
                 case GameState.Battle:
                     _battleService.Open();
                     
                     if (!_isTest)
                         yield return _loadScreenService.AwaitClose();
+                    _menuService.Open();
                     StartCoroutine(_battleService.AwaitProcessBattle());
                     break;
                 case GameState.Titles:
+                    _menuService.Close();
                     _titlesService.Open();
                     break;
                 case GameState.World:

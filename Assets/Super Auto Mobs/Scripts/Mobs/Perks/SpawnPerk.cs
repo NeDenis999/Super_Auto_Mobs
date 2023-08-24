@@ -39,9 +39,8 @@ namespace Super_Auto_Mobs
                 MobEnum = _mobType
             };
             
-            _battleService.SpawnMob(mobData, mob.IsEnemy);
-            
-            yield break;
+            _battleService.SpawnMob(mobData, mob.IsEnemy, true);
+            yield return new WaitForSeconds(Constants.DelayPerk);
         }
     }
 }

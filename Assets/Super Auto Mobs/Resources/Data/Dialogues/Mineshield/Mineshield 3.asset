@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed98640602940f69d37aeee7206fb22, type: 3}
+  m_Name: Mineshield 3
+  m_EditorClassIdentifier: 
+  ReplicasData:
+  - Side: 0
+    Character: 9
+    Replaces:
+    - English: "\u0427\u0442\u043E \u041C\u043E\u0434\u0434\u0438 \u0441\u0434\u0435\u043B\u0430\u043B?"
+      Russian: 
+    - English: "\u042F \u0441 \u0432\u0430\u043C\u0438"
+      Russian: 
+  - Side: 1
+    Character: 17
+    Replaces:
+    - English: "\u0414\u0430 \u043F\u043E\u043C\u043E\u0436\u0435\u0442 \u043D\u0430\u043C
+        \u0433\u0440\u044F\u0437\u044C"
+      Russian: 

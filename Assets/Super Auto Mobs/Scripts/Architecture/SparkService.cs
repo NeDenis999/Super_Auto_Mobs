@@ -29,7 +29,7 @@ namespace Super_Auto_Mobs
         }
 
         public void StartAnimation(Vector2 start, Vector2 target, SparkEnum sparkEnum, Color color = default, 
-            float delay = 1)
+            float delay = Constants.DelayPerk)
         {
             var spark = GetSpark();
             spark.SetColor(color);

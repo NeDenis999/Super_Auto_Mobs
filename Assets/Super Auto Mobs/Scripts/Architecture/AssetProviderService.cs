@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Super_Auto_Mobs
@@ -10,47 +11,12 @@ namespace Super_Auto_Mobs
         public ShopCommandMobPlatform ShopCommandMobPlatform;
         public Spark Spark;
         
+        [Header("Data")]
         public List<World> Worlds;
-        
-        [Header("Mobs")]
-        public MobInfo DuckMob;
-        public MobInfo OcelotMob;
-        public MobInfo DogMob;
-        public MobInfo VillageMob;
-        public MobInfo SnowGolemMob;
-        public MobInfo ZombieMob;
-        public MobInfo SkeletonMob;
-        public MobInfo ChoocobMob;
-        public MobInfo BeeMob;
-        public MobInfo EndermanMob;
-        public MobInfo CowMob;
-        public MobInfo VillagerBigMob;
-        public MobInfo CowMilkMob;
-        public MobInfo CreeperMob;
-        public MobInfo WhitcherMob;
-        public MobInfo SquidMob;
-        public MobInfo TestMob;
-        public MobInfo ChickenMob;
-        public MobInfo PalesosMob;
-        public MobInfo NotchMob;
-        public MobInfo ModdychatDeathMob;
-        public MobInfo ModdychatMob;
-        public MobInfo ZakMob;
-        public MobInfo SirPiligrimMob;
-        public MobInfo BavMob;
-
-        [Header("Bosses")]
-        public MobInfo SquidBoss;
-
-        [Header("Buffs")]
-        public BuffInfo AppleBuff;
-        public BuffInfo TagBuff;
-        
-        [Header("Characters")]
+        public List<MobInfo> Mobs;
+        public List<BuffInfo> Buffs;
         public List<CharacterData> CharactersData;
-        
-        [Header("All")]
-        public List<MobInfo> AllMobs;
+        public List<BuffEffect> BuffEffects;
 
         [Header("Sprites")]
         public Sprite AttackSprite;
@@ -58,76 +24,72 @@ namespace Super_Auto_Mobs
         public Sprite DamageSprite;
         public Sprite ActivatePerkSprite;
 
+        [Header("Other")]
+        public MobInfo SquidBoss;
+
+        [MenuItem("Tools/UpdateAllData")]
+        public static void UpdateAllData()
+        {
+            var assetProviderService = FindObjectOfType<AssetProviderService>();
+            
+            assetProviderService.Mobs = new List<MobInfo>();
+            
+            foreach (MobInfo mobInfo in Resources.LoadAll<MobInfo>("Data/Mobs"))
+            {
+                assetProviderService.Mobs.Add(mobInfo);
+            }
+            
+            assetProviderService.Buffs = new List<BuffInfo>();
+            
+            foreach (BuffInfo buffInfo in Resources.LoadAll<BuffInfo>("Data/Buffs"))
+            {
+                assetProviderService.Buffs.Add(buffInfo);
+            }
+            
+            assetProviderService.CharactersData = new List<CharacterData>();
+            
+            foreach (CharacterData characterData in Resources.LoadAll<CharacterData>("Data/Characters"))
+            {
+                assetProviderService.CharactersData.Add(characterData);
+            }
+            
+            assetProviderService.Worlds = new List<World>();
+            
+            foreach (World world in Resources.LoadAll<World>("Data/Worlds"))
+            {
+                assetProviderService.Worlds.Add(world);
+            }
+            
+            assetProviderService.BuffEffects = new List<BuffEffect>();
+            
+            foreach (BuffEffect buffEffect in Resources.LoadAll<BuffEffect>("BuffEffects"))
+            {
+                assetProviderService.BuffEffects.Add(buffEffect);
+            }
+            
+            Debug.Log("Data Updated!");
+        }
+        
         public MobInfo GetMobInfo(MobEnum mobEnum)
         {
-            switch (mobEnum)
+            foreach (var mob in Mobs)
             {
-                case MobEnum.Duck:
-                    return DuckMob;
-                case MobEnum.Cat:
-                    return OcelotMob;
-                case MobEnum.Dog:
-                    return DogMob;
-                case MobEnum.Villager:
-                    return VillageMob;
-                case MobEnum.SnowGollum:
-                    return SnowGolemMob;
-                case MobEnum.Zombie:
-                    return ZombieMob;
-                case MobEnum.Skeleton:
-                    return SkeletonMob;
-                case MobEnum.Chocobo:
-                    return ChoocobMob;
-                case MobEnum.Bee:
-                    return BeeMob;
-                case MobEnum.Enderman:
-                    return EndermanMob;
-                case MobEnum.MushroomCow:
-                    return CowMob;
-                case MobEnum.VillagerBig:
-                    return VillagerBigMob;
-                case MobEnum.MilkaCow:
-                    return CowMilkMob;
-                case MobEnum.Creeper:
-                    return CreeperMob;
-                case MobEnum.Witch:
-                    return WhitcherMob;
-                case MobEnum.Squid:
-                    return SquidMob;
-                case MobEnum.Test:
-                    return TestMob;
-                case MobEnum.Chicken:
-                    return ChickenMob;
-                case MobEnum.Palesos:
-                    return PalesosMob;
-                case MobEnum.Notch:
-                    return NotchMob;
-                case MobEnum.ModdychatDeath:
-                    return ModdychatDeathMob;
-                case MobEnum.Moddychat:
-                    return ModdychatMob;
-                case MobEnum.Zak:
-                    return ZakMob;
-                case MobEnum.SirPiligrim:
-                    return SirPiligrimMob;
-                case MobEnum.Bav:
-                    return BavMob;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (mob.mobDefaultData.MobEnum == mobEnum)
+                    return mob;
             }
+
+            throw new Exception("Not found mob");
         }
 
         public BuffInfo GetBuffInfo(BuffEnum buffEnum)
         {
-            switch (buffEnum)
+            foreach (var buff in Buffs)
             {
-                case BuffEnum.Apple:
-                    return AppleBuff;
-                case BuffEnum.Tag:
-                    return TagBuff;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(buffEnum), buffEnum, null);
+                if (buff.BuffData.BuffEnum == buffEnum)
+                    return buff;
             }
+
+            throw new Exception("Not found buff");
         }
 
         public CharacterData GetCharactersData(CharacterEnum characterEnum)
@@ -139,6 +101,17 @@ namespace Super_Auto_Mobs
             }
 
             throw new Exception("Not found character");
+        }
+        
+        public BuffEffect GetBuffEffect(EffectEnum effectEnum)
+        {
+            foreach (var buffEffect in BuffEffects)
+            {
+                if (buffEffect.EffectEnum == effectEnum)
+                    return buffEffect;
+            }
+
+            throw new Exception("Not found BuffEffect");
         }
     }
 }

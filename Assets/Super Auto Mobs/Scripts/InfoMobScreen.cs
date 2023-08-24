@@ -69,12 +69,12 @@ namespace Super_Auto_Mobs
             
             if (entity is Buff)
             {
-                var mob = (Buff)entity;
+                var buff = (Buff)entity;
                 
-                _titleText.text = _languageService.GetText(mob.Name);
-                _infoText.text = _languageService.GetText(mob.Info);
-                _attackText.text = mob.CurrentAttack.ToString();
-                _heartsText.text = mob.CurrentHearts.ToString();
+                _titleText.text = _languageService.GetText(buff.Name);
+                _infoText.text = _languageService.GetText(buff.Info);
+                _attackText.text = buff.CurrentAttack.ToString();
+                _heartsText.text = buff.CurrentHearts.ToString();
                 _priceText.text = Constants.PriceEntity.ToString();
             }
         }

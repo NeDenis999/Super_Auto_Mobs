@@ -11,6 +11,7 @@ namespace Super_Auto_Mobs
         public int Attack;
         public int Hearts;
         public EffectEnum EffectEnum;
+        public BuffSoundEnum BuffSoundEnum;
         public bool IsSingle;
     }
 }

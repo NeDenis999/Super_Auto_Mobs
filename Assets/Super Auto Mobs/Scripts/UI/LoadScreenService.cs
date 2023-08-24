@@ -12,6 +12,7 @@ namespace Super_Auto_Mobs
     {
         public event Action OnClose;
         public event Action OnOpen;
+        public event Action OnStartOpen;
 
         [SerializeField]
         private AnimationCurve _openCurve, _closeCurve;
@@ -73,6 +74,7 @@ namespace Super_Auto_Mobs
         
         public IEnumerator AwaitOpen()
         {
+            OnStartOpen?.Invoke();
             UpdateTexture();
             
             _menuService.Menu.SetActive(false);

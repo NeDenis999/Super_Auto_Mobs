@@ -66,7 +66,7 @@ namespace Super_Auto_Mobs
                     SparkEnum.ActivatePerk);
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(Constants.DelayPerk);
 
             foreach (var mob in mobs)
             {
@@ -88,7 +88,7 @@ namespace Super_Auto_Mobs
                     SparkEnum.ActivatePerk);
             }
             
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(Constants.DelayPerk);
             
             foreach (var platform in platforms)
             {

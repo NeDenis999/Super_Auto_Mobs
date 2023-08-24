@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -11,11 +12,18 @@ namespace Super_Auto_Mobs
         private int _hearts;
         private int _attack;
         private BuffData _buffData;
+        private MobFactoryService _mobFactoryService;
 
         public int CurrentAttack => _attack;
         public int CurrentHearts => _hearts;
         public BuffData BuffData => _buffData;
 
+        [Inject]
+        private void Construct(MobFactoryService mobFactoryService)
+        {
+            _mobFactoryService = mobFactoryService;
+        }
+        
         public void Init(BuffData buffData)
         {
             _hearts = buffData.Hearts;
@@ -25,7 +33,7 @@ namespace Super_Auto_Mobs
             _buffData = buffData;
         }
         
-        public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob)
+        public IEnumerator ToMoveTrajectory(Vector2[] trajectory, Mob mob, Action onEndMoveAnimation)
         {
             LTSeq sequence = LeanTween.sequence();
             var previousDistance = 1f;
@@ -40,12 +48,13 @@ namespace Super_Auto_Mobs
                 
                 yield return new WaitUntil(() => {
                     transform.position = Vector2.MoveTowards(
-                        transform.position, target, Time.deltaTime * SpeedAnimationMove * previousDistance);
+                        transform.position, target, Time.deltaTime * SpeedAnimationMove 
+                                                                   * previousDistance);
                     return (Vector2)transform.position == target;
                 });
             }
             
-            _soundsService.PlayEat();
+            _soundsService.PlayEat(_buffData.BuffSoundEnum);
             
             if (_hearts != 0)
                 mob.ChangeHearts(_hearts);
@@ -56,6 +65,13 @@ namespace Super_Auto_Mobs
             if (mob.Perk.TriggeringSituation == TriggeringSituation.Eat)
             {
                 StartCoroutine(mob.Perk.Activate());
+            }
+
+            onEndMoveAnimation?.Invoke();
+            
+            if (BuffData.EffectEnum != EffectEnum.None)
+            {
+                _mobFactoryService.CreateBuffEffect(BuffData.EffectEnum, mob);
             }
             
             Destroy(gameObject);

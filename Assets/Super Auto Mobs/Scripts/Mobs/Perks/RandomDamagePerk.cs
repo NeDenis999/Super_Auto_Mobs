@@ -59,7 +59,7 @@ namespace Super_Auto_Mobs
                 _sparkService.StartAnimation(transform.position, enemy.transform.position, SparkEnum.Damage);
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(Constants.DelayPerk);
             
             foreach (var enemy in enemies)
             {

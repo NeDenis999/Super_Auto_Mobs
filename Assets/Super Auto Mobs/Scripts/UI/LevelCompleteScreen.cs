@@ -63,21 +63,24 @@ namespace Super_Auto_Mobs
             var startHearts = _sessionProgressService.Hearts;
             var startProgress = _sessionProgressService.Wins;
 
-            _prizeText.gameObject.SetActive(_sessionProgressService.CurrentLevel.Prizes.Count > 0);
+            _prizeText.gameObject.SetActive(false);
             
-            foreach (var prefab in _sessionProgressService.CurrentLevel.Prizes)
-            {
-                var prize = Instantiate(prefab, _prizeContainer);
-                _diContainer.Inject(prize);
-                prize.Activate();
-                _prizes.Add(prize);
-            }
-
             switch (endBattleEnum)
             {
                 case EndBattleEnum.Won:
                     titleText = _languageService.GetText(_winTitle);
                     _soundsService.PlayWin();
+                    
+                    _prizeText.gameObject.SetActive(_sessionProgressService.CurrentLevel.Prizes.Count > 0);
+            
+                    foreach (var prefab in _sessionProgressService.CurrentLevel.Prizes)
+                    {
+                        var prize = Instantiate(prefab, _prizeContainer);
+                        _diContainer.Inject(prize);
+                        prize.Activate();
+                        _prizes.Add(prize);
+                    }
+                    
                     _sessionProgressService.Hearts++;
                     _sessionProgressService.Wins++;
                     _sessionProgressService.IndexCurrentLevel++;

@@ -25,24 +25,22 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private Dialogue _dialogue2;
-
-        private DialogService _dialogService;
+        
         private SoundsService _soundsService;
         private ShopService _shopService;
         private Game _game;
 
         [Inject]
-        private void Construct(DialogService dialogService, SoundsService soundsService, ShopService shopService, Game game)
+        private void Construct(SoundsService soundsService, ShopService shopService, Game game)
         {
-            _dialogService = dialogService;
             _soundsService = soundsService;
             _shopService = shopService;
             _game = game;
         }
         
-        public override void Play()
+        public override IEnumerator Play()
         {
-            base.Play();
+            yield return base.Play();
             _game.CurrentGameState = GameState.Shop;
             _dialogService.Show(_dialogue1);
             _dialogService.OnStartHide += _soundsService.PlayDreamSpeedrun;

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Security.Cryptography;
 using UnityEngine;
 
 namespace Super_Auto_Mobs
@@ -11,15 +13,17 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private Transform _effectPoint;
-        
+
         private int _hearts = 0;
         private int _attack = 0;
+        private int _armor = 0;
         private Perk _perk;
         private MobDefaultData _mobDefaultData;
         private int _currentHearts => _hearts + _mobDefaultData.Hearts;
         private int _currentAttack => _attack + _mobDefaultData.Attack;
         private bool _isEnemy;
         private MobData _mobData;
+        private BuffEffect _buffEffect;
 
         public bool IsActive => _currentHearts > 0;
         public int CurrentHearts => _currentHearts;
@@ -32,9 +36,7 @@ namespace Super_Auto_Mobs
 
         public void Init(MobDefaultData mobDefaultData, MobData mobData)
         {
-            this._mobDefaultData = mobDefaultData;
-            //_hearts = _mobDefaultData.Hearts;
-            //_attack = _mobDefaultData.Attack;
+            _mobDefaultData = mobDefaultData;
             _name = mobDefaultData.Name;
             _info = mobDefaultData.Info;
             _mobData = mobData;
@@ -51,12 +53,25 @@ namespace Super_Auto_Mobs
             _isEnemy = isEnemy;
         }
 
-        public void TakeDamage(int damage)
+        public void SetBuffEffect(BuffEffect buffEffect)
+        {
+            if (_buffEffect)
+            {
+                _buffEffect.Deactivate(this);
+                Destroy(_buffEffect.gameObject);
+            }
+
+            buffEffect.Activate(this);
+            _mobData.EffectEnum = buffEffect.EffectEnum;
+            _buffEffect = buffEffect;
+        }
+        
+        public IEnumerator TakeDamage(int damage)
         {
             _hearts -= damage;
             OnChangeHearts?.Invoke(_currentHearts, -damage);
             _spriteRenderer.material = _assetProviderService.DamageMaterial;
-            Invoke(nameof(EndAnimation), 1f);
+            Invoke(nameof(EndAnimation), 0.2f);
 
             if (_currentHearts > 0 && _perk.TriggeringSituation == TriggeringSituation.TakeDamage)
             {
@@ -67,7 +82,7 @@ namespace Super_Auto_Mobs
             {
                 if (_perk.TriggeringSituation == TriggeringSituation.Faint)
                 {
-                    StartCoroutine(_perk.Activate());
+                    yield return _perk.Activate();
                 }
                 
                 OnFaint?.Invoke(this);
@@ -84,6 +99,11 @@ namespace Super_Auto_Mobs
         {
             _attack += value;
             OnChangeAttack?.Invoke(_currentAttack, value);
+        }
+        
+        public void ChangeArmour(int value)
+        {
+            _armor += value;
         }
 
         private void EndAnimation()

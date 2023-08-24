@@ -64,6 +64,9 @@ namespace Super_Auto_Mobs
 
         private void Show()
         {
+            if (shopService.IsDisableSellButton)
+                return;
+            
             LeanTween.value(gameObject, -SizeY, _defaultPositionY, 0.25f)
                 .setOnUpdate(y =>
                 {

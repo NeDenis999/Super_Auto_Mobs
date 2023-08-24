@@ -17,5 +17,7 @@ namespace Super_Auto_Mobs
         public List<LevelData> LevelsData;
         public bool IsDisableBattleButton;
         public bool IsDisableRollButton;
+        public bool IsDisableSellButton;
+        public Dialogue DeathDialog;
     }
 }

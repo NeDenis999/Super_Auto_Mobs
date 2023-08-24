@@ -71,5 +71,10 @@ namespace Super_Auto_Mobs
                 Destroy(_commandPlatforms[i].gameObject);
             }
         }
+
+        public override void AddDiscount(Discount discount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

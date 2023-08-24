@@ -34,7 +34,7 @@ namespace Super_Auto_Mobs
 
         private void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _sequence = LeanTween.sequence();
         }
 

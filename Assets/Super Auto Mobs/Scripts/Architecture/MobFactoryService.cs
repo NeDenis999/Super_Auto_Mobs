@@ -6,10 +6,12 @@ namespace Super_Auto_Mobs
     public class MobFactoryService : MonoBehaviour
     {
         private DiContainer _diContainer;
+        private AssetProviderService _assetProviderService;
 
         [Inject]
-        private void Construct(DiContainer diContainer)
+        private void Construct(DiContainer diContainer, AssetProviderService assetProviderService)
         {
+            _assetProviderService = assetProviderService;
             _diContainer = diContainer;
         }
 
@@ -24,8 +26,14 @@ namespace Super_Auto_Mobs
                 mob.gameObject.AddComponent<AddCoinsPerk>();
             
             _diContainer.Inject(mob.GetComponent<Perk>());
-
+            
             mob.Init(mobDefaultData, mobData);
+            
+            if (mobData.EffectEnum != EffectEnum.None)
+            {
+                CreateBuffEffect(mobData.EffectEnum, mob);
+            }
+            
             return mob;
         }
 
@@ -38,6 +46,32 @@ namespace Super_Auto_Mobs
             _diContainer.Inject(buff);
             
             return buff;
+        }
+        
+        public Mob SpawnMob(MobData mobData, bool isEnemy, Transform spawnTransform)
+        {
+            var mobInfo = _assetProviderService.GetMobInfo(mobData.MobEnum);
+            var mob = Instantiate(mobInfo.Prefab, spawnTransform);
+            _diContainer.Inject(mob);
+            var perk = mob.GetComponent<Perk>();
+            
+            if (perk)
+                _diContainer.Inject(perk);
+            
+            mob.Init(mobInfo.mobDefaultData, mobData, isEnemy);
+            
+            if (mobData.EffectEnum != EffectEnum.None)
+            {
+                CreateBuffEffect(mobData.EffectEnum, mob);
+            }
+            
+            return mob;
+        }
+
+        public void CreateBuffEffect(EffectEnum buffDataEffectEnum, Mob mob)
+        {
+            var effect = Instantiate(_assetProviderService.GetBuffEffect(buffDataEffectEnum), mob.transform);
+            mob.SetBuffEffect(effect);
         }
     }
 }

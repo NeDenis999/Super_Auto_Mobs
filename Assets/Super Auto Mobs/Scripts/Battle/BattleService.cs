@@ -13,11 +13,11 @@ namespace Super_Auto_Mobs
         public abstract void Open();
 
         public abstract void Close();
-
-        public abstract Mob SpawnMob(MobData mobData, bool isEnemy = false);
         public abstract void RemovePets();
         public abstract IEnumerator AwaitIntro();
         public abstract IEnumerator AwaitProcessBattle();
         public abstract IEnumerator Attack(bool isEnemy);
+
+        public abstract Mob SpawnMob(MobData mobData, bool isEnemy, bool mobIsEnemy = false);
     }
 }

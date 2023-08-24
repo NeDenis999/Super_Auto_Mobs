@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Super_Auto_Mobs
@@ -28,7 +29,7 @@ namespace Super_Auto_Mobs
         private AudioClip _clickSound;
         
         [SerializeField]
-        private AudioClip _eatSound;
+        private AudioClip _eatSound,_itemSound, _potionSound, _potionExplosionSound;
         
         [Header("Music")]
         [SerializeField]
@@ -101,9 +102,25 @@ namespace Super_Auto_Mobs
             PlaySound(_clickSound);
         }
         
-        public void PlayEat()
+        public void PlayEat(BuffSoundEnum buffDataBuffSoundEnum)
         {
-            PlaySound(_eatSound);
+            switch (buffDataBuffSoundEnum)
+            {
+                case BuffSoundEnum.Food:
+                    PlaySound(_eatSound);
+                    break;
+                case BuffSoundEnum.Item:
+                    PlaySound(_itemSound);
+                    break;
+                case BuffSoundEnum.Potion:
+                    PlaySound(_potionSound);
+                    break;
+                case BuffSoundEnum.PotionExplosion:
+                    PlaySound(_potionExplosionSound);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buffDataBuffSoundEnum), buffDataBuffSoundEnum, null);
+            }
         }
 
         public void PlayBuy()

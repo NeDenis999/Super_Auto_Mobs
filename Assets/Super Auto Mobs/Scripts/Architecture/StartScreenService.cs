@@ -20,7 +20,7 @@ namespace Super_Auto_Mobs
         private GameObject _canvas;
         
         [SerializeField]
-        private Screen _selectWorldScreen;
+        private Screen _selectWorldScreen, _firstOpenGameScreen;
         
         [SerializeField]
         private Screen _blackoutScreen;
@@ -32,6 +32,7 @@ namespace Super_Auto_Mobs
         private Game _game;
 
         private World _world;
+        public WarningScreen WarningScreen;
 
         public void PreparationOpen()
         {
@@ -44,6 +45,12 @@ namespace Super_Auto_Mobs
         {
             _blurCanvas.SetActive(true);
             _canvas.SetActive(true);
+
+            if (!_sessionProgressService.IsNotFirsOpenGame && !_game.IsTest)
+            {
+                _firstOpenGameScreen.Open();
+                _sessionProgressService.IsNotFirsOpenGame = true;
+            }
         }
         
         public void Close()

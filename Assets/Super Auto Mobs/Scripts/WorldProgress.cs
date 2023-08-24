@@ -20,5 +20,7 @@ namespace Super_Auto_Mobs
         public bool IsEndWorld;
         public bool IsDisableBattleButton;
         public bool IsDisableRollButton;
+        public bool IsCutSceneComplete;
+        public bool IsDisableSellButton;
     }
 }

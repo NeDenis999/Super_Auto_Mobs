@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Zenject;
-using Object = UnityEngine.Object;
 
 namespace Super_Auto_Mobs
 {
@@ -113,17 +111,22 @@ namespace Super_Auto_Mobs
         private DiContainer _diContainer;
         private bool _endTurn;
         private bool _autoPlay;
-        
         private List<Mob> _myCommandMobs = new();
         private List<Mob> _enemyCommandMobs = new();
-        private Location _location;
+        private BackgroundService _backgroundService;
+        private MobFactoryService _mobFactoryService;
+        private bool IsEndAttack1, IsEndAttack2 = false;
+        private bool _isBattle = false;
 
         public override List<Mob> MyCommandMobs => _myCommandMobs;
         public override List<Mob> EnemyCommandMobs => _enemyCommandMobs;
 
         [Inject]
-        private void Construct(AssetProviderService assetProviderService, SessionProgressService sessionProgressService, DiContainer diContainer)
+        private void Construct(AssetProviderService assetProviderService, SessionProgressService sessionProgressService,
+            DiContainer diContainer, BackgroundService backgroundService, MobFactoryService mobFactoryService)
         {
+            _mobFactoryService = mobFactoryService;
+            _backgroundService = backgroundService;
             _assetProviderService = assetProviderService;
             _sessionProgressService = sessionProgressService;
             _diContainer = diContainer;
@@ -133,16 +136,8 @@ namespace Super_Auto_Mobs
         {
             _battle.SetActive(true);
             
-            if (_location)
-            {
-                Destroy(_location.gameObject);
-            }
-                
-            _location = Instantiate(_sessionProgressService.BattleLocation, _battle.transform);
-            Camera.main.backgroundColor = _location.CameraColor;
-            
             _battlePlatformPoint.position = _battlePlatformPoint.position
-                .SetY(_location.CommandSpawnPoint.position.y);
+                .SetY(_backgroundService.Location.CommandSpawnPoint.position.y);
         }
         
         public override void Close()
@@ -166,38 +161,51 @@ namespace Super_Auto_Mobs
         {
             foreach (var mobData in _sessionProgressService.MyCommandMobsData)
             {
-                var mob = SpawnMob(mobData, false);
-                mob.OnFaint += Faint;
+                SpawnMob(mobData, false);
             }
             
             foreach (var mobData in _sessionProgressService.EnemyCommandMobsData)
             {
-                var mob = SpawnMob(mobData, true);
-                mob.OnFaint += Faint;
+                SpawnMob(mobData, true);
+            }
+
+            if (_isBattle)
+            {
+                StartCoroutine(AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive()));
+                StartCoroutine(AwaitUpdatePositionPetsAnimation(MyCommandMobsActive()));
             }
         }
 
-        public override Mob SpawnMob(MobData mobData, bool isEnemy)
+        public override Mob SpawnMob(MobData mobData, bool isEnemy, bool mobIsEnemy = false)
         {
-            var spawnTransform = isEnemy ? _enemyCommandSpawnTransform : _myCommandSpawnTransform;
-            var list = isEnemy ? _enemyCommandMobs : _myCommandMobs;
+            Mob mob;
+            
+            if (!isEnemy)
+            {
+                mob = _mobFactoryService.SpawnMob(mobData, false, _myCommandSpawnTransform);
+                _myCommandMobs.Add(mob);
+            }
+            else
+            {
+                mob = _mobFactoryService.SpawnMob(mobData, true, _enemyCommandSpawnTransform);
+                _enemyCommandMobs.Add(mob);
 
-            var mobInfo = _assetProviderService.GetMobInfo(mobData.MobEnum);
-            var mob = Instantiate(mobInfo.Prefab, spawnTransform);
-            _diContainer.Inject(mob);
-            var perk = mob.GetComponent<Perk>();
+            }
             
-            if (perk)
-                _diContainer.Inject(perk);
+            mob.OnFaint += Faint;
             
-            mob.Init(mobInfo.mobDefaultData, mobData, isEnemy);
-            list.Add(mob);
+            if (mobIsEnemy)
+            {
+                StartCoroutine(AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive()));
+                StartCoroutine(AwaitUpdatePositionPetsAnimation(MyCommandMobsActive()));
+            }
+            
             return mob;
         }
         
         public override IEnumerator AwaitIntro()
         {
-            if (_location == _sessionProgressService.ShopLocation || _isSkipIntro)
+            if (_sessionProgressService.BattleLocation == _sessionProgressService.ShopLocation || _isSkipIntro)
             {
                 SkipIntro();
                 yield break;
@@ -224,27 +232,53 @@ namespace Super_Auto_Mobs
                 _enemyCommandMobs[i].transform.position = _enemyCommandMobs[i].transform.position.SetX(startEnemyPosition);
             }
 
-            for (int i = 0; i < _myCommandMobs.Count; i++)
+            for (int i = 0; i < Constants.MaxMobsCount; i++)
             {
-                LeanTween.moveLocalX(_myCommandMobs[i].gameObject, DistanceBetweenTeams * i, 1 - 0.15f * i)
-                    .setOnComplete(() =>
-                    {
-                        LeanTween.cancel(_myCommandMobs[i].gameObject);
-                        LeanTween.moveLocalY(_myCommandMobs[i].gameObject, 0, 0.3f);
-                    });
+                var isMob = false;
                 
-                LeanTween.moveLocalX(_enemyCommandMobs[i].gameObject, DistanceBetweenTeams * i, 1- 0.15f * i)
-                    .setOnComplete(() =>
-                    {
-                        LeanTween.cancel(_enemyCommandMobs[i].gameObject);
-                        LeanTween.moveLocalY(_enemyCommandMobs[i].gameObject, 0, 0.3f);
-                    });
-                
-                LeanTween.moveLocalY(_myCommandMobs[i].gameObject, JumpHeight, 0.3f).setLoopPingPong().setEaseOutCubic();
-                LeanTween.moveLocalY(_enemyCommandMobs[i].gameObject, JumpHeight, 0.3f).setLoopPingPong().setEaseOutCubic();
-                yield return new WaitForSeconds(1f);
+                if (i < _myCommandMobs.Count)
+                {
+                    var myMob = _myCommandMobs[i].gameObject;
+                    
+                    LeanTween.moveLocalX(myMob, DistanceBetweenTeams * i, 1 - 0.15f * i)
+                        .setOnComplete(() =>
+                        {
+                            LeanTween.cancel(myMob);
+                            LeanTween.moveLocalY(myMob, 0, 0.3f);
+                        });
+                    
+                    LeanTween.moveLocalY(myMob, JumpHeight, 0.3f)
+                        .setLoopPingPong()
+                        .setEaseOutCubic();
+                    isMob = true;
+                }
+
+                if (i < _enemyCommandMobs.Count)
+                {
+                    var enemyMob = _enemyCommandMobs[i].gameObject;
+                    
+                    LeanTween.moveLocalX(enemyMob, DistanceBetweenTeams * i, 1 - 0.15f * i)
+                        .setOnComplete(() =>
+                        {
+                            LeanTween.cancel(enemyMob);
+                            LeanTween.moveLocalY(enemyMob, 0, 0.3f);
+                        });
+
+                    LeanTween.moveLocalY(enemyMob, JumpHeight, 0.3f)
+                        .setLoopPingPong()
+                        .setEaseOutCubic();
+                    isMob = true;
+                }
+
+                if (isMob)
+                {
+                    yield return new WaitForSeconds(0.5f);  
+                }
             }
-            
+
+            yield return new WaitForSeconds((Constants.MaxMobsCount - Mathf.Max(_myCommandMobs.Count, 
+                _enemyCommandMobs.Count)) / 2f);
+
             LeanTween.scale(_myCommandText.gameObject, Vector3.zero, 0.5f).setEaseOutCubic();
             LeanTween.scale(_vsText.gameObject, Vector3.zero,  0.5f).setEaseOutCubic();
             LeanTween.scale(_enemyCommandText.gameObject, Vector3.zero,  0.5f).setEaseOutCubic();
@@ -263,6 +297,7 @@ namespace Super_Auto_Mobs
             SpawnMobs();
             yield return null;
             yield return AwaitIntro();
+            _isBattle = true;
 
             if (_isSkipBattle)
             {
@@ -294,7 +329,7 @@ namespace Super_Auto_Mobs
             {
                 _tapText.gameObject.SetActive(true);
             }
-            
+
             while (MyActiveMob() && EnemyActiveMob())
             {
                 if (!_autoPlay)
@@ -308,13 +343,18 @@ namespace Super_Auto_Mobs
                     _myInfoMobScreen.Close();
                     _enemyInfoMobScreen.Close();
                 }
+
+                IsEndAttack1 = false;
+                IsEndAttack2 = false;
                 
+                StartCoroutine(Attack(true));
                 StartCoroutine(Attack(false));
-                yield return StartCoroutine(Attack(true));
+                yield return new WaitUntil(() => IsEndAttack1 && IsEndAttack2);
                 StartCoroutine(AwaitUpdatePositionPetsAnimation(EnemyCommandMobsActive()));
                 yield return AwaitUpdatePositionPetsAnimation(MyCommandMobsActive());
             }
 
+            _isBattle = false;
             StartCoroutine(AwaitEndBattle());
         }
 
@@ -336,7 +376,7 @@ namespace Super_Auto_Mobs
             yield return AwaitPreparingAttackAnimation(activeMob);
             yield return AwaitApproachAnimation(activeMob, 0.3f);
             
-            oppositeActiveMob.TakeDamage(activeMob.CurrentAttack);
+            yield return oppositeActiveMob.TakeDamage(activeMob.CurrentAttack);
             
             if (activeMob.Perk.TriggeringSituation == TriggeringSituation.Attack)
             { 
@@ -361,6 +401,15 @@ namespace Super_Auto_Mobs
             _endTurn = true;
             yield return null;
             _endTurn = false;
+            
+            if (isEnemy)
+            {
+                IsEndAttack1 = true;
+            }
+            else
+            {
+                IsEndAttack2 = true;
+            }
         }
 
         private IEnumerator AwaitEndBattle()
@@ -493,7 +542,7 @@ namespace Super_Auto_Mobs
 
         private IEnumerator AwaitPreparingAttackAnimation(Mob myActiveMob)
         {
-            myActiveMob.GetComponent<SpriteRenderer>().material = _assetProviderService.OutlitRedMaterial;
+            myActiveMob.SpriteRenderer.material = _assetProviderService.OutlitRedMaterial;
             yield return  _shakeService.Shake(myActiveMob.gameObject, _preparingAttackDelay);
         }
 

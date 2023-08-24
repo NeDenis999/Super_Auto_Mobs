@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -18,7 +17,10 @@ namespace Super_Auto_Mobs
 
         [Header("Cut Scenes")]
         [SerializeField]
-        private CutScene _tutorial;
+        private CutScene _tutorial1;
+        
+        [SerializeField]
+        private CutScene _tutorial2, _tutorial3;
         
         [SerializeField]
         private CutScene _mineShield1, _mineShield2;
@@ -32,47 +34,46 @@ namespace Super_Auto_Mobs
             _sessionProgressService = sessionProgressService;
             _game = game;
         }
-        
-        private void Awake()
-        {
-            _game.OnUpdateGameState += CheckState;
-        }
 
-        private void CheckState(GameState gameState)
+        public CutScene GetCutscene()
         {
-            if (!_sessionProgressService.IsCurrentWorld)
-                return;
+            if (!_sessionProgressService.IsCurrentWorld || _sessionProgressService.IsCutSceneComplete)
+                return null;
             
             if (_isTest)
             {
-                _testCutScene.Play();
-                return;
+                return _testCutScene;
             }
 
             switch (_sessionProgressService.CurrentWorld.WorldEnum)
             {
                 case WorldEnum.Tutorial:
-                    if (gameState == GameState.Shop)
+                    if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
                     {
-                        if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
-                        {
-                            _tutorial.Play();
-                        }
+                        return _tutorial1;
+                    }
+                    
+                    if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 1)
+                    {
+                        return _tutorial2;
+                    }
+                    
+                    if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 2)
+                    {
+                        return _tutorial3;
                     }
                     break;
                 case WorldEnum.DreamTour:
                     break;
                 case WorldEnum.Mineshield:
-                    if (gameState == GameState.Shop)
+                    if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
                     {
-                        if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 0)
-                        {
-                            _mineShield1.Play();
-                        }
-                        else if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 1)
-                        {
-                            _mineShield2.Play();
-                        }
+                        return _mineShield1;
+                    }
+                    
+                    if (_sessionProgressService.CurrentWorld.IndexCurrentLevel == 1)
+                    {
+                        return _mineShield2;
                     }
                     break;
                 case WorldEnum.Grief:
@@ -82,6 +83,8 @@ namespace Super_Auto_Mobs
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            return null;
         }
     }
 

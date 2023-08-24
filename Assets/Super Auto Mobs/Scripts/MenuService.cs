@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -6,38 +7,18 @@ namespace Super_Auto_Mobs
     public class MenuService : MonoBehaviour
     {
         [SerializeField]
-        private OpenButton _openMenu, _openSetting;
-
-        [SerializeField]
-        private GameObject _menu;
-        
-        [SerializeField]
-        private Game _game;
+        private GameObject _menu, _upPanel;
 
         public GameObject Menu => _menu;
 
-        private void OnEnable()
+        public void Open()
         {
-            _game.OnUpdateGameState += UpdateGameState;
+            _upPanel.SetActive(true);
         }
-
-        private void OnDisable()
+        
+        public void Close()
         {
-            _game.OnUpdateGameState -= UpdateGameState;
-        }
-
-        private void UpdateGameState(GameState gameState)
-        {
-            if (gameState != GameState.StartMenu)
-            {
-                _openMenu.enabled = true;
-                _openSetting.enabled = false;
-            }
-            else
-            {
-                _openMenu.enabled = false;
-                _openSetting.enabled = true;
-            }
+            _upPanel.SetActive(false);
         }
     }
 }

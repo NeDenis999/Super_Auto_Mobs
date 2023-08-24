@@ -6,6 +6,14 @@ namespace Super_Auto_Mobs
     public enum BuffEnum
     {
         Apple,
-        Tag
+        Tag,
+        Totem,
+        GoldenCarrot,
+        GoldenApple,
+        HealPotion,
+        StrengthPotion,
+        Egg,
+        Tnt,
+        Sugar
     }
 }

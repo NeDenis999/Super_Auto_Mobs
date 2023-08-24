@@ -8,8 +8,6 @@ namespace Super_Auto_Mobs
 {
     public class AddAtkHpPerk : Perk
     {
-        private const float DelayAnimation = 1f;
-        
         [SerializeField]
         private bool _isPercent;
         
@@ -107,10 +105,10 @@ namespace Super_Auto_Mobs
             foreach (var mob in mobs)
             {
                 _sparkService.StartAnimation(_mob.EffectPoint.position, mob.EffectPoint.position,
-                    SparkEnum.Attack, GetColor(_currentAttack), DelayAnimation);
+                    SparkEnum.Attack, GetColor(_currentAttack));
             }
             
-            yield return new WaitForSeconds(DelayAnimation);
+            yield return new WaitForSeconds(Constants.DelayPerk);
             
             foreach (var mob in mobs)
             {
@@ -123,10 +121,10 @@ namespace Super_Auto_Mobs
             foreach (var mob in mobs)
             {
                 _sparkService.StartAnimation(_mob.EffectPoint.position, mob.EffectPoint.position,
-                    SparkEnum.Heart, GetColor(_currentAttack), DelayAnimation);
+                    SparkEnum.Heart, GetColor(_currentAttack));
             }
             
-            yield return new WaitForSeconds(DelayAnimation);
+            yield return new WaitForSeconds(Constants.DelayPerk);
             
             foreach (var mob in mobs)
             {

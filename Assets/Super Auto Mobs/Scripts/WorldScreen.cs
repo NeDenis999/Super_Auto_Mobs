@@ -32,6 +32,9 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private Slider _progressSlider;
+
+        [SerializeField]
+        private GameObject _end;
         
         private SessionProgressService _sessionProgressService;
         private LanguageService _languageService;
@@ -74,6 +77,7 @@ namespace Super_Auto_Mobs
         private void OnEnable()
         {
             _button.onClick.AddListener(OpenWorld);
+            _end.gameObject.SetActive(_sessionProgressService.GetProgress(_world).IsEndWorld);
         }
 
         private void OnDisable()
@@ -83,7 +87,14 @@ namespace Super_Auto_Mobs
 
         private void OpenWorld()
         {
-            _startScreenService.OpenWorld(_world);
+            if (_sessionProgressService.GetProgress(_world).IsEndWorld)
+            {
+                _startScreenService.WarningScreen.Open(_world);
+            }
+            else
+            {
+                _startScreenService.OpenWorld(_world);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Super_Auto_Mobs
             gameObject.SetActive(false);
         }
 
-        public override Mob SpawnMob(MobData mobData, bool isEnemy)
+        public override Mob SpawnMob(MobData mobData, bool isEnemy, bool mobIsEnemy = false)
         {
             var list = isEnemy ? _enemyCommandMobs : _myCommandMobs;
 

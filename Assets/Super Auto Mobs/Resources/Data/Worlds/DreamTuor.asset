@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1149b4e8ab254285bd5fe5803a7c2978, type: 3}
+  m_Name: DreamTuor
+  m_EditorClassIdentifier: 
+  Preview: {fileID: -915107284, guid: fa46d9466ca7f1f4a96469c76ff18192, type: 3}
+  WorldData:
+    WorldEnum: 1
+    Title:
+      English: Dream Tuor
+      Russian: "\u0414\u0440\u0438\u043C \u0422\u0443\u0440"
+    MaxHealth: 1
+    ShopMobPlatformCountUnlock: 1
+    ShopBuffPlatformCountUnlock: 1
+    CommandData:
+    - Hearts: 0
+      Attack: 0
+      MobEnum: 3
+      EffectEnum: 0
+    MobsUnlocked: 01000000
+    BuffsUnlocked: 01000000
+    LevelsData:
+    - ShopLocation: {fileID: 0}
+      BattleLocation: {fileID: 0}
+      EnemyCommand:
+      - Hearts: 2
+        Attack: 0
+        MobEnum: 0
+        EffectEnum: 0
+      Prizes:
+      - {fileID: 1761118455993192824, guid: 21036e48378d3c54ba00daf04023105c, type: 3}
+      IsCanLose: 0
+    - ShopLocation: {fileID: 0}
+      BattleLocation: {fileID: 0}
+      EnemyCommand:
+      - Hearts: 0
+        Attack: 0
+        MobEnum: 6
+        EffectEnum: 0
+      - Hearts: 1
+        Attack: 0
+        MobEnum: 3
+        EffectEnum: 0
+      - Hearts: 1
+        Attack: 2
+        MobEnum: 6
+        EffectEnum: 0
+      Prizes:
+      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
+      IsCanLose: 0
+    IsDisableBattleButton: 0
+    IsDisableRollButton: 0

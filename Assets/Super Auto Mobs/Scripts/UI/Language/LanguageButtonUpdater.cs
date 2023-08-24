@@ -55,6 +55,7 @@ namespace Super_Auto_Mobs
         private void LoadLanguage(LanguageService.Language language)
         {
             _flag.sprite = _flagSprites[(int)language];
+            _currentNumberLanguage = (int)language;
         }
     }
 }

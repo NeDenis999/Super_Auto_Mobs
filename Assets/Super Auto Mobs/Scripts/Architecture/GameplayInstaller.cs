@@ -58,6 +58,15 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private EndWorldScreenService _endWorldScreenService;
+
+        [SerializeField]
+        private BackgroundService _backgroundService;
+
+        [SerializeField]
+        private CutScenesService _scenesService;
+        
+        [SerializeField]
+        private MenuService _menuService;
         
         public override void InstallBindings()
         {
@@ -79,6 +88,9 @@ namespace Super_Auto_Mobs
             BindFromInstance(_loadScreenService);
             BindFromInstance(_coroutineRunner);
             BindFromInstance(_endWorldScreenService);
+            BindFromInstance(_backgroundService);
+            BindFromInstance(_scenesService);
+            BindFromInstance(_menuService);
         }
 
         private void BindFromInstance<T>(T instance)

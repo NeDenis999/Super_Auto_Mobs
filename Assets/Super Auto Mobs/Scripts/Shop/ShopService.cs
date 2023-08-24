@@ -13,6 +13,8 @@ namespace Super_Auto_Mobs
         public abstract event Action<PlatformServiceState> OnUpdateState;
         public abstract List<ShopCommandMobPlatform> CommandPlatforms { get; }
         public abstract ShopPlatform ShopPlatformSelected { get; }
+        public bool IsDisableSellButton;
+
         public bool IsInteractive = true;
         public abstract void EnableBattleButton();
 
@@ -22,5 +24,6 @@ namespace Super_Auto_Mobs
         public abstract Buff SpawnBuff(BuffData buffData);
         public abstract void DestroySelectEntity();
         public abstract void DestroyPlatformMobs();
+        public abstract void AddDiscount(Discount discount);
     }
 }

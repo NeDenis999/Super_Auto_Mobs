@@ -208,7 +208,7 @@ namespace Super_Auto_Mobs
             }
         }
         
-        public bool IsFirsOpenGame
+        public bool IsNotFirsOpenGame
         {
             get => _gameData.IsFirsOpenGame;
 
@@ -220,7 +220,17 @@ namespace Super_Auto_Mobs
         }
 
         public GameData GameData => _gameData;
-        public LevelData CurrentLevel => CurrentWorldData.LevelsData[IndexCurrentLevel];
+        public LevelData CurrentLevel
+        {
+            get
+            {
+                if (IndexCurrentLevel >= CurrentWorldData.LevelsData.Count)
+                    return CurrentWorldData.LevelsData[CurrentWorldData.LevelsData.Count - 1];
+                
+                return CurrentWorldData.LevelsData[IndexCurrentLevel];
+            }
+        }
+
         public int IndexCurrentWorld;
         public WorldProgress CurrentWorld
         {
@@ -236,10 +246,11 @@ namespace Super_Auto_Mobs
                 WorldProgress worldProgress = CurrentWorld;
 
                 if (value >= _worldData.LevelsData.Count)
-                    worldProgress.IndexCurrentLevel = _worldData.LevelsData.Count - 1;
+                    worldProgress.IndexCurrentLevel = _worldData.LevelsData.Count;
                 else
                     worldProgress.IndexCurrentLevel = value;
                 
+                worldProgress.IsCutSceneComplete = false;
                 CurrentWorld = worldProgress;
             }
         }
@@ -281,10 +292,33 @@ namespace Super_Auto_Mobs
                 CurrentWorld = worldProgress;
             }
         }
+        
+        public bool IsDisableRollButton
+        {
+            get => CurrentWorld.IsDisableRollButton;
+
+            set
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.IsDisableRollButton = value;
+                CurrentWorld = worldProgress;
+            }
+        }
 
         public Location ShopLocation => CurrentLevel.ShopLocation;
         public Location BattleLocation => CurrentLevel.BattleLocation;
         public bool IsBattle => CurrentWorld.Wins < _worldData.LevelsData.Count;
+
+        public bool IsCutSceneComplete
+        {
+            get => CurrentWorld.IsCutSceneComplete;
+            set
+            {
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.IsCutSceneComplete = value;
+                CurrentWorld = worldProgress;
+            }
+        }
 
         public bool IsTest;
 
@@ -309,10 +343,10 @@ namespace Super_Auto_Mobs
                 //Убрать загрузку
             }
 
-            if (IsFirsOpenGame)
+            if (IsNotFirsOpenGame)
             {
                 //Перезаписать все сохранения
-                IsFirsOpenGame = false;
+                IsNotFirsOpenGame = false;
             }
         }
 
@@ -376,7 +410,8 @@ namespace Super_Auto_Mobs
                 ShopBuffPlatformCountUnlock = worldData.ShopBuffPlatformCountUnlock,
                 WorldEnum = worldData.WorldEnum,
                 IsDisableBattleButton = worldData.IsDisableBattleButton,
-                IsDisableRollButton = worldData.IsDisableRollButton
+                IsDisableRollButton = worldData.IsDisableRollButton,
+                IsDisableSellButton = worldData.IsDisableSellButton
             };
 
             _gameData.WorldsProgress.Add(progress);
@@ -402,6 +437,11 @@ namespace Super_Auto_Mobs
             };
             
             return cleanWorldProgress;
+        }
+
+        public void RemoveCurrentWorld()
+        {
+            _gameData.WorldsProgress.Remove(CurrentWorld);
         }
     }
 }

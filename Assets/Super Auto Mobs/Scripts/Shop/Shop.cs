@@ -11,6 +11,7 @@ namespace Super_Auto_Mobs
         public override event Action OnSelectCommandPlatform;
         public override event Action OnUnselectCommandPlatform;
         public override event Action<PlatformServiceState> OnUpdateState;
+        public event Action<Buff, Mob> OnBuyBuff;
         
         private bool _isDisableBattleButton;
         
@@ -66,13 +67,16 @@ namespace Super_Auto_Mobs
         private ShopUpdaterService _shopUpdaterService;
         private Game _game;
         private bool _isOpen;
-        private Location _location;
+        private BackgroundService _backgroundService;
+        private List<Discount> _discounts = new();
+        public GameObject ShopScreen => _shop;
 
         [Inject]
         private void Construct(SessionProgressService sessionProgressService, MobFactoryService mobFactoryService, 
             AssetProviderService assetProviderService, ShopTradeService shopTradeService, ShopUpdaterService shopUpdaterService,
-            Game game, SoundsService soundsService, BattleService battleService)
+            Game game, SoundsService soundsService, BattleService battleService, BackgroundService backgroundService)
         {
+            _backgroundService = backgroundService;
             _mobFactoryService = mobFactoryService;
             _sessionProgressService = sessionProgressService;
             _assetProviderService = assetProviderService;
@@ -115,30 +119,27 @@ namespace Super_Auto_Mobs
 
         public override void Open()
         {
+            if (_isOpen)
+                return;
+            
             _isOpen = true;
             _shop.SetActive(true);
+            _discounts = new List<Discount>();
             _shopUpdaterService.UpdateShop();
             CreatePlatformMobs();
             BattleButtonUpdate();
             _isDisableBattleButton = _sessionProgressService.CurrentWorld.IsDisableBattleButton;
+            IsDisableSellButton = _sessionProgressService.CurrentWorld.IsDisableSellButton;
             _rollButton.gameObject.SetActive(!_sessionProgressService.CurrentWorld.IsDisableRollButton);
-
-            if (_location)
-            {
-                Destroy(_location.gameObject);
-            }
-                
-            _location = Instantiate(_sessionProgressService.ShopLocation, _shop.transform);
-            Camera.main.backgroundColor = _location.CameraColor;
-
+            
             _commandPlatformPoint.position = _commandPlatformPoint.position
-                .SetY(_location.CommandSpawnPoint.position.y);
+                .SetY(_backgroundService.Location.CommandSpawnPoint.position.y);
             
             _shopPlatformPoint.position = _shopPlatformPoint.position
-                .SetY(_location.ShopSpawnPoint.position.y);
+                .SetY(_backgroundService.Location.ShopSpawnPoint.position.y);
             
             _buffPlatformPoint.position = _buffPlatformPoint.position
-                .SetY(_location.ShopSpawnPoint.position.y);
+                .SetY(_backgroundService.Location.ShopSpawnPoint.position.y);
         }
 
         public override void Close()
@@ -182,7 +183,8 @@ namespace Super_Auto_Mobs
                 var mobData = _assetProviderService
                     .GetMobInfo(_sessionProgressService.MyCommandMobsData[i].MobEnum);
                 
-                _mobFactoryService.CreateMobInPlatform(mobData.Prefab, _commandPetPlatforms[i], mobData.mobDefaultData, _sessionProgressService.MyCommandMobsData[i]);
+                _mobFactoryService.CreateMobInPlatform(mobData.Prefab, _commandPetPlatforms[i], mobData.mobDefaultData,
+                    _sessionProgressService.MyCommandMobsData[i]);
             }
         }
 
@@ -195,6 +197,16 @@ namespace Super_Auto_Mobs
             }
         }
 
+        public override void AddDiscount(Discount discount)
+        {
+            _discounts.Add(discount);
+        }
+
+        private void UpdateDiscounts()
+        {
+            
+        }
+        
         public void PlatformsPositionUpdate()
         {
             foreach (var commandMobPlatform in _commandPetPlatforms)
@@ -550,7 +562,7 @@ namespace Super_Auto_Mobs
                 
                 if (mob.Perk.TriggeringSituation == TriggeringSituation.Buy)
                 {
-                    mob.Perk.Activate();
+                    StartCoroutine(mob.Perk.Activate());
                 }
 
                 _shopPlatformSelected.Entity = null;
@@ -559,17 +571,33 @@ namespace Super_Auto_Mobs
             {
                 var mob = (Mob)shopPlatform.Entity;
 
-                var _buff = (Buff)_shopPlatformSelected.Entity;
+                var buff = (Buff)_shopPlatformSelected.Entity;
                 
-                if (_buff.BuffData.IsSingle)
+                if (buff.BuffData.IsSingle)
                 {
-                    _sessionProgressService.BuffsUnlocked.Remove(_buff.BuffData.BuffEnum);
+                    _sessionProgressService.BuffsUnlocked.Remove(buff.BuffData.BuffEnum);
                 }
-                
-                StartCoroutine(_buff.ToMoveTrajectory(
+
+                OnBuyBuff?.Invoke(buff, mob);
+
+                Action OnEndMoveAnimation = () =>
+                {
+                    foreach (var platform in _commandPetPlatforms)
+                    {
+                        if (platform.IsEntity)
+                        {
+                            if (platform.Mob.Perk.TriggeringSituation == TriggeringSituation.EatOther)
+                            {
+                                StartCoroutine(platform.Mob.Perk.Activate());
+                            }
+                        }
+                    }
+                };
+
+                StartCoroutine(buff.ToMoveTrajectory(
                     _trajectory.GetTrajectory(
                         _shopPlatformSelected.Entity.transform.position, 
-                        shopPlatform.transform.position), mob));
+                        shopPlatform.transform.position), mob, OnEndMoveAnimation));
                 _shopPlatformSelected.Entity = null;
             }
         }

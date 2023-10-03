@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -35,6 +36,16 @@ namespace Super_Auto_Mobs
             _coroutineRunner = coroutineRunner;
             _diContainer = diContainer;
 
+        }
+
+        private void OnEnable()
+        {
+            foreach (var activePrefab in _activePrefabs)
+            {
+                var worldScreen = activePrefab.GetComponent<WorldScreen>();
+                worldScreen.World = worldScreen.World;
+                worldScreen.UpdateView();
+            }
         }
 
         private void Start()
@@ -143,8 +154,10 @@ namespace Super_Auto_Mobs
             var rectTransform = prefab.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector2.zero.SetX(positionX);
             
-            prefab.GetComponent<WorldScreen>().World = GetWorld(sideEnum);
-            
+            var worldScreen = prefab.GetComponent<WorldScreen>();
+            worldScreen.World = GetWorld(sideEnum);
+            worldScreen.UpdateView();
+
             if (sideEnum == SideEnum.Left)
                 _activePrefabs.Insert(0, prefab);
             

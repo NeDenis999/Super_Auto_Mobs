@@ -21,19 +21,6 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private Title _winTitle, _winInfo, _loseTitle, _loseInfo;
 
-        [SerializeField]
-        private Button _button;
-        
-        private void OnEnable()
-        {
-            _sessionProgressService.OnUpdateInEndWorld += Open;
-        }
-
-        private void OnDisable()
-        {
-            _sessionProgressService.OnUpdateInEndWorld -= Open;
-        }
-
         public void Open()
         {
             if (_sessionProgressService.Hearts > 0)
@@ -45,17 +32,10 @@ namespace Super_Auto_Mobs
             {
                 _titleText.text = _languageService.GetText(_loseTitle);
                 _infoText.text = _languageService.GetText(_loseInfo);
-                _button.onClick.AddListener(Click);
             }
             
             _blackout.Open();
             _endWorldScreen.Open();
-        }
-
-        private void Click()
-        {
-            _button.onClick.RemoveListener(Click);
-            _sessionProgressService.RemoveCurrentWorld();
         }
     }
 }

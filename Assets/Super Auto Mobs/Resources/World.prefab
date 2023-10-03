@@ -313,6 +313,8 @@ GameObject:
   - component: {fileID: 1513266467572348501}
   - component: {fileID: 519902211655748298}
   - component: {fileID: 514639548879440158}
+  - component: {fileID: 1100493116733712414}
+  - component: {fileID: 5599836655876464281}
   m_Layer: 5
   m_Name: Text (1)
   m_TagString: Untagged
@@ -451,6 +453,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &1100493116733712414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176092623147946096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490acbd438854c97be2cae4a0a88cdc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5599836655876464281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176092623147946096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e57189a40c4224a9b3e11f3b754b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title:
+    English: "\u0421\u0449\u044C\u0437\u0434\u0443\u0435\u0443"
+    Russian: "\u0417\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u043E"
 --- !u!1 &2557808242497037308
 GameObject:
   m_ObjectHideFlags: 0

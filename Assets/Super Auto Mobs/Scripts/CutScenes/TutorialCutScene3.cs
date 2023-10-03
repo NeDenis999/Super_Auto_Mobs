@@ -31,7 +31,7 @@ namespace Super_Auto_Mobs
             yield return base.Play();
             yield return AwaitDialogHide(_tutorialDialog5);
 
-            _sessionProgressService.IsEndData = true;
+            //_sessionProgressService.IsEndData = true;
         }
     }
 }

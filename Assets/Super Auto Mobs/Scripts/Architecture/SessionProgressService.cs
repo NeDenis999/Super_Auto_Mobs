@@ -32,13 +32,15 @@ namespace Super_Auto_Mobs
             get => CurrentWorld.Hearts;
             set
             {
-                if (value > 0)
+                WorldProgress worldProgress = CurrentWorld;
+                worldProgress.Hearts = Mathf.Clamp(value, 0, _worldData.MaxHealth);
+                CurrentWorld = worldProgress;
+
+                if (value == 0)
                 {
-                    WorldProgress worldProgress = CurrentWorld;
-                    worldProgress.Hearts = value <= _worldData.MaxHealth ? value : _worldData.MaxHealth;
-                    CurrentWorld = worldProgress;
+                    IsEndData = true;
                 }
-                
+
                 OnUpdateHearts?.Invoke(value);
             }
         }
@@ -53,6 +55,10 @@ namespace Super_Auto_Mobs
                 if (value <= CurrentWorldData.LevelsData.Count)
                 {
                     worldProgress.Wins = value;
+                }
+                else
+                {
+                    IsEndData = true;
                 }
                 
                 CurrentWorld = worldProgress;

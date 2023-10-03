@@ -77,7 +77,6 @@ namespace Super_Auto_Mobs
         private void OnEnable()
         {
             _button.onClick.AddListener(OpenWorld);
-            _end.gameObject.SetActive(_sessionProgressService.GetProgress(_world).IsEndWorld);
         }
 
         private void OnDisable()
@@ -95,6 +94,11 @@ namespace Super_Auto_Mobs
             {
                 _startScreenService.OpenWorld(_world);
             }
+        }
+
+        public void UpdateView()
+        {
+            _end.gameObject.SetActive(_sessionProgressService.GetProgress(_world).IsEndWorld);
         }
     }
 }

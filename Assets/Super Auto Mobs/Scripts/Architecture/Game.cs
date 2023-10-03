@@ -45,6 +45,7 @@ namespace Super_Auto_Mobs
         private BackgroundService _backgroundService;
         private CutScenesService _cutScenesService;
         private MenuService _menuService;
+        private EndWorldScreenService _endWorldScreenService;
 
         public bool IsLoad => _isLoad;
         public bool IsTest => _isTest;
@@ -66,8 +67,9 @@ namespace Super_Auto_Mobs
         private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
             TitlesService titlesService, SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
             DialogService dialogService, BackgroundService backgroundService, CutScenesService cutScenesService, 
-            MenuService menuService)
+            MenuService menuService, EndWorldScreenService endWorldScreenService)
         {
+            _endWorldScreenService = endWorldScreenService;
             _cutScenesService = cutScenesService;
             _backgroundService = backgroundService;
             _dialogService = dialogService;
@@ -176,6 +178,12 @@ namespace Super_Auto_Mobs
                         if (!_isTest)
                             yield return _loadScreenService.AwaitClose();
                     }
+
+                    if (_sessionProgressService.IsEndData)
+                    {
+                        yield return AwaitDialogHide(_sessionProgressService.CurrentWorldData.DeathDialog);
+                        _endWorldScreenService.Open();
+                    }
                     
                     _menuService.Open();
                     break;
@@ -199,6 +207,17 @@ namespace Super_Auto_Mobs
 
             _isLoad = false;
             OnUpdateGameState?.Invoke(_currentGameState);
+        }
+        
+        private IEnumerator AwaitDialogHide(Dialogue dialogue, Action method = null)
+        {
+            _dialogService.Show(dialogue);
+            var trigger = false;
+            Action action = () => trigger = true;
+            _dialogService.OnHide += action;
+            yield return new WaitUntil(() => trigger);
+            _dialogService.OnHide -= action;
+            method?.Invoke();
         }
     }
 }

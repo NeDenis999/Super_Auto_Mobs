@@ -27,6 +27,7 @@ namespace Super_Auto_Mobs
         [Header("Other")]
         public MobInfo SquidBoss;
 
+        #if UNITY_EDITOR
         [MenuItem("Tools/UpdateAllData")]
         public static void UpdateAllData()
         {
@@ -69,6 +70,7 @@ namespace Super_Auto_Mobs
             
             Debug.Log("Data Updated!");
         }
+        #endif
         
         public MobInfo GetMobInfo(MobEnum mobEnum)
         {

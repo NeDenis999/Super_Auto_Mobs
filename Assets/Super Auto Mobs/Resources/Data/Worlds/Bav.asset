@@ -19,39 +19,20 @@ MonoBehaviour:
       English: Bav
       Russian: "\u0411\u0430\u0432"
     MaxHealth: 1
-    ShopMobPlatformCountUnlock: 0
-    ShopBuffPlatformCountUnlock: 0
+    ShopMobPlatformCountUnlock: 5
+    ShopBuffPlatformCountUnlock: 2
     CommandData: []
-    MobsUnlocked: 
+    MobsUnlocked: 00000000
     BuffsUnlocked: 
     LevelsData:
     - ShopLocation: {fileID: 0}
       BattleLocation: {fileID: 0}
       EnemyCommand:
-      - Hearts: 2
-        Attack: 0
-        MobEnum: 0
-        EffectEnum: 0
-      Prizes:
-      - {fileID: 1761118455993192824, guid: 21036e48378d3c54ba00daf04023105c, type: 3}
-      IsCanLose: 0
-    - ShopLocation: {fileID: 0}
-      BattleLocation: {fileID: 0}
-      EnemyCommand:
-      - Hearts: 0
-        Attack: 0
-        MobEnum: 6
-        EffectEnum: 0
-      - Hearts: 1
-        Attack: 0
-        MobEnum: 3
-        EffectEnum: 0
-      - Hearts: 1
+      - Hearts: 10
         Attack: 2
-        MobEnum: 6
+        MobEnum: 15
         EffectEnum: 0
-      Prizes:
-      - {fileID: 5094931777355639753, guid: 7c70635e6b4d9794e883477e86f87ddc, type: 3}
+      Prizes: []
       IsCanLose: 0
     IsDisableBattleButton: 0
     IsDisableRollButton: 0

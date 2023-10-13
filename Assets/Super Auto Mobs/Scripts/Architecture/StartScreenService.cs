@@ -29,6 +29,9 @@ namespace Super_Auto_Mobs
         private SessionProgressService _sessionProgressService;
 
         [SerializeField]
+        private SoundsService _soundsService;
+        
+        [SerializeField]
         private Game _game;
 
         private World _world;
@@ -45,6 +48,7 @@ namespace Super_Auto_Mobs
         {
             _blurCanvas.SetActive(true);
             _canvas.SetActive(true);
+            _soundsService.PlayMenu();
 
             if (!_sessionProgressService.IsNotFirsOpenGame && !_game.IsTest)
             {

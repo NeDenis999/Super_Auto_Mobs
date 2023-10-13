@@ -69,6 +69,7 @@ namespace Super_Auto_Mobs
         private bool _isOpen;
         private BackgroundService _backgroundService;
         private List<Discount> _discounts = new();
+        private SoundsService _soundsService;
         public GameObject ShopScreen => _shop;
 
         [Inject]
@@ -83,6 +84,7 @@ namespace Super_Auto_Mobs
             _shopTradeService = shopTradeService;
             _shopUpdaterService = shopUpdaterService;
             _game = game;
+            _soundsService = soundsService;
         }
 
         private void Update()
@@ -140,6 +142,8 @@ namespace Super_Auto_Mobs
             
             _buffPlatformPoint.position = _buffPlatformPoint.position
                 .SetY(_backgroundService.Location.ShopSpawnPoint.position.y);
+            
+            _soundsService.PlayShop();
         }
 
         public override void Close()

@@ -117,19 +117,22 @@ namespace Super_Auto_Mobs
         private MobFactoryService _mobFactoryService;
         private bool IsEndAttack1, IsEndAttack2 = false;
         private bool _isBattle = false;
+        private SoundsService _soundsService;
 
         public override List<Mob> MyCommandMobs => _myCommandMobs;
         public override List<Mob> EnemyCommandMobs => _enemyCommandMobs;
 
         [Inject]
         private void Construct(AssetProviderService assetProviderService, SessionProgressService sessionProgressService,
-            DiContainer diContainer, BackgroundService backgroundService, MobFactoryService mobFactoryService)
+            DiContainer diContainer, BackgroundService backgroundService, MobFactoryService mobFactoryService, 
+            SoundsService soundsService)
         {
             _mobFactoryService = mobFactoryService;
             _backgroundService = backgroundService;
             _assetProviderService = assetProviderService;
             _sessionProgressService = sessionProgressService;
             _diContainer = diContainer;
+            _soundsService = soundsService;
         }
 
         public override void Open()
@@ -138,6 +141,8 @@ namespace Super_Auto_Mobs
             
             _battlePlatformPoint.position = _battlePlatformPoint.position
                 .SetY(_backgroundService.Location.CommandSpawnPoint.position.y);
+            
+            _soundsService.PlayBattle();
         }
         
         public override void Close()

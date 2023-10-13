@@ -33,14 +33,17 @@ namespace Super_Auto_Mobs
         
         [Header("Music")]
         [SerializeField]
-        private AudioClip _mainTheme;
-        
+        private AudioClip _mainMenuTheme;
+
         [SerializeField]
-        private AudioClip _speedRun;
+        private AudioClip _shopTheme;
         
         [SerializeField]
         private AudioClip _battleTheme;
 
+        [SerializeField]
+        private AudioClip _speedRun;
+        
         private void Start()
         {
             //PlayMusic(_speedRun);
@@ -82,26 +85,27 @@ namespace Super_Auto_Mobs
             _audioSourceSound.Play();
         }
 
-        public void StopMusic()
-        {
+        public void StopMusic() =>
             _audioSourceMusic.Stop();
-        }
 
-        public void PlayDreamSpeedrun()
-        {
+        public void PlayDreamSpeedrun() =>
             PlayMusic(_speedRun);
-        }
 
-        public void PlayWin()
-        {
+        public void PlayMenu() =>
+            PlayMusic(_mainMenuTheme);
+
+        public void PlayShop() =>
+            PlayMusic(_shopTheme);
+
+        public void PlayBattle() =>
+            PlayMusic(_battleTheme);
+
+        public void PlayWin() =>
             PlaySound(_winSound);
-        }
 
-        public void PlayClick()
-        {
+        public void PlayClick() =>
             PlaySound(_clickSound);
-        }
-        
+
         public void PlayEat(BuffSoundEnum buffDataBuffSoundEnum)
         {
             switch (buffDataBuffSoundEnum)
@@ -123,9 +127,7 @@ namespace Super_Auto_Mobs
             }
         }
 
-        public void PlayBuy()
-        {
+        public void PlayBuy() =>
             PlaySound(_buySound);
-        }
     }
 }

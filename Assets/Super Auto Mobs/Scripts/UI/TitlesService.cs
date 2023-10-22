@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Super_Auto_Mobs
 {
-    public class TitlesService : Screen
+    public class TitlesService : BaseWindow
     {
         [SerializeField]
         private TextMeshProUGUI _text;

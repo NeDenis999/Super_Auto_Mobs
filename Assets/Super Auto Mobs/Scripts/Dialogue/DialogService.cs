@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Super_Auto_Mobs
 {
-    public class DialogService : MonoBehaviour
+    public class DialogService : BaseWindow
     {
         public event Action OnHide;
         public event Action OnStartHide;

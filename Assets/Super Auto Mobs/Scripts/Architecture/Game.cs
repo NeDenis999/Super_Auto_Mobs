@@ -44,8 +44,8 @@ namespace Super_Auto_Mobs
         private DialogService _dialogService;
         private BackgroundService _backgroundService;
         private CutScenesService _cutScenesService;
-        private MenuService _menuService;
-        private EndWorldScreenService _endWorldScreenService;
+        private MenuWindow _menuService;
+        private EndWorldWindow _endWorldWindow;
 
         public bool IsLoad => _isLoad;
         public bool IsTest => _isTest;
@@ -64,22 +64,16 @@ namespace Super_Auto_Mobs
         }
 
         [Inject]
-        private void Construct(ShopService shopService, BattleService battleBaseService, StartScreenService startScreenService,
-            TitlesService titlesService, SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
-            DialogService dialogService, BackgroundService backgroundService, CutScenesService cutScenesService, 
-            MenuService menuService, EndWorldScreenService endWorldScreenService)
+        private void Construct(ShopService shopService, BattleService battleBaseService,
+            SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
+            BackgroundService backgroundService, CutScenesService cutScenesService)
         {
-            _endWorldScreenService = endWorldScreenService;
             _cutScenesService = cutScenesService;
             _backgroundService = backgroundService;
-            _dialogService = dialogService;
             _shopService = shopService;
             _battleService = battleBaseService;
-            _startScreenService = startScreenService;
-            _titlesService = titlesService;
             _sessionProgressService = sessionProgressService;
             _loadScreenService = loadScreenService;
-            _menuService = menuService;
         }
 
         private void Start()
@@ -117,8 +111,8 @@ namespace Super_Auto_Mobs
                     _startScreenService.Close();
                     _shopService.Close();
                     _battleService.Close();
-                    _titlesService.Close();
-                    _menuService.Close();
+                    //_titlesService.Close();
+                    _menuService.Hide();
                     break;
                 case GameState.StartMenu:
                     if (!_isTest)
@@ -138,7 +132,7 @@ namespace Super_Auto_Mobs
                     _battleService.Close();
                     break;
                 case GameState.Titles:
-                    _titlesService.Close();
+                    //_titlesService.Close();
                     break;
                 case GameState.World:
                     break;
@@ -154,7 +148,7 @@ namespace Super_Auto_Mobs
                     break;
                 case GameState.StartMenu:
                     _startScreenService.PreparationOpen();
-                    _menuService.Close();
+                    _menuService.Hide();
                     
                     if (_previousGameState != GameState.None)
                         yield return _loadScreenService.AwaitClose();
@@ -182,22 +176,22 @@ namespace Super_Auto_Mobs
                     if (_sessionProgressService.IsEndData)
                     {
                         yield return AwaitDialogHide(_sessionProgressService.CurrentWorldData.DeathDialog);
-                        _endWorldScreenService.Open();
+                        _endWorldWindow.Open();
                     }
                     
-                    _menuService.Open();
+                    _menuService.Show();
                     break;
                 case GameState.Battle:
                     _battleService.Open();
                     
                     if (!_isTest)
                         yield return _loadScreenService.AwaitClose();
-                    _menuService.Open();
+                    _menuService.Show();
                     StartCoroutine(_battleService.AwaitProcessBattle());
                     break;
                 case GameState.Titles:
-                    _menuService.Close();
-                    _titlesService.Open();
+                    _menuService.Hide();
+                    //_titlesService.Open();
                     break;
                 case GameState.World:
                     break;

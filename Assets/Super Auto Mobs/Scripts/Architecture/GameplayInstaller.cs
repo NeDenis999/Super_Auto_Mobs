@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -56,8 +57,8 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private CoroutineRunner _coroutineRunner;
 
-        [SerializeField]
-        private EndWorldScreenService _endWorldScreenService;
+        [FormerlySerializedAs("_endWorldScreenService")] [SerializeField]
+        private EndWorldWindow endWorldWindow;
 
         [SerializeField]
         private BackgroundService _backgroundService;
@@ -66,7 +67,7 @@ namespace Super_Auto_Mobs
         private CutScenesService _scenesService;
         
         [SerializeField]
-        private MenuService _menuService;
+        private MenuWindow _menuService;
         
         public override void InstallBindings()
         {
@@ -87,7 +88,7 @@ namespace Super_Auto_Mobs
             BindFromInstance(_soundsService);
             BindFromInstance(_loadScreenService);
             BindFromInstance(_coroutineRunner);
-            BindFromInstance(_endWorldScreenService);
+            BindFromInstance(endWorldWindow);
             BindFromInstance(_backgroundService);
             BindFromInstance(_scenesService);
             BindFromInstance(_menuService);

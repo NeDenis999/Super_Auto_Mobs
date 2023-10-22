@@ -6,8 +6,8 @@ namespace Super_Auto_Mobs
 {
     public abstract class Transition : MonoBehaviour
     {
-        public abstract void OpenAnimate(Screen screen);
+        public abstract void OpenAnimate(BaseWindow window);
 
-        public abstract void CloseAnimate(Screen screen, Action OnFinalyClosing);
+        public abstract void CloseAnimate(BaseWindow window);
     }
 }

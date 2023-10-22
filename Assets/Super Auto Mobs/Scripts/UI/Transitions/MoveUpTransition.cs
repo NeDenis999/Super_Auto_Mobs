@@ -11,13 +11,13 @@ namespace Super_Auto_Mobs
         private float _centerPosition => UnityEngine.Screen.height / 2;
         private float _upPosition => UnityEngine.Screen.height + _sizeY / 2;
         
-        public override void OpenAnimate(Screen screen)
+        public override void OpenAnimate(BaseWindow screen)
         {
             transform.position = transform.position.SetY(_upPosition);
             LeanTween.moveY(gameObject, _centerPosition, 0.2f);
         }
 
-        public override void CloseAnimate(Screen screen, Action OnFinalyClosing)
+        public override void CloseAnimate(BaseWindow screen)
         {
             transform.position = transform.position.SetY(_centerPosition);
             LeanTween
@@ -25,7 +25,6 @@ namespace Super_Auto_Mobs
                 .setOnComplete(() =>
                 {
                     gameObject.SetActive(false);
-                    OnFinalyClosing?.Invoke();
                 });
         }
     }

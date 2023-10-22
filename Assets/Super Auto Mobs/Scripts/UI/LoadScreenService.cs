@@ -36,7 +36,7 @@ namespace Super_Auto_Mobs
         private AssetProviderService _assetProviderService;
 
         [SerializeField]
-        private MenuService _menuService;
+        private MenuWindow _menuService;
         
         [SerializeField]
         private List<Texture> _textures;
@@ -68,7 +68,7 @@ namespace Super_Auto_Mobs
             _currentCurve = _closeCurve;
             
             yield return new WaitUntil(() =>  Math.Abs(_progress - 1) < 0.000001f);
-            _menuService.Menu.SetActive(true);
+            //_menuService.Menu.SetActive(true);
             OnClose?.Invoke();
         }
         
@@ -77,7 +77,7 @@ namespace Super_Auto_Mobs
             OnStartOpen?.Invoke();
             UpdateTexture();
             
-            _menuService.Menu.SetActive(false);
+            //_menuService.Menu.SetActive(false);
             
             _progress = 0;
             _material.SetFloat(_parametr, 1);

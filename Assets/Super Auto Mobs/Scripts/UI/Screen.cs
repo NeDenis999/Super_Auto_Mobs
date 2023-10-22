@@ -24,19 +24,19 @@ namespace Super_Auto_Mobs
             
             if (_transition)
             {
-                _transition.OpenAnimate(this);
+                //_transition.OpenAnimate(this);
             }
         }
 
         public virtual void Close()
         {
-            if (_transition)
-                _transition.CloseAnimate(this, OnFinalyClosing);
+            /*if (_transition)
+                _transition.CloseAnimate(this);
             else
             {
                 OnFinalyClosing?.Invoke();
                 gameObject.SetActive(false);
-            }
+            }*/
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Super_Auto_Mobs
         {
             if (_sessionProgressService.GetProgress(_world).IsEndWorld)
             {
-                _startScreenService.WarningScreen.Open(_world);
+                _startScreenService.warningWindow.Open(_world);
             }
             else
             {

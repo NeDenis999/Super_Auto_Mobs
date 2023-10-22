@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Super_Auto_Mobs
 {
@@ -35,7 +36,7 @@ namespace Super_Auto_Mobs
         private Game _game;
 
         private World _world;
-        public WarningScreen WarningScreen;
+        [FormerlySerializedAs("WarningScreen")] public WarningWindow warningWindow;
 
         public void PreparationOpen()
         {

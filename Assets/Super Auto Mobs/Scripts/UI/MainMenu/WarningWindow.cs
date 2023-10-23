@@ -59,7 +59,7 @@ namespace Super_Auto_Mobs
         private void OpenWorld()
         {
             _sessionProgressService.RemoveCurrentWorld();
-            _startScreenService.OpenWorld(_world);
+            //_startScreenService.OpenWorld(_world);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Super_Auto_Mobs
 
         private void Awake()
         {
-            _transition = GetComponent<Transition>();
+            _transition = GetComponentInChildren<Transition>();
         }
 
         public void Show()
@@ -27,12 +27,11 @@ namespace Super_Auto_Mobs
 
         public virtual async UniTask Hide()
         {
-            gameObject.SetActive(false);
-            
             if (_transition)
-                _transition.CloseAnimate(this);
+                await _transition.CloseAnimate(this);
             
             OnHide();
+            gameObject.SetActive(false);
         }
 
         public void Bind(object args)

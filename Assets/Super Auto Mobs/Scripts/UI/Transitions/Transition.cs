@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Super_Auto_Mobs
@@ -8,6 +9,6 @@ namespace Super_Auto_Mobs
     {
         public abstract void OpenAnimate(BaseWindow window);
 
-        public abstract void CloseAnimate(BaseWindow window);
+        public abstract UniTask CloseAnimate(BaseWindow window);
     }
 }

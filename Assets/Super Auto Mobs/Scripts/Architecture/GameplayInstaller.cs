@@ -68,6 +68,9 @@ namespace Super_Auto_Mobs
         
         [SerializeField]
         private MenuWindow _menuService;
+
+        [SerializeField] 
+        private UIManager _uiManager;
         
         public override void InstallBindings()
         {
@@ -92,6 +95,7 @@ namespace Super_Auto_Mobs
             BindFromInstance(_backgroundService);
             BindFromInstance(_scenesService);
             BindFromInstance(_menuService);
+            BindFromInstance(_uiManager);
         }
 
         private void BindFromInstance<T>(T instance)

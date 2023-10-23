@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Super_Auto_Mobs
@@ -20,12 +21,6 @@ namespace Super_Auto_Mobs
         [SerializeField]
         private GameObject _canvas;
         
-        [SerializeField]
-        private Screen _selectWorldScreen, _firstOpenGameScreen;
-        
-        [SerializeField]
-        private Screen _blackoutScreen;
-
         [SerializeField]
         private SessionProgressService _sessionProgressService;
 
@@ -53,7 +48,7 @@ namespace Super_Auto_Mobs
 
             if (!_sessionProgressService.IsNotFirsOpenGame && !_game.IsTest)
             {
-                _firstOpenGameScreen.Open();
+                //_firstOpenGameScreen.Open();
                 _sessionProgressService.IsNotFirsOpenGame = true;
             }
         }
@@ -67,23 +62,6 @@ namespace Super_Auto_Mobs
             _myCamera.gameObject.SetActive(true);
             _menuCamera.gameObject.SetActive(false);
             _blurCanvas.SetActive(false);
-        }
-
-        public void OpenWorld(World world)
-        {
-            _world = world;
-            
-            _selectWorldScreen.OnFinalyClosing += CloseSelectWorldScreen;
-            _selectWorldScreen.Close();
-            _blackoutScreen.Close();
-            _sessionProgressService.SetWorldData(_world.WorldData);
-        }
-
-        private void CloseSelectWorldScreen()
-        {
-            _selectWorldScreen.OnFinalyClosing -= CloseSelectWorldScreen;
-            _canvas.SetActive(false);
-            _game.CurrentGameState = GameState.Shop;
         }
     }
 }

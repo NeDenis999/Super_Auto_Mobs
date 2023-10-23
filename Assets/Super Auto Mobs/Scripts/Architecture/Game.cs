@@ -35,17 +35,13 @@ namespace Super_Auto_Mobs
         private GameState _previousGameState = GameState.None;
         private ShopService _shopService;
         private BattleService _battleService;
-        private StartScreenService _startScreenService;
-        private TitlesService _titlesService;
         private SessionProgressService _sessionProgressService;
         private LoadScreenService _loadScreenService;
 
         private bool _isLoad;
-        private DialogService _dialogService;
         private BackgroundService _backgroundService;
         private CutScenesService _cutScenesService;
-        private MenuWindow _menuService;
-        private EndWorldWindow _endWorldWindow;
+        private UIManager _uiManager;
 
         public bool IsLoad => _isLoad;
         public bool IsTest => _isTest;
@@ -66,7 +62,7 @@ namespace Super_Auto_Mobs
         [Inject]
         private void Construct(ShopService shopService, BattleService battleBaseService,
             SessionProgressService sessionProgressService, LoadScreenService loadScreenService,
-            BackgroundService backgroundService, CutScenesService cutScenesService)
+            BackgroundService backgroundService, CutScenesService cutScenesService, UIManager uiManager)
         {
             _cutScenesService = cutScenesService;
             _backgroundService = backgroundService;
@@ -74,10 +70,13 @@ namespace Super_Auto_Mobs
             _battleService = battleBaseService;
             _sessionProgressService = sessionProgressService;
             _loadScreenService = loadScreenService;
+            _uiManager = uiManager;
         }
 
         private void Start()
         {
+            _uiManager.HideAll();
+            
             CurrentGameState = GameState.StartMenu;
             
             if (_isTest)
@@ -92,7 +91,7 @@ namespace Super_Auto_Mobs
                 }
                 
                 _sessionProgressService.IndexCurrentLevel = _indexCurrentLevel;
-                _dialogService.IsSkipDialogs = _isSkipDialogs;
+                //_dialogService.IsSkipDialogs = _isSkipDialogs;
                 
                 CurrentGameState = _startGameState;
             }
@@ -108,17 +107,14 @@ namespace Super_Auto_Mobs
             switch (_previousGameState)
             {
                 case GameState.None:
-                    _startScreenService.Close();
                     _shopService.Close();
                     _battleService.Close();
-                    //_titlesService.Close();
-                    _menuService.Hide();
                     break;
                 case GameState.StartMenu:
                     if (!_isTest)
                         yield return _loadScreenService.AwaitOpen();
                     
-                    _startScreenService.Close();
+                    //_startScreenService.Close();
                     break;
                 case GameState.Shop:
                     if (!_isTest)
@@ -147,21 +143,18 @@ namespace Super_Auto_Mobs
                 case GameState.None:
                     break;
                 case GameState.StartMenu:
-                    _startScreenService.PreparationOpen();
-                    _menuService.Hide();
-                    
+                    _uiManager.Show(WindowType.StartMenu);
+
                     if (_previousGameState != GameState.None)
                         yield return _loadScreenService.AwaitClose();
-
-                    _startScreenService.Open();
+                    
                     break;
                 case GameState.Shop:
                     if (_cutScenesService.GetCutscene())
                     {
                         if (!_isTest)
                             yield return _loadScreenService.AwaitClose();
-
-                        print(_cutScenesService.GetCutscene());
+                        
                         yield return _cutScenesService.GetCutscene().Play();
                         _shopService.Open();
                     }
@@ -175,22 +168,22 @@ namespace Super_Auto_Mobs
 
                     if (_sessionProgressService.IsEndData)
                     {
-                        yield return AwaitDialogHide(_sessionProgressService.CurrentWorldData.DeathDialog);
-                        _endWorldWindow.Open();
+                        //yield return AwaitDialogHide(_sessionProgressService.CurrentWorldData.DeathDialog);
+                        _uiManager.Show(WindowType.WorldEnd);
                     }
                     
-                    _menuService.Show();
+                    _uiManager.Show(WindowType.Menu);
                     break;
                 case GameState.Battle:
                     _battleService.Open();
                     
                     if (!_isTest)
                         yield return _loadScreenService.AwaitClose();
-                    _menuService.Show();
+                    _uiManager.Show(WindowType.Menu);
                     StartCoroutine(_battleService.AwaitProcessBattle());
                     break;
                 case GameState.Titles:
-                    _menuService.Hide();
+                    _uiManager.Show(WindowType.Titles);
                     //_titlesService.Open();
                     break;
                 case GameState.World:
@@ -202,16 +195,24 @@ namespace Super_Auto_Mobs
             _isLoad = false;
             OnUpdateGameState?.Invoke(_currentGameState);
         }
-        
-        private IEnumerator AwaitDialogHide(Dialogue dialogue, Action method = null)
+
+        public void OpenWorld(World world)
         {
-            _dialogService.Show(dialogue);
-            var trigger = false;
-            Action action = () => trigger = true;
-            _dialogService.OnHide += action;
-            yield return new WaitUntil(() => trigger);
-            _dialogService.OnHide -= action;
-            method?.Invoke();
+            _world = world;
+            
+            /*_selectWorldScreen.OnFinalyClosing += CloseSelectWorldScreen;
+            _selectWorldScreen.Close();
+            _blackoutScreen.Close();*/
+            _uiManager.HideAll();
+            _sessionProgressService.SetWorldData(_world.WorldData);
+            StartCoroutine(AwaitCurrentGameState(GameState.Shop));
+        }
+
+        private void CloseSelectWorldScreen()
+        {
+            //_selectWorldScreen.OnFinalyClosing -= CloseSelectWorldScreen;
+            //_canvas.SetActive(false);
+            //_game.CurrentGameState = GameState.Shop;
         }
     }
 }

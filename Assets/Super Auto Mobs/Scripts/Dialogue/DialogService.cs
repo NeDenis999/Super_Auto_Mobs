@@ -23,9 +23,6 @@ namespace Super_Auto_Mobs
         private TextAnimation _textAnimation;
 
         [SerializeField]
-        private GameObject _dialogCanvas;
-
-        [SerializeField]
         private GameObject _rightPerson;
 
         [SerializeField]
@@ -88,7 +85,6 @@ namespace Super_Auto_Mobs
 
             _dialogue = dialogue;
             
-            _dialogCanvas.SetActive(true);
             _textMeshPro.text = "";
             _rightPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
             _leftPerson.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
@@ -195,7 +191,6 @@ namespace Super_Auto_Mobs
                 })
                 .setOnComplete(() =>
                 {
-                    _dialogCanvas.SetActive(false);
                     OnHide?.Invoke();
                 });
             

@@ -92,7 +92,8 @@ namespace Super_Auto_Mobs
             }
             else
             {
-                _startScreenService.OpenWorld(_world);
+                _game.OpenWorld(_world);
+                //_startScreenService.OpenWorld(_world);
             }
         }
 

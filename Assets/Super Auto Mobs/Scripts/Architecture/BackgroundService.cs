@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Super_Auto_Mobs
@@ -12,6 +13,9 @@ namespace Super_Auto_Mobs
 
         [SerializeField]
         private Location _defaultLocation;
+        
+        [SerializeField]
+        private Location _startMenuLocation;
         
         private Location _location;
         private SessionProgressService _sessionProgressService;
@@ -29,12 +33,28 @@ namespace Super_Auto_Mobs
                 Destroy(_location.gameObject);
             }
 
-            if (gameState != GameState.Shop && gameState != GameState.Battle)
-                return;
-
-            var locationPrefab = gameState == GameState.Shop
-                ? _sessionProgressService.ShopLocation
-                : _sessionProgressService.BattleLocation;
+            Location locationPrefab = null;
+            
+            switch (gameState)
+            {
+                case GameState.None:
+                    throw new Exception("Недоступный стейт");
+                case GameState.StartMenu:
+                    locationPrefab = _startMenuLocation;
+                    break;
+                case GameState.Shop:
+                    locationPrefab = _sessionProgressService.ShopLocation;
+                    break;
+                case GameState.Battle:
+                    locationPrefab = _sessionProgressService.BattleLocation;
+                    break;
+                case GameState.Titles:
+                    throw new Exception("Недоступный стейт");
+                case GameState.World:
+                    throw new Exception("Недоступный стейт");
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
+            }
             
             if (!locationPrefab)
                 locationPrefab = _defaultLocation;

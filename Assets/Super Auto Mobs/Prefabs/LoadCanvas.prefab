@@ -236,7 +236,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5969373685062666948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +266,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d488ab857c4b4a6295b57a972ee978ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _openCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _closeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _material: {fileID: 2100000, guid: 1cdd304e7b4160b48ae2337fadaeeded, type: 2}
   _parametr: _ProgressAmount
   _speed: 2
+  _image: {fileID: 0}
+  _sessionProgressService: {fileID: 0}
+  _assetProviderService: {fileID: 0}
+  _menuService: {fileID: 0}
+  _textures: []
